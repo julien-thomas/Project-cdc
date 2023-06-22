@@ -1,0 +1,320 @@
+@font-face {
+	font-family: 'Montserrat', sans-serif;
+	src: url('../fonts/Montserrat/static/Montserrat-Regular.ttf');
+	font-family: 'Open Sans', sans-serif;
+	src: url('../fonts/Open_Sans/static/OpenSans-Regular.ttf');
+}
+
+p {
+	font-family: 'Open Sans', sans-serif;
+}
+
+/* * {
+    border: 1 px solid red;
+}
+ */
+h2 {
+    color: #9e121b;
+	font-family: 'Montserrat', sans-serif;
+}
+
+img {
+	max-width: 100%;
+	width: auto; /* pour ie */
+	height: auto;
+	-ms-interpolation-mode: bicubic; /* lissage pour IE */
+	image-rendering: -webkit-optimize-contrast; /* lissage pour Chrome au redimensionnement*/
+}
+
+.alert-danger {
+	padding: 1em;
+    background-color: #e60000;
+}
+
+.alert-success {
+	padding: 1em;
+    background-color: #04ac04;
+}
+
+
+/* *****************************************************************
+TOOLS
+***************************************************************** */
+
+/* Box sizing */
+* {
+	box-sizing: border-box; /* On spécifie que la largeur (width) de chaque boîte comprend le padding et la bordure (par défaut, c'est seulement la largeur du contenu) */
+}
+
+/* 1rem = 10px */
+html {
+	font-size: 62.5%; /* 1rem = 10px (la formule est 10/16*100) la taille par défaut étant 16px */
+}
+
+/* Body */
+body {
+	font-size: 1.6rem; /* on remets la taille du texte par défaut pour le body à 16px en utilisant les rem comme unité) */
+}
+
+/* /* Main container 
+.container {
+	width: auto;
+	max-width: var(--max-width);
+	margin: 0 auto;
+} */
+
+/* Clearfix */
+.clearfix::after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+/* unstyled */
+ol.unstyled,
+ul.unstyled {
+	padding: 0;
+	list-style: none;
+}
+
+/* hidden */
+.hidden {
+	display: none;
+}
+
+/* Le container permet de limiter la largeur d'un contenu */
+.container {
+	width: auto;
+	max-width: 1140px; /* On donne une largeur au container */
+	margin-left: auto; /* On centre son contenu */
+	margin-right: auto;
+}
+
+
+/* *****************************************************************
+MAIN LAYOUT
+***************************************************************** */
+
+/* L'entête de la page */
+header {
+	padding: 1em;
+	text-align: center;
+	color: #ffffff;
+	background-color:  #444;
+}
+
+.logo {
+	display: flex;
+	justify-content: center;
+}
+
+ul {
+	display: flex;
+	justify-content: space-evenly;
+	list-style: none;
+}
+/*
+li {
+    background-color: #9e121b;
+	padding: 0.5em;
+	border-radius: 0.3em;
+}
+*/
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.box {
+	padding: 0.5em 1em;
+	border: 1px solid #999;
+	background-color: #999;
+	border-radius: 0.3em;
+}
+
+.products {
+	display: flex;
+}
+
+/* Le pied de page */
+footer {
+	margin-top: 1em;
+	padding: 2em;
+	text-align: center;
+	color: #ffffff;
+	background-color:  #444;
+}
+
+
+/* *****************************************************************
+FORM
+***************************************************************** */
+
+/* Style pour une barre d'outils => ou placer les boutons */
+.toolbar {
+	padding: 1em 2em;
+	text-align: center;
+	border: 1px solid rgba(0,0,0,0.2);
+	border-radius: 0.5em;
+}
+
+/* Style de chaque groupe de champs (fieldset) */
+fieldset {
+	margin: 2em 0;
+	padding: 1em;
+	font-size: 1.6rem;
+	border: 1px solid rgba(0,0,0,0.2);
+	border-radius: 0.5em;
+}
+
+legend {
+	padding: 0 1em;
+	font-size: 1.8rem;
+}
+
+/* Style de chaque champ (field) */
+.field {
+	display: flex;
+	padding: 1em 0;
+}
+
+.field label {
+	width: 30%;
+}
+
+.field .value {
+	width: 70%;
+}
+
+.field input {
+	width: 100%;
+}
+
+/* Eléments avec la classe .field précédés par un élément avec la classe .field */
+.field + .field {
+	border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+/* Style de chaque libélé */
+label {
+	padding: 0.5em;
+}
+
+/* Style de chaque input */
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="email"],
+input[type*="date"],
+select,
+textarea {
+	display: inline-block;
+	padding: 0.5em 1em;
+	font-size: 1.6rem;
+	color: #9e121b;
+	background-color: #ffffff;
+	border: 1px solid #444;
+	border-radius: 0.3em;
+}
+
+select,
+textarea {
+	width: 100%;
+}
+
+textarea {
+	display: block;
+	min-height: 10em;
+}
+
+/* Style de chaque bouton */
+.button {
+	display: inline-block;
+	padding: 0.5em 1em;
+	font-size: 1.6rem;
+	color: #ffffff;
+	background-color: #9e121b;
+	border: 2px solid #9e121b;
+	border-radius: 0.3em;
+	cursor: pointer;
+}
+
+/*li:hover,*/
+/*a:hover,*/
+.active,
+.button:hover {
+	text-decoration: none;
+	color: #9e121b;
+	background-color: #ffffff;
+}
+
+.opinion {
+	width: 50%;
+}
+/* *****************************************************************
+TABLE
+***************************************************************** */
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.table caption,
+.table th,
+.table td {
+	padding: 1em;
+	border: 1px solid #ddd;
+}
+.table thead {
+	border-bottom: 2px solid #999;
+}
+.table tfoot {
+	border-top: 2px solid #999;
+}
+.table tbody tr:nth-child(odd) {
+    background-color: rgba(0,0,0,0.2);
+}
+.actions {
+	display: flex;
+	justify-content: space-around;
+}
+/* *****************************************************************
+ESPACE ADMIN
+***************************************************************** */
+.header-admin {
+	background-color: #000;
+}
+
+
+.button-admin {
+	display: inline-block;
+	padding: 0.5em 1em;
+	font-size: 1.6rem;
+	color: #ffffff;
+	background-color: #0059b3;
+	border: 2px solid #0059b3;
+	border-radius: 0.3em;
+	cursor: pointer;
+}
+
+.add-product {
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+.active-admin,
+.button-admin:hover {
+	text-decoration: none;
+	color: #0059b3;
+	background-color: #ffffff;
+}
+
+.delete {
+	background-color: #e60000;
+	border: 2px solid #e60000;
+
+}
+
+.delete:hover {
+	color: #e60000;
+}

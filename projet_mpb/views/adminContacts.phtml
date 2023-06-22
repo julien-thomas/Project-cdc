@@ -1,0 +1,24 @@
+<h1>Gestion des contacts</h1>
+
+<table id="contacts" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sujet</th>
+            <th>email</th>
+            <th>contenu</th>
+            <th>date</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($contacts as $contact) : ?>
+            <tr>
+                <td><?= $contact['subject'] ?></td>
+                <td><?= $contact['email'] ?></td>
+                <td><?= $contact['content'] ?></td>
+                <td><?= $contact['created_at'] ?></td>
+                <td class="actions"><a class="button-admin" href="#">Traité</a></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

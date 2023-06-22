@@ -1,0 +1,19 @@
+<h1>Gestion des commandes</h1>
+<table id="orders" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Utilisateur</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($orders as $order) : ?>
+            <tr>
+                <td><?= $order['firstname'], ' ', $order['lastname'] ?></td>
+                <td><?= $order['status'] ?></td>
+                <td class="actions"><a class="button-admin" href="#">Modifier</a><a class="button-admin delete" href="#">Supprimer</a></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

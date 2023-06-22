@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MON SITE DE VENTE DE BOUTEILLES DE VIN">
+    <title>Mon Petit Bouchon-Espace Admin</title>
+    <link rel="stylesheet" href="./public/css/normalize.css">
+    <link rel="stylesheet" href="./public/css/style.css">
+</head>
+
+<body>
+    <header class="header-admin">
+        <div>
+            <h1>Espace admin</h1>
+            <div class="logo">
+                <a class="button-admin" href="index.php?controller=home&task=showHomePage"><img src='public/img/logo2.png' alt='logo du site mon petit bouchon' style='width:100px' /><span>Mon Petit Bouchon</span></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllProducts') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllProducts">Gestion des produits</a></li>
+                <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllUsers') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllUsers">Gestion des utilisateurs</a></li>
+                <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllOpinions') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllOpinions">Gestion des avis</a></li>
+                <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllOrders') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllOrders">Gestion des commandes</a></li>
+                <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllContacts') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllContacts">Gestion des contacts</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Affichage des notifications (success/error) -->
+    <div class="notif container">
+        <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])) : ?>
+            <!-- Si j'ai un message succes (vert) sinon (rouge) -->
+            <p class="alert alert-<?= isset($_SESSION['success']) ? 'success' : 'danger' ?>">
+                <!-- J'affiche le message (vu que je peux pas avoir un succès en même temps qu'une erreur) -->
+                <?= $_SESSION['success'] ?? $_SESSION['error'] ?>
+            </p>
+            <!-- Vider des les notif -->
+            <?php unset($_SESSION['success'], $_SESSION['error']) ?>
+        <?php endif; ?>
+    </div>
+    
+    <main>
+        <div class="container">
+            <?= $template ?>
+        </div>
+    </main>
+    <script src="public/js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<h1>Gestion des avis</h1>
+
+<table id="opinions" class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom du produit</th>
+            <th>Utilisateur</th>
+            <th>Avis</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($opinions as $opinion) : ?>
+            <tr>
+                <td><?= htmlspecialchars($opinion['id']) ?></td>
+                <td><?= htmlspecialchars($opinion['name']) ?></td>
+                <td><?= htmlspecialchars($opinion['firstname']), ' ', htmlspecialchars($opinion['lastname']) ?></td>
+                <td><?= htmlspecialchars($opinion['opinion']) ?></td>
+                <td class="actions">
+                    <?php if ($opinion['status'] === 'on') : ?>
+                        <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir bloquer cet avis ?!`)">Bloquer</a>
+                    <?php else : ?>
+                        <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
+                        <?php endif; ?>
+                    <!-- <a class="button-admin delete" href="#">Supprimer</a> -->
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

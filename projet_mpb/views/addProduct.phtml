@@ -1,0 +1,77 @@
+
+<?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
+    <h2>Modification d'un produit</h2>
+    <form action='index.php?controller=product&task=addProduct&id=<?= htmlspecialchars($_GET['id']) ?>' enctype="multipart/form-data" method='post'>
+<?php else: ?>
+    <h2>Ajout d'un produit</h2>
+    <form action='index.php?controller=product&task=addProduct' enctype="multipart/form-data" method='post'>
+<?php endif ?>
+    <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+    <div class="field">
+        <label for="name">Nom</label>
+        <input type="text" name='name' value="<?php if (!empty($_POST['name'])) echo htmlspecialchars($_POST['name']) ?>" id="name" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="title">Appellation</label>
+        <!-- <input type="text" name='title' value="<?php if (!empty($_POST['title'])) echo htmlspecialchars($_POST['title']) ?>" id="title" aria-describedby="emailHelp"> -->
+        <input type="text" name='title' value="
+            <?php if (array_key_exists('id', $_GET)) : ?> <?= htmlspecialchars($product['title']) ?>  
+            <?php elseif (!empty($_POST['name'])) : ?> <?= htmlspecialchars($_POST['name']) ?>
+            <?php endif ?>" id="title" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="description" class="form-label">Description</label>
+        <input type="textarea" name='description' value="<?php if (!empty($_POST['description'])) echo htmlspecialchars($_POST['description']) ?>" id="description" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="stock" class="form-label">Stock</label>
+        <input type="number" name='stock' value="<?php if (!empty($_POST['stock'])) echo htmlspecialchars($_POST['stock']) ?>" id="stock" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="price" class="form-label">Prix</label>
+        <input type="text" name='price' value="<?php if (!empty($_POST['price'])) echo htmlspecialchars($_POST['price']) ?> " id="price" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="grape" class="form-label">Cépage</label>
+        <input type="text" name='grape' value="<?php if (!empty($_POST['grape'])) echo htmlspecialchars($_POST['grape']) ?>" id="grape" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="country" class="form-label">Pays</label>
+        <input type="text" name='country' value="<?php if (!empty($_POST['country'])) echo htmlspecialchars($_POST['country']) ?>" id="country" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label for="vintage" class="form-label">Millésime</label>
+        <input type="text" name='vintage' value="<?php if (!empty($_POST['vintage'])) echo htmlspecialchars($_POST['vintage']) ?>" id="vintage" aria-describedby="emailHelp">
+    </div>
+    <div class="field">
+        <label class="form-label">Catégorie</label>
+        <select name="category">
+            <option value="0">Catégorie</option>
+            <!-- <?php foreach ($categories as $category) : ?>
+                <option value="<?= htmlspecialchars($categories['category']) ?>">
+                <option value="<?php $i = 0; $i++ ; echo $i ?>">
+                    <?= htmlspecialchars($category['category']) ?>
+                    <?php var_dump($i); ?>
+                </option>
+            <?php endforeach; ?> -->
+            <?php for($i=0; $i < count($categories); $i++) : ?> 
+                <option value="<?= $i + 1 ?>">
+                <?= htmlspecialchars($categories[$i]['category']) ?>
+                <!-- <?php var_dump($i); ?> -->
+                </option>
+            <?php endfor; ?>
+        </select>
+    </div>
+    <fieldset>
+        <div class="field">
+            <label for="file" class="form-label">Photo</label>
+            <input type="file" name="upload" accept="images/*" value="<?php if (!empty($_POST['upload'])) echo htmlspecialchars($_POST['upload']) ?>" id="file" required>
+            <small>Choisir une image : Formats autorisés: 'jpg', 'gif', 'png'</small>
+        </div>
+    </fieldset>
+    <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
+        <button class="button">Je modifie le produit</button>
+    <?php else: ?>
+        <button class="button">J'ajoute ce produit</button>
+    <?php endif ?>
+</form>

@@ -1,0 +1,73 @@
+<h2>Fiche produit</h2>
+
+<img src='<?= htmlspecialchars($product['picture']) ?>' style='width:100px' />
+<h2><?= htmlspecialchars($product['name']) ?></h2>
+<h3><?= htmlspecialchars($product['title']) ?></h3>
+<p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
+<p><?= htmlspecialchars($product['price']) ?> €</p>
+<h3>Stock: <?= htmlspecialchars($product['stock']) ?></h3>
+
+<div class="opinions">
+    <h3>L'avis des utilisateurs</h3>
+    <?php if(!empty($opinions)) : ?>
+        <div class="opinions">
+            <?php foreach ($opinions as $opinion) : ?>
+                <p>Note <?= htmlspecialchars($opinion['score']) ?>/5</p>
+                <h4><?= htmlspecialchars($opinion['title']) ?></h4>
+                <p><?= htmlspecialchars($opinion['opinion']) ?></p>
+                <p><?= htmlspecialchars($opinion['pseudo']), ', le ', htmlspecialchars($opinion['created_at']) ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php else : ?>
+        <p>Il n'y a pas encore d'avis pour ce produit</p>
+    <?php endif; ?>
+</div>
+
+<div class="box opinion">
+    <h3>Votre avis nous intéresse</h3>
+    <?php if (isset($_SESSION['user'])) : ?>
+        <form action='index.php?controller=user&task=opinion&id=<?= htmlspecialchars($product['id']) ?>' method='post'>
+            <!--<div class="rating">
+            <div class="stars">
+                <i class="fa fa-star gold"></i>
+                <i class="fa fa-star gold"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <a href="#">Voir les avis.</a>
+            </div> -->
+            <div class="field">
+                <input type="radio" id="parfait" name="score" value=5>
+                <label for="parfait">Parfait</label><br>
+                <input type="radio" id="tbon" name="score" value=4>
+                <label for="tbon">Très bon</label><br>
+                <input type="radio" id="bon" name="score" value=3>
+                <label for="bon">Bon</label>
+                <input type="radio" id="moyen" name="score" value=2>
+                <label for="moyen">Moyen</label>
+                <input type="radio" id="mauvais" name="score" value=1>
+                <label for="mauvais">Mauvais</label>
+            </div>
+            <div class="field">
+                <label for="pseudo">Votre pseudo</label>
+                <input type="text" name='pseudo' id="pseudo" aria-describedby="emailHelp">
+            </div>
+            <div class="field">
+                <label for="title">Votre avis en 2 mots</label>
+                <input type="text" name='title' id="title" aria-describedby="emailHelp">
+            </div>
+            <div class="field">
+                <label for="opinion">Votre avis</label>
+                <textarea name='opinion' id="opinion" required></textarea>
+            </div>
+            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+            <button class="button">Je partage mon avis</button>
+        </form>
+    <?php else : ?>
+        <h4>On a hâte de vous lire !</h4>
+        <p>Connectez-vous ou créez un compte pour partager votre avis avec la Grande Famille du Petit Bouchon.</p>
+        <a class='button' href='index.php?controller=user&task=login'>Se connecter</a>
+        <a class='button' href='index.php?controller=user&task=register'>Créer un compte</a>
+    <?php endif; ?>
+</div>

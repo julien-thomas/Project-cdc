@@ -1,0 +1,42 @@
+<h2>Page Contact</h2>
+
+<!-- <form action='index.php?controller=home&task=contact' method='post'>
+    <div class="field">
+        <label for="subject">Sujet</label>
+        <input type="text" name='subject' class="form-control" id="subject">
+    </div>
+    <div class="field">
+        <label for="mail">Email address</label>
+        <input type="email" name='mail' id="mail" aria-describedby="emailHelp" required>
+    </div>
+    <div class="field">
+        <label for="content" class="form-label">Votre message</label>
+        <textarea name='content' id="content" placeholder='Votre message ici' required></textarea>
+    </div>
+    <button class="button">Envoyer</button>
+</form> -->
+
+
+<form action='index.php?controller=home&task=contact' method='post'>
+    <fieldset>
+        <legend>Contact</legend>
+        <div class="field">
+            <select name="subject">
+                <option value="0">Choisir l'objet de ma demande...</option>
+                <option value="Question d'ordre général">Question d'ordre général</option>
+                <option value="Signaler un problème de commande">Signaler un problème de commande</option>
+                <option value="Signaler un problème de connexion">Signaler un problème de connexion</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="mail">Adresse Email</label>
+            <input type="email" name='mail' id="mail">
+        </div>
+        <div class="field">
+            <textarea name='content' id="content" placeholder='Votre message ici' required></textarea>
+        </div>
+    </fieldset>
+    <div>
+        <button type="submit" class="button">Envoyer</button>
+    </div>
+</form>

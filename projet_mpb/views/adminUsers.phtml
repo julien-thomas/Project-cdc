@@ -1,0 +1,28 @@
+<h1>Gestion des utilisateurs</h1>
+<table id="users" class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Utilisateur</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $user) : ?>
+            <tr>
+                <td><?= $user['id'] ?></td>
+                <td><?= $user['firstname'], ' ', $user['lastname'] ?></td>
+                <td><?= $user['email'] ?></td>
+                <td class="actions">
+                    <?php if ($user['blocked'] === 'false') : ?>
+                        <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Bloquer</a>
+                    <?php else : ?>
+                        <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Débloquer</a>
+                    <?php endif; ?>
+                    <a class="button-admin delete" href="#">Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
