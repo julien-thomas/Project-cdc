@@ -1,6 +1,6 @@
 <h1>Gestion des produits</h1>
 
-<a class="button-admin add-product" href="index.php?controller=product&task=addProduct">Ajouter un produit</a>
+<a class="button-admin add-product" href="index.php?controller=product&task=addOrUpdateProduct">Ajouter un produit</a>
 
 <table id="products" class="table">
     <thead>
@@ -16,7 +16,7 @@
                 <td><?= $product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
                 <td class="actions">
-                    <a class="button-admin" href="index.php?controller=product&task=addProduct&id=<?= htmlspecialchars($product['id']) ?>">Modifier</a>
+                    <a class="button-admin" href="index.php?controller=product&task=addOrUpdateProduct&id=<?= htmlspecialchars($product['id']) ?>">Modifier</a>
                     <?php if ($product['selected'] === 0) : ?>
                         <a class="button-admin" href="index.php?controller=admin&task=selectProduct&id=<?= htmlspecialchars($product['id']) ?>">Sélectionner</a>
                     <?php else : ?>

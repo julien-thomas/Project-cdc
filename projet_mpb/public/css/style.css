@@ -9,11 +9,14 @@ p {
 	font-family: 'Open Sans', sans-serif;
 }
 
-/* * {
+* {
     border: 1 px solid red;
 }
- */
-h2 {
+
+h1,
+h2,
+h3,
+h4 {
     color: #9e121b;
 	font-family: 'Montserrat', sans-serif;
 }
@@ -26,13 +29,24 @@ img {
 	image-rendering: -webkit-optimize-contrast; /* lissage pour Chrome au redimensionnement*/
 }
 
-.alert-danger {
+.notif {
+	display: flex;
+	justify-content: center;
+}
+
+.alert {
+	justify-content: center;
 	padding: 1em;
+	width: 50%;
+	border-radius: 0.5em;
+}
+
+.alert-danger {
     background-color: #e60000;
+	color: #ffffff;
 }
 
 .alert-success {
-	padding: 1em;
     background-color: #04ac04;
 }
 
@@ -132,8 +146,20 @@ a {
 	border-radius: 0.3em;
 }
 
+.products-index {
+	display: flex;
+	align-items: flex-end;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: space-between;
+}
+
 .products {
 	display: flex;
+	align-items: flex-end;
+	margin: 2em;
+
+
 }
 
 /* Le pied de page */
@@ -145,6 +171,9 @@ footer {
 	background-color:  #444;
 }
 
+.product-img {
+	width: 100px;
+}
 
 /* *****************************************************************
 FORM
@@ -217,6 +246,17 @@ textarea {
 	border-radius: 0.3em;
 }
 
+.admin input[type="text"],
+.admin input[type="password"],
+.admin input[type="search"],
+.admin input[type="email"],
+.admin input[type="number"],
+.admin input[type*="date"],
+.admin select,
+.admin textarea {
+	color: #0059b3;
+}
+
 select,
 textarea {
 	width: 100%;
@@ -226,6 +266,10 @@ textarea {
 	display: block;
 	min-height: 10em;
 }
+
+/* *****************************************************************
+BUTTON
+***************************************************************** */
 
 /* Style de chaque bouton */
 .button {
@@ -263,7 +307,7 @@ TABLE
 .table th,
 .table td {
 	padding: 1em;
-	border: 1px solid #ddd;
+	border: 1px solid #ffffff;
 }
 .table thead {
 	border-bottom: 2px solid #999;
@@ -271,6 +315,11 @@ TABLE
 .table tfoot {
 	border-top: 2px solid #999;
 }
+/* tableau du panier */
+.table .cart tbody tr {
+	background-color: #ffffff;
+}
+
 .table tbody tr:nth-child(odd) {
     background-color: rgba(0,0,0,0.2);
 }
@@ -278,6 +327,24 @@ TABLE
 	display: flex;
 	justify-content: space-around;
 }
+
+
+/* *****************************************************************
+CART
+***************************************************************** */
+
+sup {
+	color: #ffffff;
+}
+
+.sup {
+	color: #9e121b;
+}
+
+.cart-img {
+	width: 20px;
+}
+
 /* *****************************************************************
 ESPACE ADMIN
 ***************************************************************** */

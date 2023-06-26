@@ -24,7 +24,7 @@
                     <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=login') echo 'active' ?>" href="index.php?controller=user&task=login">Se connecter</a></li>
                     <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=register') echo 'active' ?>" href="index.php?controller=user&task=register">Inscription</a></li>
                 <?php endif; ?>
-                <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'active' ?>" href="index.php?controller=product&task=showCart">Panier</a></li>
+                <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'active' ?>" href="index.php?controller=product&task=showCart">Panier<sup class="<?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'sup' ?>"><?php echo isset($_COOKIE['totalQuantity']) ? $_COOKIE['totalQuantity'] : '' ?></sup></a></li>
                 <?php if ((isset($_SESSION['user'])) && $_SESSION['user']['role'] === 'admin') : ?>
                     <li><a class="button" href="index.php?controller=admin&task=showAllProducts">Espace admin</a></li>
                 <?php endif; ?>
@@ -56,9 +56,9 @@
     </main>
     
     <footer>
-        <a class='button <?php if ($_SERVER['QUERY_STRING'] === 'controller=home&task=contact') echo 'active' ?>' href="index.php?controller=home&task=contact">Nous contacter</a>
-        <p>L'abus d'alcool est dangereux pour la santé. Consommer avec modération.</p>
+        <a class='button <?php if ($_SERVER['QUERY_STRING'] === 'controller=home&task=contact') echo 'active' ?>' href="index.php?controller=home&task=contact">Nous contacter</a></br>
+        <small>L'abus d'alcool est dangereux pour la santé. Consommer avec modération.</small>
     </footer>
-    <script src="public/js/app.js"></script>
+    <script type="module" src="./public/js/index.js"></script>
 </body>
 </html>

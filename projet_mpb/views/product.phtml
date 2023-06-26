@@ -1,15 +1,17 @@
 <h1>Nos vins</h1>
 
-<div class="products">
+<div class="products-index">
     <?php foreach ($products as $product) : ?>
-        <div>
-            <img src='<?= htmlspecialchars($product['picture']) ?>' style='width:100px' />
-        </div>
-        <div>
-            <h2><?= htmlspecialchars($product['name']) ?></h2>
-            <h3><?= htmlspecialchars($product['title']) ?></h3>
-            <p><?= htmlspecialchars($product['price']) ?> €</p>
-            <a class="button" href="index.php?controller=product&task=showOne&id=<?= htmlspecialchars($product['id']) ?>">Plus d'informations</a>
+        <div class="products">
+            <div>
+                <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img'/>
+            </div>
+            <div>
+                <h2><?= htmlspecialchars($product['name']) ?></h2>
+                <h3><?= htmlspecialchars($product['title']) ?></h3>
+                <p><?= htmlspecialchars($product['price']) ?> €</p>
+                <a class="button" href="index.php?controller=product&task=showOne&id=<?= htmlspecialchars($product['id']) ?>">Plus d'informations</a>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>

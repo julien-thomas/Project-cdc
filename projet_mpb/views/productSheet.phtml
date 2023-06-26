@@ -1,15 +1,30 @@
 <h2>Fiche produit</h2>
 
-<img src='<?= htmlspecialchars($product['picture']) ?>' style='width:100px' />
+<img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img'/>
 <h2><?= htmlspecialchars($product['name']) ?></h2>
 <h3><?= htmlspecialchars($product['title']) ?></h3>
+<h4><?= htmlspecialchars($product['category']) ?></h4>
 <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
 <p><?= htmlspecialchars($product['price']) ?> €</p>
-<h3>Stock: <?= htmlspecialchars($product['stock']) ?></h3>
+<?php if($product['stock'] > 0) : ?>
+    <h3>Stock: <?= htmlspecialchars($product['stock']) ?></h3>
+<?php else : ?>
+    <h3>Victime de son succès</h3>
+<?php endif; ?>
+
+<form action="index.php?controller=product&task=addToCart" method='POST'>
+    <input type="hidden" name="hidden_picture" value="<?= htmlspecialchars($product['picture']) ?>" />
+    <input type="hidden" name="hidden_name" value="<?= htmlspecialchars($product['name']) ?>" />
+    <input type="hidden" name="hidden_price" value="<?= htmlspecialchars($product['price']) ?>" />
+    <input type="hidden" name='hidden_id' value="<?= htmlspecialchars($product['id']) ?>">
+    <input type="text" name="quantity" value="1" />
+    <button class="button" name="add_to_cart" id="button"value='Add to Cart'>Ajouter au panier</button>
+</form>
+<!-- <a class="button" href="index.php?controller=product&task=addToCart&id=<?= htmlspecialchars($product['id']) ?>">Ajouter au panier</a> -->
 
 <div class="opinions">
     <h3>L'avis des utilisateurs</h3>
-    <?php if(!empty($opinions)) : ?>
+    <?php if (!empty($opinions)) : ?>
         <div class="opinions">
             <?php foreach ($opinions as $opinion) : ?>
                 <p>Note <?= htmlspecialchars($opinion['score']) ?>/5</p>

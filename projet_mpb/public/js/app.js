@@ -8,3 +8,4 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("delete-button").window.confirm(`Êtes vous sûr de vouloir bloquer ce produite ?!`);
   } */
 })
+
