@@ -1,14 +1,14 @@
 <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
     <h2>Modification d'un produit</h2>
     <form action='index.php?controller=product&task=addOrUpdateProduct&id=<?= htmlspecialchars($_GET['id']) ?>' enctype="multipart/form-data" method='post'>
-<?php else: ?>
+<?php else : ?>
     <h2>Ajout d'un produit</h2>
     <form action='index.php?controller=product&task=addOrUpdateProduct' enctype="multipart/form-data" method='post'>
 <?php endif ?>
     <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
     <div class="field">
         <label for="name">Nom</label>
-        <input class = "admin" type="text" name='name' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['name']) : (array_key_exists('name', $_POST) ? htmlspecialchars($_POST['name']) : '') ?>" id="name" aria-describedby="emailHelp">
+        <input class="admin" type="text" name='name' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['name']) : (array_key_exists('name', $_POST) ? htmlspecialchars($_POST['name']) : '') ?>" id="name" aria-describedby="emailHelp">
     </div>
     <div class="field">
         <label for="title">Appellation</label>
@@ -16,7 +16,7 @@
     </div>
     <div class="field">
         <label for="description">Description</label>
-        <textarea name='description' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['description']) : (array_key_exists('description', $_POST) ? htmlspecialchars($_POST['description']) : '') ?>" id="description" aria-describedby="emailHelp"></textarea>
+        <textarea name='description' id="description" aria-describedby="emailHelp"><?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['description']) : (array_key_exists('description', $_POST) ? htmlspecialchars($_POST['description']) : '') ?></textarea>
     </div>
     <div class="field">
         <label for="stock">Stock</label>
@@ -42,10 +42,9 @@
         <label>Catégorie</label>
         <select name="category">
             <option value="0">Catégorie</option>
-            <?php for($i=0; $i < count($categories); $i++) : ?>
-                <option value="<?= $i + 1 ?>" <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?> selected="<?= htmlspecialchars($product['category']) ?>"><?php endif ?>
-                <?= htmlspecialchars($categories[$i]['category']) ?>
-                <!-- <?php var_dump($i); ?> -->
+            <?php for ($i = 0; $i < count($categories); $i++) : ?>
+                <option value="<?= $i + 1 ?>" <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>selected="<?= htmlspecialchars($product['category']) ?>" <?php else : ?>selected="0" <?php endif ?>>
+                    <?= htmlspecialchars($categories[$i]['category']) ?>
                 </option>
             <?php endfor ?>
         </select>
@@ -53,13 +52,25 @@
     <fieldset>
         <div class="field">
             <label for="file" class="form-label">Photo</label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
             <input type="file" name="upload" value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['picture']) : (array_key_exists('upload', $_POST) ? htmlspecialchars($_POST['upload']) : '') ?>" id="file">
             <small>Choisir une image : Formats autorisés: 'jpg', 'gif', 'png'</small>
         </div>
     </fieldset>
     <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
-        <button class="button">Je modifie le produit</button>
+        <button class="button" type='submit'>Je modifie le produit</button>
     <?php else : ?>
-        <button class="button">J'ajoute ce produit</button>
+        <button class="button" type='submit'>J'ajoute ce produit</button>
     <?php endif ?>
-</form>
+    <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
+        <div>
+            <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img' />
+            <?php var_dump($product['picture']) ?>
+        </div>
+        <p>Image actuelle</p>
+        <!-- <div>
+            <img src='<?= htmlspecialchars($_FILES['upload']) ?>' class='product-img' />
+        </div>
+        <p>Nouvelle image</p> -->
+    <?php endif ?>
+    </form>

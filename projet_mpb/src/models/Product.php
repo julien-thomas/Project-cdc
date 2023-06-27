@@ -110,7 +110,7 @@ class Product extends Model {
         $this->updateOne('products', $newData, 'id', $val);
     }
 
-    public function getAllProductsFromCart() {
+    /* public function getAllProductsFromCart() {
 
         var_dump($_COOKIE);
 
@@ -130,5 +130,5 @@ class Product extends Model {
         FROM products
         WHERE id IN :ids";
         $this->findAll($req, ['ids' => $ids]); */
-    }
+    //} */
 }

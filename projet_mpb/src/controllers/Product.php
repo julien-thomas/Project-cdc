@@ -7,6 +7,20 @@ class Product extends Controller
 
     protected $modelName = \Models\Product::class; // ou "\Models\Product"
 
+    /**
+     * @var FILE_EXT_IMG  extensions acceptées pour les images
+     */
+    private const FILE_EXT_IMG = ['jpg', 'jpeg', 'gif', 'png'];
+
+    /**
+     * @var BASE_DIR Répertoire de base du blog sur le disque du serveur
+     */
+    // define('BASE_DIR', realpath(dirname(__FILE__) . "/../"));
+
+    /**
+     * @var UPLOADS_DIR Répertoire ou seront uploadés les fichiers
+     */
+    private const UPLOADS_DIR = 'public/uploads/';
 
 
     public function showAll()
@@ -55,6 +69,43 @@ class Product extends Controller
         \Renderer::render('productSheet', 'layout', compact('opinions'));
     }
 
+    /** Déplace un fichier transmis dans un répertoire du serveur
+     * @param $file contenu du tableau $_FILES à l'index du fichier à uploader
+     * @param $errors la variable devant contenir les erreurs. Passage par référence ;)
+     * @param $folder chemin absolue ou relatif où le fichier sera déplacé. Par default UPLOADS_DIR
+     * @param $fileExtensions par defaut vaut FILE_EXT_IMG. un tableau d'extensions valident
+     * @return array un tableau contenant les erreurs ou vide
+     */
+    public function uploadFile(array $file, array &$errors, string $folder = self::UPLOADS_DIR, array $fileExtensions = self::FILE_EXT_IMG)
+    {
+        $filename = '';
+        var_dump($_FILES);
+        if ($file["error"] === UPLOAD_ERR_OK) {
+            $tmpName = $file["tmp_name"];
+
+            // On récupère l'extension du fichier pour vérifier si elle est dans  $fileExtensions
+            $tmpNameArray = explode(".", $file["name"]);
+            $tmpExt = end($tmpNameArray);
+            if (in_array($tmpExt, $fileExtensions)) {
+                // basename() peut empêcher les attaques de système de fichiers en supprimant les éventuels répertoire dans le nom
+                // la validation/assainissement supplémentaire du nom de fichier peut être appropriée
+                // On donne un nouveau nom au fichier
+                $filename = uniqid() . '-' . basename($file["name"]);
+                if (!move_uploaded_file($tmpName, $folder . $filename)) {
+                    $errors[] = 'Le fichier n\'a pas été enregistré correctement';
+                }
+            } else
+                $errors[] = 'Ce type de fichier n\'est pas autorisé !';
+        } else if ($file["error"] == UPLOAD_ERR_INI_SIZE || $file["error"] == UPLOAD_ERR_FORM_SIZE) {
+            //fichier trop volumineux
+            $errors[] = 'Le fichier est trop volumineux';
+        } else {
+            $errors[] = 'Une erreur a eu lieu au moment de l\'upload';
+        }
+
+        return $filename;
+    }
+
     public function addOrUpdateProduct()
     {
         $model = new \Models\Category;
@@ -62,7 +113,9 @@ class Product extends Controller
 
         if (array_key_exists('id', $_GET)) {
             $product = $this->model->getOneProduct($_GET['id']);
-            //var_dump($product);
+            var_dump($product);
+            var_dump($_POST);
+            var_dump($_SERVER);
             \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
         } else {
             \Renderer::render('addProduct', 'admin', compact('categories'));
@@ -75,11 +128,11 @@ class Product extends Controller
         } */
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //var_dump($_POST);
+            var_dump($_POST);
             //var_dump($_FILES);
 
             // Tests upload
-            $target_dir = 'uploads/';
+            /* $target_dir = 'uploads/';
             $target_file = $target_dir . basename($_FILES["upload"]["name"]);
             $allowed = ['jpg', 'jpeg', 'gif', 'png'];
             $filetype = $_FILES['upload']['type'];
@@ -96,7 +149,10 @@ class Product extends Controller
             }
 
             $newname = md5(uniqid()) . '.' . $extension;
-            $newfilepath = 'public/uploads/' . $newname;
+            $newfilepath = 'public/uploads/' . $newname; */
+            $errors = [];
+
+            //$filename = $this->uploadFile($_FILES['upload'], $errors);
 
             $newProduct = [
                 'name'          => trim($_POST['name']),
@@ -107,8 +163,8 @@ class Product extends Controller
                 'grape'         => trim($_POST['grape']),
                 'country'       => trim($_POST['country']),
                 'vintage'       => trim($_POST['vintage']),
-                'category'      => ($_POST['category']), //'',
-                'picture'       => $newfilepath
+                'category'      => $_POST['category'], //'',
+                'picture'       => ''  // self::UPLOADS_DIR . $filename
             ];
 
             /*  switch($_POST['category']) {
@@ -124,7 +180,7 @@ class Product extends Controller
             }
              */
 
-            $errors = [];
+
 
             if (in_array('', $_POST))
                 $errors[] = 'Veuillez remplir tous les champs';
@@ -141,8 +197,8 @@ class Product extends Controller
             if (!ctype_digit($newProduct['stock']) || $newProduct['stock'] > 99999)
                 $errors[] = 'Le stock doit être composé de chiffres uniquement et être inférieur à 99999';
             // complete test price
-            if (!ctype_digit($newProduct['price']))
-                $errors[] = 'Le prix doit être composé de chiffres uniquement';
+            if (!is_numeric($newProduct['price']))
+                $errors[] = 'Le prix doit être composé de chiffres avec 2 décimales maximum';
 
             if (strlen($newProduct['grape']) < 3 || strlen($newProduct['grape']) > 50)
                 $errors[] = 'Le cépage doit comporter entre 2 et 50 caractères';
@@ -155,7 +211,7 @@ class Product extends Controller
 
             // Test picture to do
             //if ($_FILES['upload']['error'] === UPLOAD_ERR_OK) 
-
+            /* 
             if ($_FILES['upload']['error'] === UPLOAD_ERR_NO_FILE)
                 $errors[] = 'Aucun fichier envoyé';
 
@@ -165,30 +221,43 @@ class Product extends Controller
 
             if (!move_uploaded_file($_FILES['upload']['tmp_name'], $newfilepath))
                 $errors[] = 'Erreur : upload impossible';
-
-            // var_dump($errors);
+ */
+            var_dump($errors);
             if (!isset($_POST['token']) || !hash_equals($_SESSION['user']['token'], $_POST['token']))
                 $errors[] = 'Requête interdite';
+            var_dump($_FILES);
 
             if (count($errors) === 0) {
-                if ($_FILES['upload']['error'] === UPLOAD_ERR_OK) {
-                    if (array_key_exists('id', $_GET)) {
-                        $this->model->updateOneProduct($newProduct, $_GET['id']);
-                        $_SESSION['success'] = "L'article a bien été modifié";
-                        if (headers_sent()) {
-                            die("Redirect failed. Please click on this link: <a href='index.php?controller=admin&task=showAllProducts'>home</a>");
+                if (array_key_exists('id', $_GET)) {
+                    var_dump($_FILES);
+                    if($_FILES['upload']['name'] === '') {
+                        $newProduct['picture'] = $product['picture'];
+                    }
+                    else {
+                        $filename = $this->uploadFile($_FILES['upload'], $errors);
+                        if(count($errors) === 0) {
+                            $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                            unlink($product['picture']);
                         } else {
-                            exit(header("Location:index.php?controller=admin&task=showAllProducts"));
+                            $_SESSION['error'] = $errors[0];
+                            /* header('Location:index.php');
+                            exit; */
                         }
-                        //header('Location:index.php?controller=admin&task=showAllProducts');
-                        //exit;
-                    } else {
+                    }
+                    $this->model->updateOneProduct($newProduct, $_GET['id']);
+                    $_SESSION['success'] = "L'article a bien été modifié";
+                    /* header('Location:index.php?controller=admin&task=showAllProducts');
+                    exit; */
+                } else {
+                    $filename = $this->uploadFile($_FILES['upload'], $errors);
+                    $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                    if(count($errors) === 0) {
                         $this->model->addOneProduct($newProduct);
                         $_SESSION['success'] = "L'article a bien été ajouté";
-                        header('Location:index.php?controller=admin&task=showAllProducts');
-                        exit;
-                    }
-                } else $_SESSION['error'] = 'upload impossible';
+                        /* header('Location:index.php?controller=admin&task=showAllProducts');
+                        exit; */
+                    } else $_SESSION['error'] = $errors[0];
+                }
             } else $_SESSION['error'] = $errors[0];
         }
     }

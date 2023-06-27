@@ -181,7 +181,7 @@ class User extends Controller
     public function member()
     {
         $user = $this->model->getUser($_SESSION['user']['email']);
-        \Renderer::render('member', 'layout',compact('user'));
+        \Renderer::render('member', 'layout', compact('user'));
     }
 
     public function changePassword() {
