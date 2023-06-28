@@ -1,8 +1,8 @@
 <?php
 
 namespace Models;
-
-use Models\Model;
+require_once 'Model.php';
+//use Models\Model;
 
 class Product extends Model {
 
@@ -108,6 +108,12 @@ class Product extends Model {
         $val = $product_id;
 
         $this->updateOne('products', $newData, 'id', $val);
+    }
+
+    public function getProductFromSearchbar($search) {
+
+        $req = 'SELECT * FROM products WHERE `name` LIKE :find ORDER BY id DESC';
+        return $this->findAll($req, [':find' => $search]);
     }
 
     /* public function getAllProductsFromCart() {

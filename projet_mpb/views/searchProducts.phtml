@@ -1,0 +1,18 @@
+<p>Nous avons trouvé <?= $numberOfProducts ?> article(s) correspondant à votre recherche</p>
+<div class="products-index">
+    <?php foreach ($searchProducts as $searchProduct) : ?>
+        <article class="products">
+            <div>
+                <img class='product-img' src="<?= $searchProduct['picture'] ?>" alt="image de la bouteille">
+            </div>
+            <div>
+                <h2><?= htmlspecialchars($searchProduct['name']) ?></h2>
+                <h3><?= htmlspecialchars($searchProduct['title']) ?></h3>
+                </p><?= htmlspecialchars($searchProduct['price']) ?>€</p>
+                <a class="button" href="index.php?controller=product&task=showOne&id=<?= htmlspecialchars($searchProduct['id']) ?>">Plus d'informations</a>
+            </div>
+        </article>
+        
+    <?php endforeach; ?>
+</div>
+

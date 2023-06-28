@@ -367,4 +367,11 @@ class Product extends Controller
         //$products = $this->model->getAllProductsFromCart();
 
     }
+
+    /* public function getProductFromAjax() {
+        $content = file_get_contents("php://input");
+        $data = json_decode($content, true);
+        $search = "%".$data['textToFind']."%";
+        $this->model->getProductFromSearchbar($search);
+    } */
 }

@@ -385,3 +385,7 @@ ESPACE ADMIN
 .delete:hover {
 	color: #e60000;
 }
+
+.contact-treated {
+	background-color: #04ac04;
+}

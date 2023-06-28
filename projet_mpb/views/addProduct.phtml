@@ -55,6 +55,7 @@
             <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
             <input type="file" name="upload" value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['picture']) : (array_key_exists('upload', $_POST) ? htmlspecialchars($_POST['upload']) : '') ?>" id="file">
             <small>Choisir une image : Formats autorisés: 'jpg', 'gif', 'png'</small>
+            <small>Taille maximale : 1Mo</small>
         </div>
     </fieldset>
     <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
@@ -68,6 +69,7 @@
             <?php var_dump($product['picture']) ?>
         </div>
         <p>Image actuelle</p>
+        <div id='result-file'>
         <!-- <div>
             <img src='<?= htmlspecialchars($_FILES['upload']) ?>' class='product-img' />
         </div>

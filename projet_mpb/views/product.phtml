@@ -1,10 +1,19 @@
 <h1>Nos vins</h1>
 
+<!-- Notre champ de recherche -->
+<div class="field">
+    <label for="search">Rechercher un article : </label>
+    <input type="text" name="search" id="search" />
+</div>
+
+<!-- Div dans laquel nous allons afficher le résultat de notre recherche -->
+<div id="result"></div>
+<h2>Tous nos produits ci dessous:</h2>
 <div class="products-index">
     <?php foreach ($products as $product) : ?>
         <div class="products">
             <div>
-                <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img'/>
+                <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img' alt='image de la bouteille'/>
             </div>
             <div>
                 <h2><?= htmlspecialchars($product['name']) ?></h2>
