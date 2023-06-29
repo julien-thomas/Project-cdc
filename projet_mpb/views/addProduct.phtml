@@ -43,7 +43,7 @@
         <select name="category">
             <option value="0">Catégorie</option>
             <?php for ($i = 0; $i < count($categories); $i++) : ?>
-                <option value="<?= $i + 1 ?>" <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>selected="<?= htmlspecialchars($product['category']) ?>" <?php else : ?>selected="0" <?php endif ?>>
+                <option value="<?= $i + 1 ?>" <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1 && ($product['category']) === $categories[$i]['category']) : ?>selected<?php endif ?>>
                     <?= htmlspecialchars($categories[$i]['category']) ?>
                 </option>
             <?php endfor ?>

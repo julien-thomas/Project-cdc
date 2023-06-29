@@ -352,7 +352,6 @@ ESPACE ADMIN
 	background-color: #000;
 }
 
-
 .button-admin {
 	display: inline-block;
 	padding: 0.5em 1em;
@@ -379,13 +378,14 @@ ESPACE ADMIN
 .delete {
 	background-color: #e60000;
 	border: 2px solid #e60000;
-
 }
 
 .delete:hover {
 	color: #e60000;
 }
 
-.contact-treated {
+.contact-processed {
 	background-color: #04ac04;
+	border: 2px solid #04ac04;
 }
+

@@ -19,10 +19,10 @@
                 <td><?= htmlspecialchars($opinion['opinion']) ?></td>
                 <td class="actions">
                     <?php if ($opinion['status'] === 'on') : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir bloquer cet avis ?!`)">Bloquer</a>
+                        <a id="block-opinion" class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Bloquer</a>
                     <?php else : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
-                        <?php endif; ?>
+                        <a id="block-opinion" class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
+                    <?php endif; ?>
                     <!-- <a class="button-admin delete" href="#">Supprimer</a> -->
                 </td>
             </tr>

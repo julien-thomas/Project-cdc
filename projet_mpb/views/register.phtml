@@ -1,6 +1,6 @@
 <h2>Inscription</h2>
 
-<form action='index.php?controller=user&task=register' method='post'>
+<form action='index.php?controller=user&task=register' method='post' id="register">
     <div class="field">
         <label for="mail">Votre mail</label>
         <input type="email" name='mail' value="<?php if(!empty($_POST['mail'])) echo $_POST['mail']; ?>" id="mail" aria-describedby="emailHelp">

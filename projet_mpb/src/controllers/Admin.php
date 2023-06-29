@@ -48,15 +48,17 @@ class Admin extends Controller
             $model->setProducts(1, $product_id);
         } */
         ($model->getOneProduct($product_id)['selected'] === 1) ? $model->setProduct(0, $product_id) : $model->setProduct(1, $product_id);
-        $products = $model->getAllProducts();
-        \Renderer::render('adminProducts', 'admin', compact('products'));
+        //$products = $model->getAllProducts();
+        header('Location:index.php?controller=admin&task=showAllProducts');
+        exit;
+        //\Renderer::render('adminProducts', 'admin', compact('products'));
     }
 
     public function blockOpinion() {
         $model = new \Models\Opinion;
         $opinion_id = $_GET['id'];
         ($model->getOneOpinion($opinion_id)['status'] === 'on') ? $model->setOpinion('off', $opinion_id) : $model->setOpinion('on', $opinion_id);
-        $opinions = $model->getAllOpinions();
+        //$opinions = $model->getAllOpinions();
         header('Location:index.php?controller=admin&task=showAllOpinions');
         exit;
         //\Renderer::render('adminOpinions', 'admin', compact('opinions'));
@@ -69,6 +71,14 @@ class Admin extends Controller
         header('Location:index.php?controller=admin&task=showAllUsers');
         exit;
         //\Renderer::render('adminUsers', 'admin', compact('users'));
+    }
+
+    public function processContact() {
+        $model = new \Models\Contact;
+        $contact_id = $_GET['id'];
+        ($model->getOneContact($contact_id)['processed'] === 'on') ? $model->setContact('off', $contact_id) : $model->setContact('on', $contact_id);
+        header('Location:index.php?controller=admin&task=showAllContacts');
+        exit;
     }
 
     public function deleteProduct() {

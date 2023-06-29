@@ -51,13 +51,13 @@ class User extends Model {
 
     public function newPassword(string $password): void
     {
-        var_dump($_SESSION);
+        //var_dump($_SESSION);
         $newData = [
             'password' => password_hash($password, PASSWORD_DEFAULT)
         ];
         $val = $_SESSION['user']['id'];
         $this->updateOne('users', $newData, 'id', $val);
-        var_dump($val);
+        //var_dump($val);
     }
 
     public function setUser($status, $email) {

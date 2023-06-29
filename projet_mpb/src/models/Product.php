@@ -112,7 +112,7 @@ class Product extends Model {
 
     public function getProductFromSearchbar($search) {
 
-        $req = 'SELECT * FROM products WHERE `name` LIKE :find ORDER BY id DESC';
+        $req = 'SELECT * FROM products WHERE `name` LIKE :find OR title LIKE :find OR vintage LIKE :find ORDER BY id DESC';
         return $this->findAll($req, [':find' => $search]);
     }
 

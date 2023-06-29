@@ -79,7 +79,7 @@ class Product extends Controller
     public function uploadFile(array $file, array &$errors, string $folder = self::UPLOADS_DIR, array $fileExtensions = self::FILE_EXT_IMG)
     {
         $filename = '';
-        var_dump($_FILES);
+        //var_dump($_FILES);
         if ($file["error"] === UPLOAD_ERR_OK) {
             $tmpName = $file["tmp_name"];
 
@@ -111,15 +111,7 @@ class Product extends Controller
         $model = new \Models\Category;
         $categories = $model->getCategory();
 
-        if (array_key_exists('id', $_GET)) {
-            $product = $this->model->getOneProduct($_GET['id']);
-            var_dump($product);
-            var_dump($_POST);
-            var_dump($_SERVER);
-            \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
-        } else {
-            \Renderer::render('addProduct', 'admin', compact('categories'));
-        }
+        
         /* if(ctype_digit($_GET['id'])) {
             $categories = $model->getCategory();
             $id = $_GET['id'];
@@ -230,6 +222,7 @@ class Product extends Controller
             if (count($errors) === 0) {
                 if (array_key_exists('id', $_GET)) {
                     var_dump($_FILES);
+                    $product = $this->model->getOneProduct($_GET['id']);
                     if($_FILES['upload']['name'] === '') {
                         $newProduct['picture'] = $product['picture'];
                     }
@@ -240,25 +233,35 @@ class Product extends Controller
                             unlink($product['picture']);
                         } else {
                             $_SESSION['error'] = $errors[0];
-                            /* header('Location:index.php');
-                            exit; */
+                            header('Location:index.php');
+                            exit;
                         }
                     }
                     $this->model->updateOneProduct($newProduct, $_GET['id']);
                     $_SESSION['success'] = "L'article a bien été modifié";
-                    /* header('Location:index.php?controller=admin&task=showAllProducts');
-                    exit; */
+                    header('Location:index.php?controller=admin&task=showAllProducts');
+                    exit;
                 } else {
                     $filename = $this->uploadFile($_FILES['upload'], $errors);
                     $newProduct['picture'] = self::UPLOADS_DIR . $filename;
                     if(count($errors) === 0) {
                         $this->model->addOneProduct($newProduct);
                         $_SESSION['success'] = "L'article a bien été ajouté";
-                        /* header('Location:index.php?controller=admin&task=showAllProducts');
-                        exit; */
+                        header('Location:index.php?controller=admin&task=showAllProducts');
+                        exit;
                     } else $_SESSION['error'] = $errors[0];
                 }
             } else $_SESSION['error'] = $errors[0];
+        }
+
+        if (array_key_exists('id', $_GET)) {
+            $product = $this->model->getOneProduct($_GET['id']);
+            //var_dump($product);
+            //var_dump($_POST);
+            //var_dump($_SERVER);
+            \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+        } else {
+            \Renderer::render('addProduct', 'admin', compact('categories'));
         }
     }
 

@@ -17,7 +17,13 @@
                 <td><?= $contact['email'] ?></td>
                 <td><?= $contact['content'] ?></td>
                 <td><?= $contact['created_at'] ?></td>
-                <td class="actions"><button class="button-admin">Traité</button></td>
+                <td class="actions">
+                    <?php if ($contact['processed'] === 'off') : ?>
+                        <a class="button-admin" href="index.php?controller=admin&task=processContact&id=<?= htmlspecialchars($contact['id']) ?>">Traité?</a>
+                    <?php else : ?>
+                        <a class="contact-processed button-admin" href="index.php?controller=admin&task=processContact&id=<?= htmlspecialchars($contact['id']) ?>">Traité</a>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>

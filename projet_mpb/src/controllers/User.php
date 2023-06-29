@@ -186,8 +186,8 @@ class User extends Controller
 
     public function changePassword() {
         if (isset($_SESSION['user'])) {
-            $user = $this->model->getUser($_SESSION['user']['email']);
-            \Renderer::render('changePassword', 'layout', compact('user'));
+            //$user = $this->model->getUser($_SESSION['user']['email']);
+            //\Renderer::render('changePassword', 'layout', compact('user'));
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!isset($_POST['token']) ||
                 !hash_equals($_SESSION['user']['token'], $_POST['token'])) {
@@ -195,6 +195,7 @@ class User extends Controller
                 exit('Request Forbidden');
                 } else {
                     if (!in_array('', $_POST)) {
+                        $user = $this->model->getUser($_SESSION['user']['email']);
                         if (password_verify($_POST['currentPassword'], $user['password'])) {
                             if ($_POST['newPassword'] === $_POST['newPasswordConfirm']) {
                                 try {
@@ -209,10 +210,12 @@ class User extends Controller
                 }
             }
         } else {
+            $_SESSION['error'] = 'Veuillez vous connecter';
             // Redirection vers login
             header('Location: index.php?controller=user&task=login');
             exit;
         }
+        \Renderer::render('changePassword', 'layout');
     }
 
     public function admin()

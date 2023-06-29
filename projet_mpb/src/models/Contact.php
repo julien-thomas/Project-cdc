@@ -15,7 +15,22 @@ class Contact extends Model {
 
     public function getallContacts(): bool|array
     {
-        $req = 'SELECT subject, email, content, created_at FROM contacts ORDER BY  created_at DESC';
+        $req = 'SELECT id, subject, email, content, created_at, processed FROM contacts ORDER BY  created_at DESC';
         return $this-> findAll($req);
+    }
+
+    public function getOneContact(int $id): bool|array
+    {
+        $req = 'SELECT id, processed FROM contacts
+        WHERE id = :id';
+        return $this-> findOne($req, [':id' => $id]);
+    }
+
+    public function setContact($processed, $id) {
+        $newData = [
+            'processed' => $processed
+        ];
+        $val = $id;
+        $this->updateOne('contacts', $newData, 'id', $val);
     }
 }
