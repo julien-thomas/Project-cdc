@@ -25,7 +25,7 @@
                     <form action="index.php?controller=admin&task=deleteProduct" method='POST'>
                         <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
                         <input type="hidden" name='product_id' value="<?= htmlspecialchars($product['id']) ?>">
-                        <button type="submit" class="button-admin delete" id="delete-product">Supprimer</button>
+                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce produit ?!`)" id="delete-product">Supprimer</button>
                     </form>
                 </td>
             </tr>

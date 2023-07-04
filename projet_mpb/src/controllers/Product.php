@@ -274,6 +274,7 @@ class Product extends Controller
     {
 
         if (isset($_POST["add_to_cart"])) {
+            var_dump($_COOKIE);
             if (isset($_COOKIE["shopping_cart"])) {
                 $cookie_data = stripslashes($_COOKIE['shopping_cart']);
 
@@ -283,9 +284,9 @@ class Product extends Controller
             }
 
             $item_id_list = array_column($cart_data, 'item_id');
+            var_dump($item_id_list);
             if (isset($_GET["id"])) {
                 $product_id = $_GET["id"];
-                $product = $this->model->getOneProduct($product_id);
                 //if (in_array($_POST["hidden_id"], $item_id_list)) {
                 if (in_array($product_id, $item_id_list)) {
                     foreach ($cart_data as $keys => $values) {
@@ -296,10 +297,10 @@ class Product extends Controller
                 } else {
                     $item_array = [
                         'item_id'           => $product_id, //$_POST["hidden_id"],
-                        'item_name'         => $product['name'], //$_POST["hidden_name"],
-                        'item_price'        => $product['price'], //$_POST["hidden_price"],
                         'item_quantity'     => trim($_POST["quantity"]),
-                        'item_picture'      => $product['picture'] //$_POST["hidden_picture"]
+                        //'item_name'         => '', //$product['name'], //$_POST["hidden_name"],
+                        //'item_price'        => '', //$product['price'], //$_POST["hidden_price"],
+                        //'item_picture'      => '' //$product['picture'] //$_POST["hidden_picture"]
                     ];
                     $cart_data[] = $item_array;
                 }
@@ -314,7 +315,7 @@ class Product extends Controller
         }
 
         /* remove products from cart */
-        if (isset($_GET["id"])) {
+        if ($_GET["action"] === "delete") {
             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
             $cart_data = json_decode($cookie_data, true);
             foreach ($cart_data as $keys => $values) {
@@ -368,8 +369,28 @@ class Product extends Controller
     {
         if (isset($_COOKIE["shopping_cart"])) {
             $total = 0;
+            
             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
             $cart_data = json_decode($cookie_data, true);
+            var_dump($cart_data);
+            foreach ($cart_data as $keys => $values) {
+                /* if ($cart_data[$keys]["item_id"] === $product_id) {
+                    $cart_data[$keys]["item_quantity"] = $cart_data[$keys]["item_quantity"] + $_POST["quantity"]; */
+                    $product = $this->model->getOneProduct($cart_data[$keys]['item_id']);
+                    $cart_data[$keys]['item_name'] = $product['name'];
+                    $cart_data[$keys]['item_price'] = $product['price'];
+                    $cart_data[$keys]['item_picture'] = $product['picture'];
+                    //$cart_data[] = $item_array;
+                /* $item_array = [
+                'item_id'           =>
+                'item_name'         => $product['name'], 
+                'item_price'        => $product['price'],
+                'item_picture'      => $product['picture']
+            ];  */
+        } 
+            
+            var_dump($cart_data);
+            //die;
             \Renderer::render('cart', 'layout', compact('cart_data'));
             //$total = $total + ($values["item_quantity"] * $values["item_price"]);
         } else {

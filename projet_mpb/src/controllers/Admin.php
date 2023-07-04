@@ -118,7 +118,7 @@ class Admin extends Controller
 
     public function deleteProduct() {
         $model = new \Models\Product;
-        $product_id = $_POST['product_id'];
+        $product_id = trim($_POST['product_id']);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_POST['token']) ||
                 !hash_equals($_SESSION['user']['token'], $_POST['token'])) {

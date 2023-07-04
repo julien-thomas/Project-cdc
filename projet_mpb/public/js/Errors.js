@@ -28,6 +28,7 @@ class Errors {
         }
         this.errors.messages.length = 0;
     }
+    
 }
 
 export default Errors;

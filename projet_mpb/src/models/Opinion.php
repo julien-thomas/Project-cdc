@@ -36,7 +36,8 @@ class Opinion extends Model {
     {
         $req = 'SELECT opinions.id, pseudo, opinions.title, score, opinion, products.name, products.description, products.price, users.firstname, users.lastname, opinions.created_at, status FROM opinions
         INNER JOIN products ON products.id = opinions.products_id
-        INNER JOIN users ON users.id = opinions.users_id';
+        INNER JOIN users ON users.id = opinions.users_id
+        ORDER BY created_at DESC';
         return $this-> findAll($req);
     }
 

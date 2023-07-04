@@ -7,6 +7,7 @@
             <th>Nom du produit</th>
             <th>Utilisateur</th>
             <th>Avis</th>
+            <th>Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -17,9 +18,10 @@
                 <td><?= htmlspecialchars($opinion['name']) ?></td>
                 <td><?= htmlspecialchars($opinion['firstname']), ' ', htmlspecialchars($opinion['lastname']) ?></td>
                 <td><?= htmlspecialchars($opinion['opinion']) ?></td>
+                <td><?= htmlspecialchars($opinion['created_at']) ?></td>
                 <td class="actions">
                     <?php if ($opinion['status'] === 'on') : ?>
-                        <a id="block-opinion" class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Bloquer</a>
+                        <a id="block-opinion" class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir bloquer cet avis ?!`)">Bloquer</a>
                     <?php else : ?>
                         <a id="block-opinion" class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
                     <?php endif; ?>

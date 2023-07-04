@@ -223,6 +223,8 @@ class User extends Controller
                                 try {
                                 $this->model->newPassword($_POST['newPassword']);
                                 $_SESSION['success'] = 'Changement de mot de passe réussi';
+                                header('Location: index.php?controller=user&task=member');
+                                exit;
                                 } catch (\PDOException $e) {
                                 $_SESSION['error'] = 'Une erreur est survenue lors de la tentative de mise à jour, merci de réessayer plus tard';
                                 }

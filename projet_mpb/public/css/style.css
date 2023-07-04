@@ -216,10 +216,13 @@ input[type="text"],
 input[type="password"],
 input[type="search"],
 input[type="email"],
+input[type="number"],
 input[type*="date"],
 select,
 textarea {
 	width: 100%;
+	/* padding: 1em 0; */
+	margin-bottom: 1em;
 }
 
 label {
@@ -255,6 +258,7 @@ input[type="text"],
 input[type="password"],
 input[type="search"],
 input[type="email"],
+input[type="number"],
 input[type*="date"],
 select,
 textarea {
@@ -271,6 +275,7 @@ textarea {
 .admin input[type="password"],
 .admin input[type="search"],
 .admin input[type="email"],
+.admin input[type="number"],
 .admin input[type="number"],
 .admin input[type*="date"],
 .admin select,
@@ -295,7 +300,7 @@ textarea {
 
 input:invalid {
 	/* background-color: #e60000; */
-	color: #ffffff;
+	color: #444;
 	border: 2px solid #e60000;
 	border-radius: 0.3em;
 	box-shadow: 0 0 5px 1px #e60000;
@@ -308,6 +313,7 @@ BUTTON
 .button {
 	display: inline-block;
 	padding: 0.5em 1em;
+	margin-bottom: 1em;
 	font-size: 1.6rem;
 	color: #ffffff;
 	background-color: #9e121b;
@@ -350,9 +356,9 @@ TABLE
 	border-top: 2px solid #999;
 }
 /* tableau du panier */
-.table .cart tbody tr {
+/* .cart {
 	background-color: #ffffff;
-}
+} */
 
 .table tbody tr:nth-child(odd) {
     background-color: rgba(0,0,0,0.2);
@@ -433,6 +439,7 @@ span.form-error {
     background-color: #e60000;
     color: ffffff;
     padding: 1em;
-    border: 5px;
-    width: 90%
+    width: 100%;
+	border: 2px solid #e60000;
+	border-radius: 0.3em;
 }
