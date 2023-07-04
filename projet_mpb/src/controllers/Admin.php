@@ -9,32 +9,67 @@ class Admin extends Controller
 
 
     public function showAllProducts() {
-        $model = new \Models\Product;
-        $products = $model->getAllProducts();
-        \Renderer::render('adminProducts', 'admin', compact('products'));
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $model = new \Models\Product;
+            $products = $model->getAllProducts();
+            \Renderer::render('adminProducts', 'admin', compact('products'));
+        } else {
+            $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
+        }
     }
 
     public function showAllUsers() {
-        $users = $this->model->getAllUsers();
-        \Renderer::render('adminUsers', 'admin', compact('users'));
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $users = $this->model->getAllUsers();
+            \Renderer::render('adminUsers', 'admin', compact('users'));
+        } else {
+            $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
+        }
     }
 
     public function showAllOpinions() {
-        $model = new \Models\Opinion;
-        $opinions = $model->getAllOpinions();
-        \Renderer::render('adminOpinions', 'admin', compact('opinions'));
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $model = new \Models\Opinion;
+            $opinions = $model->getAllOpinions();
+            \Renderer::render('adminOpinions', 'admin', compact('opinions'));
+        } else {
+            $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
+        }
     }
 
     public function showAllContacts() {
-        $model = new \Models\Contact;
-        $contacts = $model->getAllContacts();
-        \Renderer::render('adminContacts', 'admin', compact('contacts'));
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $model = new \Models\Contact;
+            $contacts = $model->getAllContacts();
+            \Renderer::render('adminContacts', 'admin', compact('contacts'));
+        } else {
+            $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
+        }
     }
 
     public function showAllOrders() {
-        $model = new \Models\Order;
-        $orders = $model->getAllOrders();
-        \Renderer::render('adminOrders', 'admin', compact('orders'));
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $model = new \Models\Order;
+            $orders = $model->getAllOrders();
+            \Renderer::render('adminOrders', 'admin', compact('orders'));
+        } else {
+            $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
+        }    
     }
 
     public function selectProduct() {

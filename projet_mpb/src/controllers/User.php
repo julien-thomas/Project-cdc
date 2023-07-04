@@ -51,8 +51,7 @@ class User extends Controller
     public function register()
     {
 
-        // Template default
-        \Renderer::render('register', 'layout');
+        
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -136,52 +135,75 @@ class User extends Controller
         }
         */
         }
+        // Template default
+        \Renderer::render('register', 'layout');
     }
 
     public function opinion() {
         $model = new \Models\Opinion;
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_SESSION['user'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $opinion = [
-                'score' => trim($_POST['score']),
-                'pseudo' => trim($_POST['pseudo']),
-                'title' => trim($_POST['title']),
-                'opinion' => trim($_POST['opinion'])
-            ];
+                $opinion = [
+                    'score' => trim($_POST['score']),
+                    'pseudo' => trim($_POST['pseudo']),
+                    'title' => trim($_POST['title']),
+                    'opinion' => trim($_POST['opinion'])
+                ];
 
-            $errors = [];
+                $errors = [];
 
-            if (in_array('', $_POST))
-                $errors[] = 'Veuillez remplir tous les champs';
+                if (in_array('', $_POST))
+                    $errors[] = 'Veuillez remplir tous les champs';
 
-            if (strlen($opinion['pseudo']) < 3 || strlen($opinion['pseudo']) > 20)
-                $errors[] = 'Votre pseudo doit comporter entre 2 et 20 caractères';
+                if (strlen($opinion['pseudo']) < 2 || strlen($opinion['pseudo']) > 20)
+                    $errors[] = 'Votre pseudo doit comporter entre 2 et 20 caractères';
 
-            if (strlen($opinion['title']) < 3 || strlen($opinion['pseudo']) > 20)
-                $errors[] = 'Votre avis en 2 mots doit comporter entre 2 et 20 caractères';
+                if (strlen($opinion['title']) < 2 || strlen($opinion['pseudo']) > 20)
+                    $errors[] = 'Votre avis en 2 mots doit comporter entre 2 et 20 caractères';
 
-            $product_id = null;
-            if (!empty($_POST['product_id']) && ctype_digit($_POST['product_id'])) {
-                $product_id = $_POST['product_id'];
+                $product_id = null;
+                if (!empty($_POST['product_id']) && ctype_digit($_POST['product_id'])) {
+                    $product_id = $_POST['product_id'];
+                }
+
+                if (count($errors) === 0) {
+                    $model->addOpinion($opinion);
+                    // Norification de succès
+                    $_SESSION['success'] = 'Votre avis a bien été enregistré';
+                    // Redirection vers 
+                    //header('Location: index.php');
+                    //exit;
+                    header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
+                    exit;
+                } else {
+                    $_SESSION['error'] = $errors[0];
+                    header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
+                    exit;
+                }
+            }  
+            //\Renderer::render('productSheet', 'layout');
+        }    
+            else {
+            $_SESSION['error'] = 'Veuillez vous connecter';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
             }
-
-            if (count($errors) === 0) {
-                $model->addOpinion($opinion);
-                // Norification de succès
-                $_SESSION['success'] = 'Votre avis a bien été enregistré';
-                // Redirection vers 
-                //header('Location: index.php');
-                //exit;
-                header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
-                exit;
-            } else $_SESSION['error'] = $errors[0];
-        }
+        
     }
 
     public function member()
     {
-        $user = $this->model->getUser($_SESSION['user']['email']);
-        \Renderer::render('member', 'layout', compact('user'));
+        if (isset($_SESSION['user'])) {
+            $user = $this->model->getUser($_SESSION['user']['email']);
+            \Renderer::render('member', 'layout', compact('user'));
+        }  else {
+            $_SESSION['error'] = 'Veuillez vous connecter';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
+        }
     }
 
     public function changePassword() {

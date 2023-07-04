@@ -12,13 +12,13 @@
     <h3>Victime de son succès</h3>
 <?php endif; ?>
 
-<form action="index.php?controller=product&task=addToCart" method='POST'>
-    <input type="hidden" name="hidden_picture" value="<?= htmlspecialchars($product['picture']) ?>" />
+<form action="index.php?controller=product&task=addToCart&id=<?= htmlspecialchars($product['id']) ?>" method='POST'>
+    <!-- <input type="hidden" name="hidden_picture" value="<?= htmlspecialchars($product['picture']) ?>" />
     <input type="hidden" name="hidden_name" value="<?= htmlspecialchars($product['name']) ?>" />
     <input type="hidden" name="hidden_price" value="<?= htmlspecialchars($product['price']) ?>" />
-    <input type="hidden" name='hidden_id' value="<?= htmlspecialchars($product['id']) ?>">
-    <input type="text" name="quantity" value="1" />
-    <button class="button" name="add_to_cart" id="button"value='Add to Cart'>Ajouter au panier</button>
+    <input type="hidden" name='hidden_id' value="<?= htmlspecialchars($product['id']) ?>"> -->
+    <input type="text" name="quantity" id="quantity" value="1" />
+    <button class="button" name="add_to_cart" id="button" value='Add to Cart'>Ajouter au panier</button>
 </form>
 <!-- <a class="button" href="index.php?controller=product&task=addToCart&id=<?= htmlspecialchars($product['id']) ?>">Ajouter au panier</a> -->
 
@@ -66,15 +66,15 @@
             </div>
             <div class="field">
                 <label for="pseudo">Votre pseudo</label>
-                <input type="text" name='pseudo' id="pseudo" aria-describedby="emailHelp">
+                <input type="text" name='pseudo' value="<?php if(!empty($_POST['pseudo'])) echo $_POST['pseudo']; ?>" id="pseudo" aria-describedby="emailHelp">
             </div>
             <div class="field">
                 <label for="title">Votre avis en 2 mots</label>
-                <input type="text" name='title' id="title" aria-describedby="emailHelp">
+                <input type="text" name='title' value="<?php if(!empty($_POST['title'])) echo $_POST['title']; ?>" id="title" aria-describedby="emailHelp">
             </div>
             <div class="field">
                 <label for="opinion">Votre avis</label>
-                <textarea name='opinion' id="opinion" required></textarea>
+                <textarea name='opinion' id="opinion" required><?php if(!empty($_POST['opinion'])) echo $_POST['opinion']; ?></textarea>
             </div>
             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
             <button class="button">Je partage mon avis</button>

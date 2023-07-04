@@ -211,6 +211,27 @@ legend {
 	width: 30%;
 }
 
+/*test input sans div*/
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="email"],
+input[type*="date"],
+select,
+textarea {
+	width: 100%;
+}
+
+label {
+	width: 30%;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+/*fin test*/
+
 .field .value {
 	width: 70%;
 }
@@ -267,6 +288,18 @@ textarea {
 	min-height: 10em;
 }
 
+/* input:invalid {
+	border-color: #e60000;
+	background-color: #e60000;
+    } */
+
+input:invalid {
+	/* background-color: #e60000; */
+	color: #ffffff;
+	border: 2px solid #e60000;
+	border-radius: 0.3em;
+	box-shadow: 0 0 5px 1px #e60000;
+}
 /* *****************************************************************
 BUTTON
 ***************************************************************** */
@@ -278,6 +311,7 @@ BUTTON
 	font-size: 1.6rem;
 	color: #ffffff;
 	background-color: #9e121b;
+	transition: background-color 500ms ease;
 	border: 2px solid #9e121b;
 	border-radius: 0.3em;
 	cursor: pointer;
@@ -358,6 +392,7 @@ ESPACE ADMIN
 	font-size: 1.6rem;
 	color: #ffffff;
 	background-color: #0059b3;
+	transition: background-color 500ms ease;
 	border: 2px solid #0059b3;
 	border-radius: 0.3em;
 	cursor: pointer;
@@ -389,3 +424,15 @@ ESPACE ADMIN
 	border: 2px solid #04ac04;
 }
 
+/* *****************************************************************
+FORM JS
+***************************************************************** */
+
+span.form-error {
+    display: block;
+    background-color: #e60000;
+    color: ffffff;
+    padding: 1em;
+    border: 5px;
+    width: 90%
+}

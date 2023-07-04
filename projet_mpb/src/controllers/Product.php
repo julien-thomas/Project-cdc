@@ -111,20 +111,20 @@ class Product extends Controller
         $model = new \Models\Category;
         $categories = $model->getCategory();
 
-        
+
         /* if(ctype_digit($_GET['id'])) {
             $categories = $model->getCategory();
             $id = $_GET['id'];
             $product = $this->model->getOneProduct($id);
             \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
         } */
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                var_dump($_POST);
+                //var_dump($_FILES);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            var_dump($_POST);
-            //var_dump($_FILES);
-
-            // Tests upload
-            /* $target_dir = 'uploads/';
+                // Tests upload
+                /* $target_dir = 'uploads/';
             $target_file = $target_dir . basename($_FILES["upload"]["name"]);
             $allowed = ['jpg', 'jpeg', 'gif', 'png'];
             $filetype = $_FILES['upload']['type'];
@@ -142,24 +142,24 @@ class Product extends Controller
 
             $newname = md5(uniqid()) . '.' . $extension;
             $newfilepath = 'public/uploads/' . $newname; */
-            $errors = [];
+                $errors = [];
 
-            //$filename = $this->uploadFile($_FILES['upload'], $errors);
+                //$filename = $this->uploadFile($_FILES['upload'], $errors);
 
-            $newProduct = [
-                'name'          => trim($_POST['name']),
-                'title'         => trim($_POST['title']),
-                'description'   => trim($_POST['description']),
-                'stock'         => trim($_POST['stock']),
-                'price'         => trim($_POST['price']),
-                'grape'         => trim($_POST['grape']),
-                'country'       => trim($_POST['country']),
-                'vintage'       => trim($_POST['vintage']),
-                'category'      => $_POST['category'], //'',
-                'picture'       => ''  // self::UPLOADS_DIR . $filename
-            ];
+                $newProduct = [
+                    'name'          => trim($_POST['name']),
+                    'title'         => trim($_POST['title']),
+                    'description'   => trim($_POST['description']),
+                    'stock'         => trim($_POST['stock']),
+                    'price'         => trim($_POST['price']),
+                    'grape'         => trim($_POST['grape']),
+                    'country'       => trim($_POST['country']),
+                    'vintage'       => trim($_POST['vintage']),
+                    'category'      => $_POST['category'], //'',
+                    'picture'       => ''  // self::UPLOADS_DIR . $filename
+                ];
 
-            /*  switch($_POST['category']) {
+                /*  switch($_POST['category']) {
                 case 'Vin rouge':
                     $newProduct['category'] = 1;
                 break;
@@ -174,36 +174,36 @@ class Product extends Controller
 
 
 
-            if (in_array('', $_POST))
-                $errors[] = 'Veuillez remplir tous les champs';
+                if (in_array('', $_POST))
+                    $errors[] = 'Veuillez remplir tous les champs';
 
-            if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
-                $errors[] = 'Le nom doit comporter entre 2 et 50 caractères';
+                if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
+                    $errors[] = 'Le nom doit comporter entre 2 et 50 caractères';
 
-            if (strlen($newProduct['title']) < 3 || strlen($newProduct['title']) > 50)
-                $errors[] = 'Le nom doit comporter entre 2 et 50 caractères';
+                if (strlen($newProduct['title']) < 3 || strlen($newProduct['title']) > 50)
+                    $errors[] = 'Le nom doit comporter entre 2 et 50 caractères';
 
-            if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
-                $errors[] = 'Le nom doit comporter entre 2 et 50 caractères';
+                if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
+                    $errors[] = 'Le nom doit comporter entre 2 et 50 caractères';
 
-            if (!ctype_digit($newProduct['stock']) || $newProduct['stock'] > 99999)
-                $errors[] = 'Le stock doit être composé de chiffres uniquement et être inférieur à 99999';
-            // complete test price
-            if (!is_numeric($newProduct['price']))
-                $errors[] = 'Le prix doit être composé de chiffres avec 2 décimales maximum';
+                if (!ctype_digit($newProduct['stock']) || $newProduct['stock'] > 99999)
+                    $errors[] = 'Le stock doit être composé de chiffres uniquement et être inférieur à 99999';
+                // complete test price
+                if (!is_numeric($newProduct['price']))
+                    $errors[] = 'Le prix doit être composé de chiffres avec 2 décimales maximum';
 
-            if (strlen($newProduct['grape']) < 3 || strlen($newProduct['grape']) > 50)
-                $errors[] = 'Le cépage doit comporter entre 2 et 50 caractères';
+                if (strlen($newProduct['grape']) < 3 || strlen($newProduct['grape']) > 50)
+                    $errors[] = 'Le cépage doit comporter entre 2 et 50 caractères';
 
-            if (strlen($newProduct['country']) < 3 || strlen($newProduct['country']) > 50)
-                $errors[] = 'Le pays doit comporter entre 2 et 50 caractères';
+                if (strlen($newProduct['country']) < 3 || strlen($newProduct['country']) > 50)
+                    $errors[] = 'Le pays doit comporter entre 2 et 50 caractères';
 
-            if (!ctype_digit($newProduct['vintage']))
-                $errors[] = 'Le millésime doit être composé de chiffres uniquement';
+                if (!ctype_digit($newProduct['vintage']))
+                    $errors[] = 'Le millésime doit être composé de chiffres uniquement';
 
-            // Test picture to do
-            //if ($_FILES['upload']['error'] === UPLOAD_ERR_OK) 
-            /* 
+                // Test picture to do
+                //if ($_FILES['upload']['error'] === UPLOAD_ERR_OK) 
+                /* 
             if ($_FILES['upload']['error'] === UPLOAD_ERR_NO_FILE)
                 $errors[] = 'Aucun fichier envoyé';
 
@@ -214,54 +214,59 @@ class Product extends Controller
             if (!move_uploaded_file($_FILES['upload']['tmp_name'], $newfilepath))
                 $errors[] = 'Erreur : upload impossible';
  */
-            var_dump($errors);
-            if (!isset($_POST['token']) || !hash_equals($_SESSION['user']['token'], $_POST['token']))
-                $errors[] = 'Requête interdite';
-            var_dump($_FILES);
+                var_dump($errors);
+                if (!isset($_POST['token']) || !hash_equals($_SESSION['user']['token'], $_POST['token']))
+                    $errors[] = 'Requête interdite';
+                var_dump($_FILES);
 
-            if (count($errors) === 0) {
-                if (array_key_exists('id', $_GET)) {
-                    var_dump($_FILES);
-                    $product = $this->model->getOneProduct($_GET['id']);
-                    if($_FILES['upload']['name'] === '') {
-                        $newProduct['picture'] = $product['picture'];
-                    }
-                    else {
-                        $filename = $this->uploadFile($_FILES['upload'], $errors);
-                        if(count($errors) === 0) {
-                            $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                            unlink($product['picture']);
+                if (count($errors) === 0) {
+                    if (array_key_exists('id', $_GET)) {
+                        var_dump($_FILES);
+                        $product = $this->model->getOneProduct($_GET['id']);
+                        if ($_FILES['upload']['name'] === '') {
+                            $newProduct['picture'] = $product['picture'];
                         } else {
-                            $_SESSION['error'] = $errors[0];
-                            header('Location:index.php');
-                            exit;
+                            $filename = $this->uploadFile($_FILES['upload'], $errors);
+                            if (count($errors) === 0) {
+                                $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                                unlink($product['picture']);
+                            } else {
+                                $_SESSION['error'] = $errors[0];
+                                header('Location:index.php');
+                                exit;
+                            }
                         }
-                    }
-                    $this->model->updateOneProduct($newProduct, $_GET['id']);
-                    $_SESSION['success'] = "L'article a bien été modifié";
-                    header('Location:index.php?controller=admin&task=showAllProducts');
-                    exit;
-                } else {
-                    $filename = $this->uploadFile($_FILES['upload'], $errors);
-                    $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                    if(count($errors) === 0) {
-                        $this->model->addOneProduct($newProduct);
-                        $_SESSION['success'] = "L'article a bien été ajouté";
+                        $this->model->updateOneProduct($newProduct, $_GET['id']);
+                        $_SESSION['success'] = "L'article a bien été modifié";
                         header('Location:index.php?controller=admin&task=showAllProducts');
                         exit;
-                    } else $_SESSION['error'] = $errors[0];
-                }
-            } else $_SESSION['error'] = $errors[0];
-        }
+                    } else {
+                        $filename = $this->uploadFile($_FILES['upload'], $errors);
+                        $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                        if (count($errors) === 0) {
+                            $this->model->addOneProduct($newProduct);
+                            $_SESSION['success'] = "L'article a bien été ajouté";
+                            header('Location:index.php?controller=admin&task=showAllProducts');
+                            exit;
+                        } else $_SESSION['error'] = $errors[0];
+                    }
+                } else $_SESSION['error'] = $errors[0];
+            }
 
-        if (array_key_exists('id', $_GET)) {
-            $product = $this->model->getOneProduct($_GET['id']);
-            //var_dump($product);
-            //var_dump($_POST);
-            //var_dump($_SERVER);
-            \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+            if (array_key_exists('id', $_GET)) {
+                $product = $this->model->getOneProduct($_GET['id']);
+                //var_dump($product);
+                //var_dump($_POST);
+                //var_dump($_SERVER);
+                \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+            } else {
+                \Renderer::render('addProduct', 'admin', compact('categories'));
+            }
         } else {
-            \Renderer::render('addProduct', 'admin', compact('categories'));
+            $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
+            // Redirection vers login
+            header('Location: index.php?controller=user&task=login');
+            exit;
         }
     }
 
@@ -278,24 +283,27 @@ class Product extends Controller
             }
 
             $item_id_list = array_column($cart_data, 'item_id');
-
-            if (in_array($_POST["hidden_id"], $item_id_list)) {
-                foreach ($cart_data as $keys => $values) {
-                    if ($cart_data[$keys]["item_id"] === $_POST["hidden_id"]) {
-                        $cart_data[$keys]["item_quantity"] = $cart_data[$keys]["item_quantity"] + $_POST["quantity"];
+            if (isset($_GET["id"])) {
+                $product_id = $_GET["id"];
+                $product = $this->model->getOneProduct($product_id);
+                //if (in_array($_POST["hidden_id"], $item_id_list)) {
+                if (in_array($product_id, $item_id_list)) {
+                    foreach ($cart_data as $keys => $values) {
+                        if ($cart_data[$keys]["item_id"] === $product_id) {
+                            $cart_data[$keys]["item_quantity"] = $cart_data[$keys]["item_quantity"] + $_POST["quantity"];
+                        }
                     }
+                } else {
+                    $item_array = [
+                        'item_id'           => $product_id, //$_POST["hidden_id"],
+                        'item_name'         => $product['name'], //$_POST["hidden_name"],
+                        'item_price'        => $product['price'], //$_POST["hidden_price"],
+                        'item_quantity'     => trim($_POST["quantity"]),
+                        'item_picture'      => $product['picture'] //$_POST["hidden_picture"]
+                    ];
+                    $cart_data[] = $item_array;
                 }
-            } else {
-                $item_array = [
-                    'item_id'           => $_POST["hidden_id"],
-                    'item_name'         => $_POST["hidden_name"],
-                    'item_price'        => $_POST["hidden_price"],
-                    'item_quantity'     => $_POST["quantity"],
-                    'item_picture'      => $_POST["hidden_picture"]
-                ];
-                $cart_data[] = $item_array;
             }
-
 
 
             $item_data = json_encode($cart_data);
