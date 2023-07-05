@@ -275,6 +275,7 @@ class Product extends Controller
 
         if (isset($_POST["add_to_cart"])) {
             var_dump($_COOKIE);
+            
             if (isset($_COOKIE["shopping_cart"])) {
                 $cookie_data = stripslashes($_COOKIE['shopping_cart']);
 
@@ -287,6 +288,10 @@ class Product extends Controller
             var_dump($item_id_list);
             if (isset($_GET["id"])) {
                 $product_id = $_GET["id"];
+                if(!ctype_digit($_POST["quantity"]) || $_POST["quantity"] === '' ) {
+                    $_SESSION['error'] = 'Quantité non valide';
+                    header('Location: index.php?controller=product&task=showOne&id=' . $product_id);
+                }
                 //if (in_array($_POST["hidden_id"], $item_id_list)) {
                 if (in_array($product_id, $item_id_list)) {
                     foreach ($cart_data as $keys => $values) {
@@ -307,7 +312,7 @@ class Product extends Controller
             }
 
 
-            $item_data = json_encode($cart_data);
+            $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE); // JSON_UNESCAPED_UNICODE encodes characters correctly
             setcookie('shopping_cart', $item_data, time() + (86400 * 30));
             //var_dump(json_decode($_COOKIE['shopping_cart']));
             //die;
@@ -321,7 +326,7 @@ class Product extends Controller
             foreach ($cart_data as $keys => $values) {
                 if ($cart_data[$keys]['item_id'] === $_GET["id"]) {
                     unset($cart_data[$keys]);
-                    $item_data = json_encode($cart_data);
+                    $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE); // JSON_UNESCAPED_UNICODE encodes characters correctly
                     setcookie("shopping_cart", $item_data, time() + (86400 * 30));
                     header("Location:index.php?controller=product&task=showCart");
                 }

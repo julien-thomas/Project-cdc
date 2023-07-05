@@ -72,14 +72,14 @@ class Form {
             
             if (field.name === 'firstname') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ firstname: 'firstname invalide' });
+                    this.error.record({ firstname: 'Prénom invalide' });
                 }
                 this._contact.firstname = field.value;
             }
 
             if (field.name === 'lastname') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ lastname: 'lastname invalide' });
+                    this.error.record({ lastname: 'Nom invalide' });
                 }
                 this._contact.lastname = field.value;
             }
@@ -93,63 +93,63 @@ class Form {
 
             if (field.name === 'address') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ address: 'address invalide' });
+                    this.error.record({ address: 'aAdresse invalide' });
                 }
                 this._contact.address = field.value;
             }
 
             if (field.name === 'zipCode') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ zipCode: 'zipCode invalide' });
+                    this.error.record({ zipCode: 'Code postal invalide' });
                 }
                 this._contact.zipCode = field.value;
             }
 
             if (field.name === 'city') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ city: 'city invalide' });
+                    this.error.record({ city: 'Ville invalide' });
                 }
                 this._contact.city = field.value;
             }
 
             if (field.name === 'country') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ country: 'country invalide' });
+                    this.error.record({ country: 'Pays invalide' });
                 }
                 this._contact.country = field.value;
             }
 
             if (field.name === 'password') {
                 if (!field.value || field.value.length < 8) {
-                    this.error.record({ password: 'password invalide' });
+                    this.error.record({ password: 'Mot de passe invalide' });
                 }
                 this._contact.password = field.value;
             }
 
             if (field.name === 'newPasswordConfirm') {
                 if (!field.value || field.value.length < 8) {
-                    this.error.record({ newPasswordConfirm: 'password invalide' });
+                    this.error.record({ newPasswordConfirm: 'Mot de passe invalide' });
                 }
                 this._contact.newPasswordConfirm = field.value;
             }
 
             if (field.name === 'currentPassword') {
                 if (!field.value || field.value.length < 8) {
-                    this.error.record({ currentPassword: 'password invalide' });
+                    this.error.record({ currentPassword: 'Mot de passe invalide' });
                 }
                 this._contact.currentPassword = field.value;
             }
 
             if (field.name === 'newPassword') {
                 if (!field.value || field.value.length < 8) {
-                    this.error.record({ newPassword: 'password invalide' });
+                    this.error.record({ newPassword: 'Mot de passe invalide' });
                 }
                 this._contact.newPassword = field.value;
             }
 
             if (field.name === 'quantity') {
-                if (!field.value) {
-                    this.error.record({ quantity: 'quantity invalide' });
+                if (!field.value || !field.value.match(/^\d+$/)) {
+                    this.error.record({ quantity: 'Quantité invalide' });
                 }
                 this._contact.quantity = field.value;
             }

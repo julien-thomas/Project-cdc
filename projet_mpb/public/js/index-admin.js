@@ -33,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     function validateForm(e) {
-        if(!form.isValid) {
-            e.preventDefault();
-        }
+        
         const inputs = this.querySelectorAll('input');
         console.log('inputs:' + inputs);
         if (form.validate(inputs)) {
@@ -46,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             form.createError();
         }
+        if(!form.isValid) {
+            e.preventDefault();
+        }
     }
     
     });
@@ -53,11 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-/* document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     
     document.querySelector("#block-opinion").addEventListener('click', validateBlock);
     function validateBlock() {
         console.log('test');
-        return window.confirm(`Êtes vous sûr de vouloir bloquer cet avis ?!`);
+        window.confirm(`Êtes vous sûr de vouloir bloquer cet avis ?!`)
     }
-}); */
+}); 

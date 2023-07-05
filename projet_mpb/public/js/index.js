@@ -26,17 +26,17 @@ const form = new Form();
 const contacts = JSON.parse(localStorage.getItem('valid-contact')) || [];
 const inputs = document.querySelectorAll('input');
 
-document.querySelector('form').addEventListener('submit', validateForm);
-
 console.log('inputs:' + inputs);
 inputs.forEach.call(inputs, input => {
     input.addEventListener('keydown', form.removeError);
 });
 
-function validateForm(e) {
-    if(!form.isValid) {
-        e.preventDefault();
-    }
+//document.querySelector('form').addEventListener('submit', validateForm);
+
+document.querySelector('form').addEventListener('submit', function(e) {
+//function validateForm(e) {
+    //form.isValid = e.form.isValid;
+    
     const inputs = this.querySelectorAll('input');
     console.log('inputs:' + inputs);
     if (form.validate(inputs)) {
@@ -47,7 +47,11 @@ function validateForm(e) {
     } else {
         form.createError();
     }
-}
+    if(!form.isValid) {
+        e.preventDefault();
+    }
+//}
+});
 
 });
 
