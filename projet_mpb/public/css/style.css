@@ -171,6 +171,7 @@ footer {
 	background-color:  #444;
 }
 
+.logo-img,
 .product-img {
 	width: 100px;
 }
@@ -342,6 +343,7 @@ TABLE
 .table {
 	width: 100%;
 	border-collapse: collapse;
+	text-align: center;
 }
 .table caption,
 .table th,

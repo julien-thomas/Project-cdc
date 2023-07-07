@@ -43,7 +43,7 @@ class Product extends Model {
      * @param integer $id
      * @return array
      */
-    public function getOneProduct($id) :null|array {
+    public function getOneProduct($id) :bool|array {
         $req = 'SELECT categories.category AS category, categories_id, products.id, name, selected, `description`, stock, vintage, price, products.title, grape, picture, country
         FROM products
         INNER JOIN categories ON products.categories_id = categories.id

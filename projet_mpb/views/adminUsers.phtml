@@ -11,9 +11,9 @@
     <tbody>
         <?php foreach ($users as $user) : ?>
             <tr>
-                <td><?= $user['id'] ?></td>
-                <td><?= $user['firstname'], ' ', $user['lastname'] ?></td>
-                <td><?= $user['email'] ?></td>
+                <td><?= htmlspecialchars($user['id']) ?></td>
+                <td><?= htmlspecialchars($user['firstname']), ' ', htmlspecialchars($user['lastname']) ?></td>
+                <td><?= htmlspecialchars($user['email']) ?></td>
                 <td class="actions">
                     <?php if ($user['blocked'] === 'false') : ?>
                         <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Bloquer</a>

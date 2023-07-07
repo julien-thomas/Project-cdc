@@ -13,8 +13,8 @@
     <tbody>
         <?php foreach ($products as $product) : ?>
             <tr>
-                <td><?= $product['id'] ?></td>
-                <td><?= $product['name'] ?></td>
+                <td><?= htmlspecialchars($product['id']) ?></td>
+                <td><?= htmlspecialchars($product['name']) ?></td>
                 <td class="actions">
                     <a class="button-admin" href="index.php?controller=product&task=addOrUpdateProduct&id=<?= htmlspecialchars($product['id']) ?>">Modifier</a>
                     <?php if ($product['selected'] === 0) : ?>

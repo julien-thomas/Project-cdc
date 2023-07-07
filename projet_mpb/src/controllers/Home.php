@@ -39,8 +39,9 @@ class Home extends Controller {
                 // Norification de succès
                 $_SESSION['success'] = 'Votre message a bien été envoyé';
                 // Redirection vers login
-                header('Location: index.php');
-                exit;
+                /* header('Location: index.php');
+                exit; */
+                \Redirection::redirect('index.php');
             } else $_SESSION['error'] = $errors[0];
     }
     \Renderer::render('contact', 'layout');

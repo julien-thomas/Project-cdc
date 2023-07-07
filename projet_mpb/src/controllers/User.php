@@ -33,8 +33,9 @@ class User extends Controller
                                 // Norification de succès
                                 $_SESSION['success'] = 'Vous êtes bien connecté';
                                 // Redirection vers home
-                                header('Location: index.php');
-                                exit;
+                                //header('Location: index.php');
+                                //exit;
+                                \Redirection::redirect('index.php');
                                 // \Renderer::render('home');
                             } else $_SESSION['error'] = 'Votre compte a été bloqué';
                         } else $_SESSION['error'] = 'Erreur : Mot de passe invalide';
@@ -174,12 +175,14 @@ class User extends Controller
                     // Redirection vers 
                     //header('Location: index.php');
                     //exit;
-                    header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
-                    exit;
+                    /* header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
+                    exit; */
+                    \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 } else {
                     $_SESSION['error'] = $errors[0];
-                    header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
-                    exit;
+                    /* header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
+                    exit; */
+                    \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 }
             }  
             //\Renderer::render('productSheet', 'layout');
@@ -187,8 +190,9 @@ class User extends Controller
             else {
             $_SESSION['error'] = 'Veuillez vous connecter';
             // Redirection vers login
-            header('Location: index.php?controller=user&task=login');
-            exit;
+            /* header('Location: index.php?controller=user&task=login');
+            exit; */
+            \Redirection::redirect('index.php?controller=user&task=login');
             }
         
     }
@@ -201,8 +205,9 @@ class User extends Controller
         }  else {
             $_SESSION['error'] = 'Veuillez vous connecter';
             // Redirection vers login
-            header('Location: index.php?controller=user&task=login');
-            exit;
+            /* header('Location: index.php?controller=user&task=login');
+            exit; */
+            \Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -223,8 +228,9 @@ class User extends Controller
                                 try {
                                 $this->model->newPassword($_POST['newPassword']);
                                 $_SESSION['success'] = 'Changement de mot de passe réussi';
-                                header('Location: index.php?controller=user&task=member');
-                                exit;
+                                /* header('Location: index.php?controller=user&task=member');
+                                exit; */
+                                \Redirection::redirect('index.php?controller=user&task=member');
                                 } catch (\PDOException $e) {
                                 $_SESSION['error'] = 'Une erreur est survenue lors de la tentative de mise à jour, merci de réessayer plus tard';
                                 }
@@ -236,8 +242,9 @@ class User extends Controller
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter';
             // Redirection vers login
-            header('Location: index.php?controller=user&task=login');
-            exit;
+            /* header('Location: index.php?controller=user&task=login');
+            exit; */
+            \Redirection::redirect('index.php?controller=user&task=login');
         }
         \Renderer::render('changePassword', 'layout');
     }
@@ -254,8 +261,9 @@ class User extends Controller
         // Notification de succès
         $_SESSION['success'] = 'Vous êtes bien déconnecté';
         // Template default
-        header('Location: index.php');
-        exit;
+        /* header('Location: index.php');
+        exit; */
+        \Redirection::redirect('index.php');
     }
 
     public function myOrders()

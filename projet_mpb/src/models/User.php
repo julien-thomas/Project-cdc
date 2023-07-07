@@ -18,6 +18,12 @@ class User extends Model {
         return $this-> findOne($req, [':mail' => $email]);
     }
 
+    public function getUserbyId(int $id): bool|array
+    {
+        $req = 'SELECT id, blocked FROM users WHERE id = :id';
+        return $this-> findOne($req, [':id' => $id]);
+    }
+
     public function getallUsers(): bool|array
     {
         $req = 'SELECT id, firstname, lastname, address, zipCode, city, country, birthday, email, password, roles_id, blocked FROM users';
@@ -60,12 +66,12 @@ class User extends Model {
         //var_dump($val);
     }
 
-    public function setUser($status, $email) {
+    public function setUser($status, $user_id) {
         $newData = [
             'blocked' => $status
         ];
-        $val = $email;
-        $this->updateOne('users', $newData, 'email', $val);
+        $val = $user_id;
+        $this->updateOne('users', $newData, 'id', $val);
     }
 }
 

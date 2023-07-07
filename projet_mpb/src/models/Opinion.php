@@ -57,4 +57,8 @@ class Opinion extends Model {
         $val = $id;
         $this->updateOne('opinions', $newData, 'id', $val);
     }
+
+    public function deleteOpinionById($opinion_id) {
+        $this->deleteOne('opinions', 'id', $opinion_id);
+    }
 }

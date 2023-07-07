@@ -34,20 +34,22 @@ class Product extends Controller
 
     public function showOne()
     {
-        /*
+        
         // On part du principe qu'on ne possède pas de param "id"
         $product_id = null;
-*/
+
         // Mais si il y en a un et que c'est un nombre entier :
         // if (!empty($_GET['id']) && ctype_digit($_GET['id'])) 
         $product_id = $_GET['id'];
 
-        /*
         // On peut désormais décider : erreur ou pas ?!
-        if (!$product_id) {
-            die("Vous devez préciser un paramètre `id` dans l'URL !");
-        }
-*/
+        if (!$product_id || !$this->model->getOneProduct($product_id)) {
+            $_SESSION['error'] = 'Ce produit n\'existe pas';
+            /* header('Location:index.php?controller=home&task=showHomePage');
+            exit; */
+            \Redirection::redirect('index.php?controller=home&task=showHomePage');
+        } else {
+
         $model = new \Models\Opinion;
         $opinions = $model->getAllOpinionsByProduct($product_id);
         /**
@@ -55,6 +57,7 @@ class Product extends Controller
          */
         $product = $this->model->getOneProduct($product_id);
         \Renderer::render('productSheet', 'layout', compact('product', 'opinions'));
+        }
     }
 
     public function showAllOpinions()
@@ -222,51 +225,75 @@ class Product extends Controller
                 if (count($errors) === 0) {
                     if (array_key_exists('id', $_GET)) {
                         var_dump($_FILES);
-                        $product = $this->model->getOneProduct($_GET['id']);
-                        if ($_FILES['upload']['name'] === '') {
-                            $newProduct['picture'] = $product['picture'];
+                        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                            $product_id = $_GET['id'];
+                        }
+                        if (!$product_id || !$this->model->getOneProduct($product_id)) {
+                            $_SESSION['error'] = 'Ce produit n\'existe pas';
+                            /* header('Location:index.php?controller=admin&task=showAllProducts');
+                            exit; */
+                            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                        } else {
+                            $product = $this->model->getOneProduct($_GET['id']);
+                            if ($_FILES['upload']['name'] === '') {
+                                $newProduct['picture'] = $product['picture'];
+                            } else {
+                                $filename = $this->uploadFile($_FILES['upload'], $errors);
+                                if (count($errors) === 0) {
+                                    $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                                    unlink($product['picture']);
+                                } else {
+                                    $_SESSION['error'] = $errors[0];
+                                    /* header('Location:index.php');
+                                    exit; */
+                                    \Redirection::redirect('index.php');
+                                }
+                            }
+                            $this->model->updateOneProduct($newProduct, $_GET['id']);
+                            $_SESSION['success'] = "L'article a bien été modifié";
+                            /* header('Location:index.php?controller=admin&task=showAllProducts');
+                            exit; */
+                            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            }
                         } else {
                             $filename = $this->uploadFile($_FILES['upload'], $errors);
+                            $newProduct['picture'] = self::UPLOADS_DIR . $filename;
                             if (count($errors) === 0) {
-                                $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                                unlink($product['picture']);
-                            } else {
-                                $_SESSION['error'] = $errors[0];
-                                header('Location:index.php');
-                                exit;
-                            }
+                                $this->model->addOneProduct($newProduct);
+                                $_SESSION['success'] = "L'article a bien été ajouté";
+                                /* header('Location:index.php?controller=admin&task=showAllProducts');
+                                exit; */
+                                \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            } else $_SESSION['error'] = $errors[0];
                         }
-                        $this->model->updateOneProduct($newProduct, $_GET['id']);
-                        $_SESSION['success'] = "L'article a bien été modifié";
-                        header('Location:index.php?controller=admin&task=showAllProducts');
-                        exit;
-                    } else {
-                        $filename = $this->uploadFile($_FILES['upload'], $errors);
-                        $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                        if (count($errors) === 0) {
-                            $this->model->addOneProduct($newProduct);
-                            $_SESSION['success'] = "L'article a bien été ajouté";
-                            header('Location:index.php?controller=admin&task=showAllProducts');
-                            exit;
-                        } else $_SESSION['error'] = $errors[0];
-                    }
                 } else $_SESSION['error'] = $errors[0];
             }
 
             if (array_key_exists('id', $_GET)) {
+                if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                    $product_id = $_GET['id'];
+                }
+                if (!$product_id || !$this->model->getOneProduct($product_id)) {
+                    $_SESSION['error'] = 'Ce produit n\'existe pas';
+                    /* header('Location:index.php?controller=admin&task=showAllProducts');
+                    exit; */
+                    \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                } else {
                 $product = $this->model->getOneProduct($_GET['id']);
                 //var_dump($product);
                 //var_dump($_POST);
                 //var_dump($_SERVER);
                 \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+                }
             } else {
                 \Renderer::render('addProduct', 'admin', compact('categories'));
             }
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
-            header('Location: index.php?controller=user&task=login');
-            exit;
+            /* header('Location: index.php?controller=user&task=login');
+            exit; */
+            \Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -290,7 +317,8 @@ class Product extends Controller
                 $product_id = $_GET["id"];
                 if(!ctype_digit($_POST["quantity"]) || $_POST["quantity"] === '' ) {
                     $_SESSION['error'] = 'Quantité non valide';
-                    header('Location: index.php?controller=product&task=showOne&id=' . $product_id);
+                    /* header('Location: index.php?controller=product&task=showOne&id=' . $product_id); */
+                    \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 }
                 //if (in_array($_POST["hidden_id"], $item_id_list)) {
                 if (in_array($product_id, $item_id_list)) {
@@ -316,28 +344,39 @@ class Product extends Controller
             setcookie('shopping_cart', $item_data, time() + (86400 * 30));
             //var_dump(json_decode($_COOKIE['shopping_cart']));
             //die;
-            header("Location:index.php?controller=product&task=showCart");
+            /* header("Location:index.php?controller=product&task=showCart"); */
+            \Redirection::redirect('index.php?controller=product&task=showCart');
         }
 
         /* remove products from cart */
-        if ($_GET["action"] === "delete") {
-            $cookie_data = stripslashes($_COOKIE['shopping_cart']);
-            $cart_data = json_decode($cookie_data, true);
-            foreach ($cart_data as $keys => $values) {
-                if ($cart_data[$keys]['item_id'] === $_GET["id"]) {
-                    unset($cart_data[$keys]);
-                    $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE); // JSON_UNESCAPED_UNICODE encodes characters correctly
-                    setcookie("shopping_cart", $item_data, time() + (86400 * 30));
-                    header("Location:index.php?controller=product&task=showCart");
+        if ($_GET["action"] === "delete") 
+        {
+            if (isset($_GET["id"])) {
+                $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+                $cart_data = json_decode($cookie_data, true);
+                foreach ($cart_data as $keys => $values) {
+                    if ($cart_data[$keys]['item_id'] === $_GET["id"]) {
+                        unset($cart_data[$keys]);
+                        $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE); // JSON_UNESCAPED_UNICODE encodes characters correctly
+                        setcookie("shopping_cart", $item_data, time() + (86400 * 30));
+                        /* header("Location:index.php?controller=product&task=showCart"); */
+                        \Redirection::redirect('index.php?controller=product&task=showCart');
+                    }
+                } 
+            } else {
+                $_SESSION['error'] = 'Aucun produit sélectionné';
+                /* header('Location:index.php?controller=product&task=showCart');
+                exit; */
+                \Redirection::redirect('index.php?controller=product&task=showCart');
                 }
-            }
         }
 
         /* clear cart */
         if ($_GET["action"] === "clear") {
             setcookie("shopping_cart", "", time() - 3600);
             setcookie("totalQuantity", "", time() - 3600);
-            header("Location:index.php?controller=product&task=showCart");
+            /* header("Location:index.php?controller=product&task=showCart"); */
+            \Redirection::redirect('index.php?controller=product&task=showCart');
         }
 
 
@@ -373,11 +412,12 @@ class Product extends Controller
     public function showCart()
     {
         if (isset($_COOKIE["shopping_cart"])) {
-            $total = 0;
+            //$total = 0;
             
             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
             $cart_data = json_decode($cookie_data, true);
             var_dump($cart_data);
+            $totalQuantity = 0;
             foreach ($cart_data as $keys => $values) {
                 /* if ($cart_data[$keys]["item_id"] === $product_id) {
                     $cart_data[$keys]["item_quantity"] = $cart_data[$keys]["item_quantity"] + $_POST["quantity"]; */
@@ -386,6 +426,9 @@ class Product extends Controller
                     $cart_data[$keys]['item_price'] = $product['price'];
                     $cart_data[$keys]['item_picture'] = $product['picture'];
                     //$cart_data[] = $item_array;
+                    $totalQuantity = $totalQuantity + $values["item_quantity"];
+                    var_dump($totalQuantity);
+                    setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30));
                 /* $item_array = [
                 'item_id'           =>
                 'item_name'         => $product['name'], 
@@ -395,6 +438,7 @@ class Product extends Controller
         } 
             
             var_dump($cart_data);
+            var_dump($_COOKIE);
             //die;
             \Renderer::render('cart', 'layout', compact('cart_data'));
             //$total = $total + ($values["item_quantity"] * $values["item_price"]);

@@ -33,4 +33,8 @@ class Contact extends Model {
         $val = $id;
         $this->updateOne('contacts', $newData, 'id', $val);
     }
+
+    public function deleteContactById($contact_id) {
+        $this->deleteOne('contacts', 'id', $contact_id);
+    }
 }

@@ -3,16 +3,16 @@
 namespace Models;
 require_once 'Database.php';
 
-abstract class Model extends Database
+abstract class Model //extends Database
 {
-    // protected $bdd;
+    protected $bdd;
     // protected $table;
-/*
+
     public function __construct()
     {
         $this->bdd = \Models\Database::getPdo();
     }
-
+/*
     /**
      * Retourne un item grâce à son identifiant
      * 

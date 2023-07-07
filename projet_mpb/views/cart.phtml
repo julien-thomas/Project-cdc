@@ -10,7 +10,7 @@
             <th>Action</th>
         </thead>
         <tbody >
-            <?php $total = 0; $totalQuantity = 0;
+            <?php $total = 0; /* $totalQuantity = 0; */
             foreach ($cart_data as $keys => $values) : ?>
                 <tr>
                     <td class="cart"><img class='cart-img' src='<?= htmlspecialchars($values['item_picture']) ?>' /></td>
@@ -24,14 +24,15 @@
                     <td class="actions cart"><a  class='button delete' href='index.php?controller=product&task=addToCart&action=delete&id=<?= $values['item_id']; ?>'>Supprimer</td>
                 </tr>
             <?php $total = $total + ($values["item_quantity"] * $values['item_price']);
-            $totalQuantity = $totalQuantity + $values["item_quantity"];
-            setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30));
+            /* $totalQuantity = $totalQuantity + $values["item_quantity"];
+            setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30)); */
             /* var_dump($totalQuantity);
             var_dump($_COOKIE); */
             endforeach ?>
         </tbody>
         <tfoot>
-            <th colspan="5">Total <?= number_format($total, 2); ?>€</th>
+            <th colspan="4"></th>
+            <th>Total <?= number_format($total, 2); ?>€</th>
             <th><a href='index.php?controller=product&task=addToCart&action=clear' class="button delete">Vider mon panier</a></th>
         </tfoot>
         

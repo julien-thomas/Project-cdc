@@ -3,6 +3,7 @@
 <table id="contacts" class="table table-striped">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Sujet</th>
             <th>email</th>
             <th>contenu</th>
@@ -13,16 +14,22 @@
     <tbody>
         <?php foreach ($contacts as $contact) : ?>
             <tr>
-                <td><?= $contact['subject'] ?></td>
-                <td><?= $contact['email'] ?></td>
-                <td><?= $contact['content'] ?></td>
-                <td><?= $contact['created_at'] ?></td>
+                <td><?= htmlspecialchars($contact['id']) ?></td>
+                <td><?= htmlspecialchars($contact['subject']) ?></td>
+                <td><?= htmlspecialchars($contact['email']) ?></td>
+                <td><?= htmlspecialchars($contact['content']) ?></td>
+                <td><?= htmlspecialchars($contact['created_at']) ?></td>
                 <td class="actions">
                     <?php if ($contact['processed'] === 'off') : ?>
                         <a class="button-admin" href="index.php?controller=admin&task=processContact&id=<?= htmlspecialchars($contact['id']) ?>">Traité?</a>
                     <?php else : ?>
                         <a class="contact-processed button-admin" href="index.php?controller=admin&task=processContact&id=<?= htmlspecialchars($contact['id']) ?>">Traité</a>
                     <?php endif; ?>
+                    <form action="index.php?controller=admin&task=deleteContact" method='POST'>
+                        <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+                        <input type="hidden" name='contact_id' value="<?= htmlspecialchars($contact['id']) ?>">
+                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce contact ?!`)" id="delete-contact">Supprimer</button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
