@@ -268,6 +268,6 @@ class User extends Controller
 
     public function myOrders()
     {
-        \Renderer::render('order', 'layout');
+        \Renderer::render('myOrders', 'layout');
     }
 }

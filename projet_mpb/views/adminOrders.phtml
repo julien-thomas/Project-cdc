@@ -2,6 +2,8 @@
 <table id="orders" class="table table-striped">
     <thead>
         <tr>
+            <th>ID</th>
+            <th>Date de commande</th>
             <th>Utilisateur</th>
             <th>Statut</th>
             <th>Actions</th>
@@ -10,6 +12,8 @@
     <tbody>
         <?php foreach ($orders as $order) : ?>
             <tr>
+                <td><?= $order['id'] ?></td>
+                <td><?= $order['orderDate'] ?></td>
                 <td><?= $order['firstname'], ' ', $order['lastname'] ?></td>
                 <td><?= $order['status'] ?></td>
                 <td class="actions"><a class="button-admin" href="#">Modifier</a><a class="button-admin delete" href="#">Supprimer</a></td>

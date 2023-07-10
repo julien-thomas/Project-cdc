@@ -1,1 +1,29 @@
-<h1>Mes commandes</h1>
+<h1>Ma commande</h1>
+
+<h3>Adresse de livraison</h3>
+    <div class="box">
+        <h4><?= htmlspecialchars($user['firstname']); ?> <?= htmlspecialchars($user['lastname']); ?></h4>
+        <p><?= htmlspecialchars($user['address']); ?></p>
+        <p><?= htmlspecialchars($user['zipCode']); ?></p>
+        <p><?= htmlspecialchars($user['city']); ?></p>
+        <p><?= htmlspecialchars($user['country']); ?></p>
+    </div>
+
+<h3>Résumé de la commande</h3>
+    <div class="box">
+        <?php foreach ($cart_data as $data) : ?>
+            <p><img class='cart-img' src='<?= htmlspecialchars($data['item_picture']); ?>'/></p>
+            <p><?= htmlspecialchars($data['item_name']); ?> x <?= htmlspecialchars($data['item_quantity']); ?></p>
+            <p><?= htmlspecialchars($data['item_price']) * htmlspecialchars($data['item_quantity']); ?> €</p>
+        <?php endforeach ?>
+    </div>
+
+<h4>Prix total <?= $newOrder['total_price']?> €</h4>
+
+<!-- <form action="index.php?controller=product&task=validateOrder" method='POST'>
+    <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+    <input type="hidden" name="price" value="<?= $newOrder['total_price'] ?>" />
+    <input type="hidden" name="quantity" value="<?= $newOrder['qty_total'] ?>" />
+    <button class="button" type="submit" name="validateOrder">Valider</button>
+</form> -->
+<a class="button" href="index.php?controller=product&task=showCart&action=validate">valider</a>

@@ -8,7 +8,7 @@ class Product extends Model {
 
     // protected $table = 'products';
     /**
-     * Returns all products in stock with a limit of 20 products
+     * Returns all products with a limit of 20 products
      * 
      * @return array
      */

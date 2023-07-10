@@ -1,0 +1,29 @@
+<h1>Mes commandes</h1>
+
+<?php var_dump($orders) ?>
+<?php if (!empty($orders)) : ?>
+    <table class="table">
+        <thead>
+            <th>Date</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Statut</th>
+        </thead>
+        <tbody >
+            <?php 
+            foreach ($orders as $order) : ?>
+                <tr>
+                    <td><?= htmlspecialchars($order['orderDate']) ?></td>
+                    <td><?= htmlspecialchars($order['total_price']) ?></td>
+                    <td><?= htmlspecialchars($order['qty_total']) ?></td>
+                    <td><?= htmlspecialchars($order['status']) ?></td>
+                    <td class="actions"><a class="button" href="#">Détails</a></td>
+                </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+    
+
+        <?php else : ?>
+    <p>Vous n'avez pas encore passé de commande</p>
+<?php endif ?>

@@ -34,7 +34,7 @@ class Product extends Controller
 
     public function showOne()
     {
-        
+
         // On part du principe qu'on ne possède pas de param "id"
         $product_id = null;
 
@@ -50,13 +50,13 @@ class Product extends Controller
             \Redirection::redirect('index.php?controller=home&task=showHomePage');
         } else {
 
-        $model = new \Models\Opinion;
-        $opinions = $model->getAllOpinionsByProduct($product_id);
-        /**
-         * Récupération de l'article en question
-         */
-        $product = $this->model->getOneProduct($product_id);
-        \Renderer::render('productSheet', 'layout', compact('product', 'opinions'));
+            $model = new \Models\Opinion;
+            $opinions = $model->getAllOpinionsByProduct($product_id);
+            /**
+             * Récupération de l'article en question
+             */
+            $product = $this->model->getOneProduct($product_id);
+            \Renderer::render('productSheet', 'layout', compact('product', 'opinions'));
         }
     }
 
@@ -254,18 +254,18 @@ class Product extends Controller
                             /* header('Location:index.php?controller=admin&task=showAllProducts');
                             exit; */
                             \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
-                            }
-                        } else {
-                            $filename = $this->uploadFile($_FILES['upload'], $errors);
-                            $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                            if (count($errors) === 0) {
-                                $this->model->addOneProduct($newProduct);
-                                $_SESSION['success'] = "L'article a bien été ajouté";
-                                /* header('Location:index.php?controller=admin&task=showAllProducts');
-                                exit; */
-                                \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
-                            } else $_SESSION['error'] = $errors[0];
                         }
+                    } else {
+                        $filename = $this->uploadFile($_FILES['upload'], $errors);
+                        $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                        if (count($errors) === 0) {
+                            $this->model->addOneProduct($newProduct);
+                            $_SESSION['success'] = "L'article a bien été ajouté";
+                            /* header('Location:index.php?controller=admin&task=showAllProducts');
+                                exit; */
+                            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                        } else $_SESSION['error'] = $errors[0];
+                    }
                 } else $_SESSION['error'] = $errors[0];
             }
 
@@ -279,11 +279,11 @@ class Product extends Controller
                     exit; */
                     \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
                 } else {
-                $product = $this->model->getOneProduct($_GET['id']);
-                //var_dump($product);
-                //var_dump($_POST);
-                //var_dump($_SERVER);
-                \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+                    $product = $this->model->getOneProduct($_GET['id']);
+                    //var_dump($product);
+                    //var_dump($_POST);
+                    //var_dump($_SERVER);
+                    \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
                 }
             } else {
                 \Renderer::render('addProduct', 'admin', compact('categories'));
@@ -302,7 +302,7 @@ class Product extends Controller
 
         if (isset($_POST["add_to_cart"])) {
             var_dump($_COOKIE);
-            
+
             if (isset($_COOKIE["shopping_cart"])) {
                 $cookie_data = stripslashes($_COOKIE['shopping_cart']);
 
@@ -315,7 +315,7 @@ class Product extends Controller
             var_dump($item_id_list);
             if (isset($_GET["id"])) {
                 $product_id = $_GET["id"];
-                if(!ctype_digit($_POST["quantity"]) || $_POST["quantity"] === '' ) {
+                if (!ctype_digit($_POST["quantity"]) || $_POST["quantity"] === '') {
                     $_SESSION['error'] = 'Quantité non valide';
                     /* header('Location: index.php?controller=product&task=showOne&id=' . $product_id); */
                     \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
@@ -349,8 +349,7 @@ class Product extends Controller
         }
 
         /* remove products from cart */
-        if ($_GET["action"] === "delete") 
-        {
+        if ($_GET["action"] === "delete") {
             if (isset($_GET["id"])) {
                 $cookie_data = stripslashes($_COOKIE['shopping_cart']);
                 $cart_data = json_decode($cookie_data, true);
@@ -362,13 +361,13 @@ class Product extends Controller
                         /* header("Location:index.php?controller=product&task=showCart"); */
                         \Redirection::redirect('index.php?controller=product&task=showCart');
                     }
-                } 
+                }
             } else {
                 $_SESSION['error'] = 'Aucun produit sélectionné';
                 /* header('Location:index.php?controller=product&task=showCart');
                 exit; */
                 \Redirection::redirect('index.php?controller=product&task=showCart');
-                }
+            }
         }
 
         /* clear cart */
@@ -411,9 +410,10 @@ class Product extends Controller
 
     public function showCart()
     {
+
         if (isset($_COOKIE["shopping_cart"])) {
-            //$total = 0;
-            
+            $total = 0;
+
             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
             $cart_data = json_decode($cookie_data, true);
             var_dump($cart_data);
@@ -421,32 +421,159 @@ class Product extends Controller
             foreach ($cart_data as $keys => $values) {
                 /* if ($cart_data[$keys]["item_id"] === $product_id) {
                     $cart_data[$keys]["item_quantity"] = $cart_data[$keys]["item_quantity"] + $_POST["quantity"]; */
-                    $product = $this->model->getOneProduct($cart_data[$keys]['item_id']);
-                    $cart_data[$keys]['item_name'] = $product['name'];
-                    $cart_data[$keys]['item_price'] = $product['price'];
-                    $cart_data[$keys]['item_picture'] = $product['picture'];
-                    //$cart_data[] = $item_array;
-                    $totalQuantity = $totalQuantity + $values["item_quantity"];
-                    var_dump($totalQuantity);
-                    setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30));
+                $product = $this->model->getOneProduct($cart_data[$keys]['item_id']);
+                $cart_data[$keys]['item_name'] = $product['name'];
+                $cart_data[$keys]['item_price'] = $product['price'];
+                $cart_data[$keys]['item_picture'] = $product['picture'];
+                //$cart_data[] = $item_array;
+                $totalQuantity = $totalQuantity + $values["item_quantity"];
+                var_dump($totalQuantity);
+                setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30));
+                $total = $total + ($values["item_quantity"] * $product['price']);
+                var_dump($total);
                 /* $item_array = [
                 'item_id'           =>
                 'item_name'         => $product['name'], 
                 'item_price'        => $product['price'],
                 'item_picture'      => $product['picture']
             ];  */
-        } 
-            
+            }
+            if (isset($_GET['action'])) {
+                $newOrder =
+                            [
+                                'total_price' => $total,
+                                'qty_total'   => $totalQuantity,
+                                'users_id'    => $_SESSION['user']['id']
+                            ];
+                var_dump($newOrder);
+                if ($_GET['action'] === 'order') {
+                    if (isset($_SESSION['user'])) {
+                        var_dump($_SESSION);
+                        var_dump($cart_data);
+                        
+                        $model = new \Models\User;
+                        $user = $model->getUser($_SESSION['user']['email']);
+                        // $this->validateOrder($newOrder);
+                        
+                        \Renderer::render('order', 'layout', compact('user', 'newOrder', 'cart_data'));
+                        /* \Renderer::render('order', 'layout', compact('user')); */
+                        /* 
+                         */
+
+                        /* $orders = $model->getAllOrdersById($_SESSION['user']['id']); */
+                        /* $model = new \Models\User;
+                        $user = $model->getUser($_SESSION['user']['email']); */
+                        /* \Redirection::redirect('index.php?controller=product&task=showOrders'); */
+                        /* \Renderer::render('myOrders', 'layout', compact('orders')); */
+                    } else {
+                        $_SESSION['error'] = 'Veuillez vous connecter pour commander';
+                        \Redirection::redirect('index.php?controller=user&task=login');
+                    }
+                }
+                if ($_GET['action'] === 'validate') {
+                    if (isset($_SESSION['user'])) {
+                        $model = new \Models\Order;
+                        $id = $model->addOneOrder($newOrder);
+                        foreach ($cart_data as $keys => $values) {
+                            $orderDetail =
+                                [
+                                    'price'         => $cart_data[$keys]['item_price'],
+                                    'qty'           => $cart_data[$keys]['item_quantity'],
+                                    'orders_id'     => $id,
+                                    'products_id'   => $cart_data[$keys]['item_id']
+                                ];
+                                $model->addOrderDetail($orderDetail);
+                        }
+
+                        setcookie("shopping_cart", "", time() - 3600);
+                        setcookie("totalQuantity", "", time() - 3600);
+                        $_SESSION['success'] = 'Commande validée';
+                        \Redirection::redirect('index.php?controller=product&task=showOrders');
+                    }  else {
+                        $_SESSION['error'] = 'Veuillez vous connecter pour commander';
+                        \Redirection::redirect('index.php?controller=user&task=login');
+                    }
+                
+                }
+            } else {
             var_dump($cart_data);
             var_dump($_COOKIE);
             //die;
-            \Renderer::render('cart', 'layout', compact('cart_data'));
+            \Renderer::render('cart', 'layout', compact('cart_data', 'total'));
             //$total = $total + ($values["item_quantity"] * $values["item_price"]);
-        } else {
+            }
+        }
+        else {
             \Renderer::render('cart', 'layout');
         }
         //$products = $this->model->getAllProductsFromCart();
+    }
+    
 
+    /* public function validateOrder()
+    {
+        /*  if (isset($_GET['action'])) {
+            if ($_GET['action'] === 'validate') {
+                if (isset($_SESSION['user'])) {
+                    $model = new \Models\Order;
+                    $model->addOneOrder($newOrder);
+                    setcookie("shopping_cart", "", time() - 3600);
+                    setcookie("totalQuantity", "", time() - 3600);
+                    $_SESSION['success'] = 'Commande validée';
+                    \Redirection::redirect('index.php?controller=product&task=showOrders');
+                } else {
+                    $_SESSION['error'] = 'Veuillez vous connecter pour commander';
+                    \Redirection::redirect('index.php?controller=user&task=login');
+                }
+            } else {
+                $_SESSION['error'] = 'Veuillez valider votre commande';
+                \Redirection::redirect('index.php?controller=product&task=showCart&action=order');
+            }
+        }
+        else {
+            $_SESSION['error'] = 'Veuillez valider votre commande';
+            \Redirection::redirect('index.php?controller=product&task=showCart&action=order');
+        } */
+        /* $model = new \Models\User;
+        $user = $model->getUser($_SESSION['user']['email']);
+        \Renderer::render('order', 'layout', compact('user', 'newOrder')); */
+        /* if (isset($_SESSION['user'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (!isset($_POST['token']) ||
+                !hash_equals($_SESSION['user']['token'], $_POST['token'])) {
+                http_response_code(400);
+                exit('Request Forbidden');
+                } else {
+                    $model = new \Models\Order;
+                    $newOrder =
+                            [
+                                'total_price' => $_POST['price'],
+                                'qty_total'   => $_POST['quantity'],
+                                'users_id'    => $_SESSION['user']['id']
+                            ];
+                    $model->addOneOrder($newOrder);
+                    setcookie("shopping_cart", "", time() - 3600);
+                    setcookie("totalQuantity", "", time() - 3600);
+                    $_SESSION['success'] = 'Commande validée';
+                    \Redirection::redirect('index.php?controller=product&task=showOrders');
+                }
+            }
+        } else {
+        $_SESSION['error'] = 'Veuillez vous connecter pour commander';
+        \Redirection::redirect('index.php?controller=user&task=login');
+        }
+    } */ 
+
+    public function showOrders()
+    {
+        if (isset($_SESSION['user'])) {
+            $model = new \Models\Order;
+            $orders = $model->getAllOrdersById($_SESSION['user']['id']);
+            \Renderer::render('myOrders', 'layout', compact('orders'));
+        } else {
+            $_SESSION['errors'] = 'Veuillez vous connecter pour voir vos commandes';
+            \Redirection::redirect('index.php?controller=user&task=login');
+        }
     }
 
     /* public function getProductFromAjax() {
@@ -454,5 +581,17 @@ class Product extends Controller
         $data = json_decode($content, true);
         $search = "%".$data['textToFind']."%";
         $this->model->getProductFromSearchbar($search);
+    } */
+
+    /* public function addOrder() {
+        $model = new \Models\User;
+        var_dump($_SESSION);
+        $user = $model->getUser($_SESSION['user']['email']);
+
+        $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+        $cart_data = json_decode($cookie_data, true);
+        var_dump($cart_data);
+
+        \Renderer::render('order', 'layout', compact('user'));
     } */
 }

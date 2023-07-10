@@ -7,12 +7,12 @@
 <div>
     <h3>Mes données personnelles</h3>
     <div class="box">
-        <h4><?= $user['firstname']; ?> <?= $user['lastname']; ?></h4>
-        <p><?= $user['address']; ?></p>
-        <p><?= $user['zipCode']; ?></p>
-        <p><?= $user['city']; ?></p>
-        <p><?= $user['country']; ?></p>
+        <h4><?= htmlspecialchars($user['firstname']); ?> <?= htmlspecialchars($user['lastname']); ?></h4>
+        <p><?= htmlspecialchars($user['address']); ?></p>
+        <p><?= htmlspecialchars($user['zipCode']); ?></p>
+        <p><?= htmlspecialchars($user['city']); ?></p>
+        <p><?= htmlspecialchars($user['country']); ?></p>
     </div>
 </div>
 <a class="button" href="index.php?controller=user&task=changePassword">Modifier mon mot de passe</a> 
-<a class="button" href="index.php?controller=user&task=myOrders">Mes commandes</a>
+<a class="button" href="index.php?controller=product&task=showOrders">Mes commandes</a>
