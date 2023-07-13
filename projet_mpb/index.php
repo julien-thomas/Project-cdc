@@ -15,4 +15,4 @@ if (array_key_exists('page', $_GET)) {
     $router->handleRequest();
 }
 */
-\FrontController::handleRequest();
+\Apps\FrontController::handleRequest();

@@ -14,10 +14,10 @@
             foreach ($orders as $order) : ?>
                 <tr>
                     <td><?= htmlspecialchars($order['orderDate']) ?></td>
-                    <td><?= htmlspecialchars($order['total_price']) ?></td>
+                    <td><?= htmlspecialchars($order['total_price']) ?> €</td>
                     <td><?= htmlspecialchars($order['qty_total']) ?></td>
                     <td><?= htmlspecialchars($order['status']) ?></td>
-                    <td class="actions"><a class="button" href="#">Détails</a></td>
+                    <td class="actions"><a class="button" href="index.php?controller=product&task=showOrderDetails&id=<?= htmlspecialchars($order['id']) ?>">Détails</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

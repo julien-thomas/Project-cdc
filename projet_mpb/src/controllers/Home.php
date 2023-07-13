@@ -10,7 +10,7 @@ class Home extends Controller {
 
         $model = new \Models\Product;
         $products = $model->getSelectedProducts();
-        \Renderer::render('home', 'layout', compact('products'));
+        \Apps\Renderer::render('home', 'layout', compact('products'));
     }
 
     public function contact() {
@@ -41,10 +41,10 @@ class Home extends Controller {
                 // Redirection vers login
                 /* header('Location: index.php');
                 exit; */
-                \Redirection::redirect('index.php');
+                \Apps\Redirection::redirect('index.php');
             } else $_SESSION['error'] = $errors[0];
     }
-    \Renderer::render('contact', 'layout');
+    \Apps\Renderer::render('contact', 'layout');
     }
 }
 

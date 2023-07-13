@@ -29,7 +29,7 @@ class Product extends Model {
      * @param integer $id
      * @return array
      */
-    public function getSelectedProducts() :null|array {
+    public function getSelectedProducts(): null|array {
         $req = 
         "SELECT products.id, name, price, title, picture, country
         FROM products
@@ -43,7 +43,7 @@ class Product extends Model {
      * @param integer $id
      * @return array
      */
-    public function getOneProduct($id) :bool|array {
+    public function getOneProduct($id): bool|array {
         $req = 'SELECT categories.category AS category, categories_id, products.id, name, selected, `description`, stock, vintage, price, products.title, grape, picture, country
         FROM products
         INNER JOIN categories ON products.categories_id = categories.id
@@ -52,7 +52,12 @@ class Product extends Model {
         return $this->findOne($req, ["id" => $id]);
     }
 
-    public function setProduct($select, $id) {
+    public function getProductFromOrders($id) : bool|array {
+        $req = 'SELECT products_id FROM orders_details WHERE products_id = :id';
+        return $this->findOne($req, ['id' => $id]);
+    }
+
+    public function setProduct($select, $id): void {
         $newData = [
             'selected' => $select
         ];
@@ -63,8 +68,6 @@ class Product extends Model {
     public function deleteProductById($product_id) {
         $this->deleteOne('products', 'id', $product_id);
     }
-
-    
 
     public function addOneProduct(array $newProduct): false|int 
     {
@@ -90,7 +93,7 @@ class Product extends Model {
         
     }
 
-    public function updateOneProduct(array $newProduct, $product_id): void {
+    public function updateOneProduct(array $newProduct, int $product_id): void {
 
         $newData = [
             'name'              => $newProduct['name'],
@@ -114,6 +117,14 @@ class Product extends Model {
 
         $req = 'SELECT * FROM products WHERE `name` LIKE :find OR title LIKE :find OR vintage LIKE :find ORDER BY id DESC';
         return $this->findAll($req, [':find' => $search]);
+    }
+
+    public function updateStock(int $newStock, int $product_id) {
+        $newData = [
+            'stock' => $newStock
+        ];
+        $val = $product_id;
+        $this->updateOne('products', $newData, 'id', $val);
     }
 
     /* public function getAllProductsFromCart() {

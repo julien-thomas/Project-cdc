@@ -1,0 +1,14 @@
+<h1>Mise à jour commande <?= htmlspecialchars($order['id']) ?></h1>
+
+<form action='index.php?controller=product&task=updateOrder&id=<?= htmlspecialchars($order['id']) ?>' method='post'>
+    <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+    <!-- <input type="hidden" name='id' value="<?= $order['id'] ?>"> -->
+    <label>Statut</label>
+    <select name="status">
+        <option value="Commande confirmée">Commande confirmée</option>
+        <option value="Commande en préparation">Commande en préparation</option>
+        <option value="Commande expédiée">Commande expédiée</option>
+        <option value="Commande livrée">Commande livrée</option>
+    </select>
+    <button class="button" type='submit'>Je modifie le statut</button>
+</form>

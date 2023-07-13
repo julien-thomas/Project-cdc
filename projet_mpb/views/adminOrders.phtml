@@ -16,7 +16,10 @@
                 <td><?= $order['orderDate'] ?></td>
                 <td><?= $order['firstname'], ' ', $order['lastname'] ?></td>
                 <td><?= $order['status'] ?></td>
-                <td class="actions"><a class="button-admin" href="#">Modifier</a><a class="button-admin delete" href="#">Supprimer</a></td>
+                <td class="actions">
+                    <a class="button-admin" href="index.php?controller=product&task=updateOrder&id=<?= htmlspecialchars($order['id']) ?>">Modifier</a>
+                    <!-- <a class="button-admin delete" href="index.php?controller=product&task=deleteOrder&id=<?= htmlspecialchars($order['id']) ?>">Supprimer</a> -->
+                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>

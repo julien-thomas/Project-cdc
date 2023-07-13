@@ -27,7 +27,7 @@ class Product extends Controller
     {
         // $model = new $this->modelName;
         $products = $this->model->getAllProducts();
-        \Renderer::render('product', 'layout', compact('products'));
+        \Apps\Renderer::render('product', 'layout', compact('products'));
     }
 
 
@@ -39,15 +39,15 @@ class Product extends Controller
         $product_id = null;
 
         // Mais si il y en a un et que c'est un nombre entier :
-        // if (!empty($_GET['id']) && ctype_digit($_GET['id'])) 
-        $product_id = $_GET['id'];
+        if (!empty($_GET['id']) && ctype_digit($_GET['id']))
+            $product_id = $_GET['id'];
 
         // On peut désormais décider : erreur ou pas ?!
         if (!$product_id || !$this->model->getOneProduct($product_id)) {
             $_SESSION['error'] = 'Ce produit n\'existe pas';
             /* header('Location:index.php?controller=home&task=showHomePage');
             exit; */
-            \Redirection::redirect('index.php?controller=home&task=showHomePage');
+            \Apps\Redirection::redirect('index.php?controller=home&task=showHomePage');
         } else {
 
             $model = new \Models\Opinion;
@@ -56,7 +56,7 @@ class Product extends Controller
              * Récupération de l'article en question
              */
             $product = $this->model->getOneProduct($product_id);
-            \Renderer::render('productSheet', 'layout', compact('product', 'opinions'));
+            \Apps\Renderer::render('productSheet', 'layout', compact('product', 'opinions'));
         }
     }
 
@@ -69,7 +69,7 @@ class Product extends Controller
             die("Ce produit n'a pas encore d'avis");
         }
         $opinions = $model->getAllOpinionsByProduct($product_id);
-        \Renderer::render('productSheet', 'layout', compact('opinions'));
+        \Apps\Renderer::render('productSheet', 'layout', compact('opinions'));
     }
 
     /** Déplace un fichier transmis dans un répertoire du serveur
@@ -204,19 +204,7 @@ class Product extends Controller
                 if (!ctype_digit($newProduct['vintage']))
                     $errors[] = 'Le millésime doit être composé de chiffres uniquement';
 
-                // Test picture to do
-                //if ($_FILES['upload']['error'] === UPLOAD_ERR_OK) 
-                /* 
-            if ($_FILES['upload']['error'] === UPLOAD_ERR_NO_FILE)
-                $errors[] = 'Aucun fichier envoyé';
 
-            if ($_FILES['upload']['size'] > (1024 * 1024 * 1))
-                $errors[] = 'La taille du fichier est supérieure à 1Mo';
-
-
-            if (!move_uploaded_file($_FILES['upload']['tmp_name'], $newfilepath))
-                $errors[] = 'Erreur : upload impossible';
- */
                 var_dump($errors);
                 if (!isset($_POST['token']) || !hash_equals($_SESSION['user']['token'], $_POST['token']))
                     $errors[] = 'Requête interdite';
@@ -232,7 +220,7 @@ class Product extends Controller
                             $_SESSION['error'] = 'Ce produit n\'existe pas';
                             /* header('Location:index.php?controller=admin&task=showAllProducts');
                             exit; */
-                            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
                         } else {
                             $product = $this->model->getOneProduct($_GET['id']);
                             if ($_FILES['upload']['name'] === '') {
@@ -246,14 +234,14 @@ class Product extends Controller
                                     $_SESSION['error'] = $errors[0];
                                     /* header('Location:index.php');
                                     exit; */
-                                    \Redirection::redirect('index.php');
+                                    \Apps\Redirection::redirect('index.php');
                                 }
                             }
                             $this->model->updateOneProduct($newProduct, $_GET['id']);
                             $_SESSION['success'] = "L'article a bien été modifié";
                             /* header('Location:index.php?controller=admin&task=showAllProducts');
                             exit; */
-                            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
                         }
                     } else {
                         $filename = $this->uploadFile($_FILES['upload'], $errors);
@@ -263,7 +251,7 @@ class Product extends Controller
                             $_SESSION['success'] = "L'article a bien été ajouté";
                             /* header('Location:index.php?controller=admin&task=showAllProducts');
                                 exit; */
-                            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
                         } else $_SESSION['error'] = $errors[0];
                     }
                 } else $_SESSION['error'] = $errors[0];
@@ -277,23 +265,23 @@ class Product extends Controller
                     $_SESSION['error'] = 'Ce produit n\'existe pas';
                     /* header('Location:index.php?controller=admin&task=showAllProducts');
                     exit; */
-                    \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                    \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
                 } else {
                     $product = $this->model->getOneProduct($_GET['id']);
                     //var_dump($product);
                     //var_dump($_POST);
                     //var_dump($_SERVER);
-                    \Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+                    \Apps\Renderer::render('addProduct', 'admin', compact('categories', 'product'));
                 }
             } else {
-                \Renderer::render('addProduct', 'admin', compact('categories'));
+                \Apps\Renderer::render('addProduct', 'admin', compact('categories'));
             }
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -315,10 +303,11 @@ class Product extends Controller
             var_dump($item_id_list);
             if (isset($_GET["id"])) {
                 $product_id = $_GET["id"];
-                if (!ctype_digit($_POST["quantity"]) || $_POST["quantity"] === '') {
+                $model = new \Models\Product;
+                if (!ctype_digit($_POST["quantity"]) || $_POST["quantity"] === '' || $_POST["quantity"] > $model->getOneProduct($product_id)['stock']) {
                     $_SESSION['error'] = 'Quantité non valide';
                     /* header('Location: index.php?controller=product&task=showOne&id=' . $product_id); */
-                    \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+                    \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 }
                 //if (in_array($_POST["hidden_id"], $item_id_list)) {
                 if (in_array($product_id, $item_id_list)) {
@@ -345,7 +334,7 @@ class Product extends Controller
             //var_dump(json_decode($_COOKIE['shopping_cart']));
             //die;
             /* header("Location:index.php?controller=product&task=showCart"); */
-            \Redirection::redirect('index.php?controller=product&task=showCart');
+            \Apps\Redirection::redirect('index.php?controller=product&task=showCart');
         }
 
         /* remove products from cart */
@@ -359,14 +348,14 @@ class Product extends Controller
                         $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE); // JSON_UNESCAPED_UNICODE encodes characters correctly
                         setcookie("shopping_cart", $item_data, time() + (86400 * 30));
                         /* header("Location:index.php?controller=product&task=showCart"); */
-                        \Redirection::redirect('index.php?controller=product&task=showCart');
+                        \Apps\Redirection::redirect('index.php?controller=product&task=showCart');
                     }
                 }
             } else {
                 $_SESSION['error'] = 'Aucun produit sélectionné';
                 /* header('Location:index.php?controller=product&task=showCart');
                 exit; */
-                \Redirection::redirect('index.php?controller=product&task=showCart');
+                \Apps\Redirection::redirect('index.php?controller=product&task=showCart');
             }
         }
 
@@ -375,7 +364,7 @@ class Product extends Controller
             setcookie("shopping_cart", "", time() - 3600);
             setcookie("totalQuantity", "", time() - 3600);
             /* header("Location:index.php?controller=product&task=showCart"); */
-            \Redirection::redirect('index.php?controller=product&task=showCart');
+            \Apps\Redirection::redirect('index.php?controller=product&task=showCart');
         }
 
 
@@ -439,23 +428,24 @@ class Product extends Controller
             ];  */
             }
             if (isset($_GET['action'])) {
-                $newOrder =
-                            [
-                                'total_price' => $total,
-                                'qty_total'   => $totalQuantity,
-                                'users_id'    => $_SESSION['user']['id']
-                            ];
-                var_dump($newOrder);
-                if ($_GET['action'] === 'order') {
-                    if (isset($_SESSION['user'])) {
+                if (isset($_SESSION['user'])) {
+                    $newOrder =
+                        [
+                            'total_price' => $total,
+                            'qty_total'   => $totalQuantity,
+                            'users_id'    => $_SESSION['user']['id']
+                        ];
+                    var_dump($newOrder);
+                    if ($_GET['action'] === 'order') {
+                        //if (isset($_SESSION['user'])) {
                         var_dump($_SESSION);
                         var_dump($cart_data);
-                        
+
                         $model = new \Models\User;
                         $user = $model->getUser($_SESSION['user']['email']);
                         // $this->validateOrder($newOrder);
-                        
-                        \Renderer::render('order', 'layout', compact('user', 'newOrder', 'cart_data'));
+
+                        \Apps\Renderer::render('order', 'layout', compact('user', 'newOrder', 'cart_data'));
                         /* \Renderer::render('order', 'layout', compact('user')); */
                         /* 
                          */
@@ -465,15 +455,16 @@ class Product extends Controller
                         $user = $model->getUser($_SESSION['user']['email']); */
                         /* \Redirection::redirect('index.php?controller=product&task=showOrders'); */
                         /* \Renderer::render('myOrders', 'layout', compact('orders')); */
-                    } else {
+                        /* } else {
                         $_SESSION['error'] = 'Veuillez vous connecter pour commander';
-                        \Redirection::redirect('index.php?controller=user&task=login');
+                        \Redirection::redirect('index.php?controller=user&task=login'); */
                     }
-                }
-                if ($_GET['action'] === 'validate') {
-                    if (isset($_SESSION['user'])) {
+
+                    if ($_GET['action'] === 'validate') {
+                        //if (isset($_SESSION['user'])) {
                         $model = new \Models\Order;
                         $id = $model->addOneOrder($newOrder);
+                        $product = new \Models\Product;
                         foreach ($cart_data as $keys => $values) {
                             $orderDetail =
                                 [
@@ -482,33 +473,39 @@ class Product extends Controller
                                     'orders_id'     => $id,
                                     'products_id'   => $cart_data[$keys]['item_id']
                                 ];
-                                $model->addOrderDetail($orderDetail);
+                            $model->addOrderDetail($orderDetail);
+                            $stock = $product->getOneProduct($orderDetail['products_id'])['stock'];
+                            var_dump($stock);
+                            $newStock = $stock - $orderDetail['qty'];
+                            $product->updateStock($newStock, $orderDetail['products_id']);
                         }
 
                         setcookie("shopping_cart", "", time() - 3600);
                         setcookie("totalQuantity", "", time() - 3600);
                         $_SESSION['success'] = 'Commande validée';
-                        \Redirection::redirect('index.php?controller=product&task=showOrders');
-                    }  else {
+                        \Apps\Redirection::redirect('index.php?controller=product&task=showOrders');
+                        /* }  else {
                         $_SESSION['error'] = 'Veuillez vous connecter pour commander';
                         \Redirection::redirect('index.php?controller=user&task=login');
+                    } */
                     }
-                
+                } else {
+                    $_SESSION['error'] = 'Veuillez vous connecter pour commander';
+                    \Apps\Redirection::redirect('index.php?controller=user&task=login');
                 }
             } else {
-            var_dump($cart_data);
-            var_dump($_COOKIE);
-            //die;
-            \Renderer::render('cart', 'layout', compact('cart_data', 'total'));
-            //$total = $total + ($values["item_quantity"] * $values["item_price"]);
+                var_dump($cart_data);
+                var_dump($_COOKIE);
+                //die;
+                \Apps\Renderer::render('cart', 'layout', compact('cart_data', 'total'));
+                //$total = $total + ($values["item_quantity"] * $values["item_price"]);
             }
-        }
-        else {
-            \Renderer::render('cart', 'layout');
+        } else {
+            \Apps\Renderer::render('cart', 'layout');
         }
         //$products = $this->model->getAllProductsFromCart();
     }
-    
+
 
     /* public function validateOrder()
     {
@@ -534,10 +531,10 @@ class Product extends Controller
             $_SESSION['error'] = 'Veuillez valider votre commande';
             \Redirection::redirect('index.php?controller=product&task=showCart&action=order');
         } */
-        /* $model = new \Models\User;
+    /* $model = new \Models\User;
         $user = $model->getUser($_SESSION['user']['email']);
         \Renderer::render('order', 'layout', compact('user', 'newOrder')); */
-        /* if (isset($_SESSION['user'])) {
+    /* if (isset($_SESSION['user'])) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!isset($_POST['token']) ||
                 !hash_equals($_SESSION['user']['token'], $_POST['token'])) {
@@ -562,20 +559,78 @@ class Product extends Controller
         $_SESSION['error'] = 'Veuillez vous connecter pour commander';
         \Redirection::redirect('index.php?controller=user&task=login');
         }
-    } */ 
+    } */
 
     public function showOrders()
     {
         if (isset($_SESSION['user'])) {
             $model = new \Models\Order;
             $orders = $model->getAllOrdersById($_SESSION['user']['id']);
-            \Renderer::render('myOrders', 'layout', compact('orders'));
+            \Apps\Renderer::render('myOrders', 'layout', compact('orders'));
         } else {
             $_SESSION['errors'] = 'Veuillez vous connecter pour voir vos commandes';
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
+    public function showOrderDetails()
+    {
+        if (isset($_SESSION['user'])) {
+            $order_id = null;
+            if (array_key_exists('id', $_GET)) {
+                if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                    $order_id = $_GET['id'];
+                    $model = new \Models\OrderDetails;
+                    $orderDetails = $model->getOrderDetails($order_id);
+                }
+                if (!$order_id || !$model->getOrderDetails($order_id)) {
+                    $_SESSION['error'] = 'Cette commande n\'existe pas';
+                    \Apps\Redirection::redirect('index.php?controller=admin&task=showAllOrders');
+                }
+            }
+            \Apps\Renderer::render('orderDetails', 'layout', compact('orderDetails'));
+        }
+        else {
+            $_SESSION['errors'] = 'Veuillez vous connecter pour voir vos commandes';
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
+        }
+    }
+
+    public function updateOrder()
+    {
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $order_id = null;
+            if (array_key_exists('id', $_GET)) {
+                if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                    $order_id = $_GET['id'];
+                    $model = new \Models\Order;
+                    $order = $model->getOneOrder($order_id);
+                }
+                if (!$order_id || !$model->getOneOrder($order_id)) {
+                    $_SESSION['error'] = 'Cette commande n\'existe pas';
+                    \Apps\Redirection::redirect('index.php?controller=admin&task=showAllOrders');
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        if (
+                            !isset($_POST['token']) ||
+                            !hash_equals($_SESSION['user']['token'], $_POST['token'])
+                        ) {
+                            http_response_code(400);
+                            exit('Request Forbidden');
+                        } else {
+                            $newStatus = $_POST['status'];
+                            $model->updateOrder($newStatus, $order_id);
+                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllOrders');
+                        }
+                    }
+                }
+            }
+            \Apps\Renderer::render('updateOrder', 'admin', compact('order'));
+        } else {
+            $_SESSION['errors'] = 'Veuillez vous connecter en tant qu\'admin';
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
+        }
+    }
     /* public function getProductFromAjax() {
         $content = file_get_contents("php://input");
         $data = json_decode($content, true);

@@ -35,7 +35,7 @@ class User extends Controller
                                 // Redirection vers home
                                 //header('Location: index.php');
                                 //exit;
-                                \Redirection::redirect('index.php');
+                                \Apps\Redirection::redirect('index.php');
                                 // \Renderer::render('home');
                             } else $_SESSION['error'] = 'Votre compte a été bloqué';
                         } else $_SESSION['error'] = 'Erreur : Mot de passe invalide';
@@ -45,7 +45,7 @@ class User extends Controller
         }
         // Template default
 
-        \Renderer::render('login', 'layout');
+        \Apps\Renderer::render('login', 'layout');
         
     }
 
@@ -137,21 +137,21 @@ class User extends Controller
         */
         }
         // Template default
-        \Renderer::render('register', 'layout');
+        \Apps\Renderer::render('register', 'layout');
     }
 
     public function opinion() {
         $model = new \Models\Opinion;
         if (isset($_SESSION['user'])) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+                //var_dump($_POST);
                 $opinion = [
-                    'score' => trim($_POST['score']),
+                    'score' => $_POST['score'],
                     'pseudo' => trim($_POST['pseudo']),
                     'title' => trim($_POST['title']),
                     'opinion' => trim($_POST['opinion'])
                 ];
-
+                
                 $errors = [];
 
                 if (in_array('', $_POST))
@@ -177,12 +177,12 @@ class User extends Controller
                     //exit;
                     /* header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
                     exit; */
-                    \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+                    \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 } else {
                     $_SESSION['error'] = $errors[0];
                     /* header('Location:index.php?controller=product&task=showOne&id=' . $product_id);
                     exit; */
-                    \Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+                    \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 }
             }  
             //\Renderer::render('productSheet', 'layout');
@@ -192,7 +192,7 @@ class User extends Controller
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
             }
         
     }
@@ -201,13 +201,13 @@ class User extends Controller
     {
         if (isset($_SESSION['user'])) {
             $user = $this->model->getUser($_SESSION['user']['email']);
-            \Renderer::render('member', 'layout', compact('user'));
+            \Apps\Renderer::render('member', 'layout', compact('user'));
         }  else {
             $_SESSION['error'] = 'Veuillez vous connecter';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -230,7 +230,7 @@ class User extends Controller
                                 $_SESSION['success'] = 'Changement de mot de passe réussi';
                                 /* header('Location: index.php?controller=user&task=member');
                                 exit; */
-                                \Redirection::redirect('index.php?controller=user&task=member');
+                                \Apps\Redirection::redirect('index.php?controller=user&task=member');
                                 } catch (\PDOException $e) {
                                 $_SESSION['error'] = 'Une erreur est survenue lors de la tentative de mise à jour, merci de réessayer plus tard';
                                 }
@@ -244,14 +244,14 @@ class User extends Controller
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
-        \Renderer::render('changePassword', 'layout');
+        \Apps\Renderer::render('changePassword', 'layout');
     }
 
     public function admin()
     {
-        \Renderer::render('adminProducts', 'admin');
+        \Apps\Renderer::render('adminProducts', 'admin');
     }
 
     public function logout()
@@ -263,11 +263,11 @@ class User extends Controller
         // Template default
         /* header('Location: index.php');
         exit; */
-        \Redirection::redirect('index.php');
+        \Apps\Redirection::redirect('index.php');
     }
 
     public function myOrders()
     {
-        \Renderer::render('myOrders', 'layout');
+        \Apps\Renderer::render('myOrders', 'layout');
     }
 }

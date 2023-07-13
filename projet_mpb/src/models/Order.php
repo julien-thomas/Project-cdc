@@ -39,9 +39,22 @@ class Order extends Model {
 
     public function getAllOrdersById (int $id): bool|array
     {
-        $req = 'SELECT users_id, total_price, qty_total, status, orderDate FROM orders
+        $req = 'SELECT users_id, id, total_price, qty_total, status, orderDate FROM orders
         WHERE users_id = :id';
         return $this->findAll($req, [':id' => $id]);
+    }
+
+    public function updateOrder(string $newStatus, int $order_id): void {
+        $newData = [
+            'status' => $newStatus
+        ];
+        $val = $order_id;
+        $this->updateOne('orders', $newData, 'id', $val);
+    }
+
+    public function getOneOrder(int $order_id) {
+        $req = 'SELECT id FROM orders WHERE id = :id';
+        return $this->findOne($req, [':id' => $order_id]);
     }
 
 }   

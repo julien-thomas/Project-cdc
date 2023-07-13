@@ -12,26 +12,26 @@ class Admin extends Controller
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             $model = new \Models\Product;
             $products = $model->getAllProducts();
-            \Renderer::render('adminProducts', 'admin', compact('products'));
+            \Apps\Renderer::render('adminProducts', 'admin', compact('products'));
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
     public function showAllUsers() {
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             $users = $this->model->getAllUsers();
-            \Renderer::render('adminUsers', 'admin', compact('users'));
+            \Apps\Renderer::render('adminUsers', 'admin', compact('users'));
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -39,13 +39,13 @@ class Admin extends Controller
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             $model = new \Models\Opinion;
             $opinions = $model->getAllOpinions();
-            \Renderer::render('adminOpinions', 'admin', compact('opinions'));
+            \Apps\Renderer::render('adminOpinions', 'admin', compact('opinions'));
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -53,13 +53,13 @@ class Admin extends Controller
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             $model = new \Models\Contact;
             $contacts = $model->getAllContacts();
-            \Renderer::render('adminContacts', 'admin', compact('contacts'));
+            \Apps\Renderer::render('adminContacts', 'admin', compact('contacts'));
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
 
@@ -67,13 +67,13 @@ class Admin extends Controller
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             $model = new \Models\Order;
             $orders = $model->getAllOrders();
-            \Renderer::render('adminOrders', 'admin', compact('orders'));
+            \Apps\Renderer::render('adminOrders', 'admin', compact('orders'));
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             // Redirection vers login
             /* header('Location: index.php?controller=user&task=login');
             exit; */
-            \Redirection::redirect('index.php?controller=user&task=login');
+            \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }    
     }
 
@@ -87,7 +87,7 @@ class Admin extends Controller
             $_SESSION['error'] = 'Ce produit n\'existe pas';
             /* header('Location:index.php?controller=admin&task=showAllProducts');
             exit; */
-            \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
         } else {
         /* if ($model->getOneProduct($product_id)['selected'] === 1)
             {
@@ -100,7 +100,7 @@ class Admin extends Controller
         //$products = $model->getAllProducts();
         /* header('Location:index.php?controller=admin&task=showAllProducts');
         exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
         //\Renderer::render('adminProducts', 'admin', compact('products'));
         }
     }
@@ -115,13 +115,13 @@ class Admin extends Controller
             $_SESSION['error'] = 'Cet avis n\'existe pas';
             /* header('Location:index.php?controller=admin&task=showAllOpinions');
             exit; */
-            \Redirection::redirect('index.php?controller=admin&task=showAllOpinions');
+            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllOpinions');
         } else {
         ($model->getOneOpinion($opinion_id)['status'] === 'on') ? $model->setOpinion('off', $opinion_id) : $model->setOpinion('on', $opinion_id);
         //$opinions = $model->getAllOpinions();
         /* header('Location:index.php?controller=admin&task=showAllOpinions');
         exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllOpinions');
+        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllOpinions');
         //\Renderer::render('adminOpinions', 'admin', compact('opinions'));
         }
     }
@@ -139,13 +139,13 @@ class Admin extends Controller
             $_SESSION['error'] = 'Cet utilisateur n\'existe pas';
             /* header('Location:index.php?controller=admin&task=showAllUsers');
             exit; */
-            \Redirection::redirect('index.php?controller=admin&task=showAllUsers');
+            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllUsers');
         } else {
         //$email = $users[$_GET['id']-1]['email'];
         ($this->model->getUserbyId($user_id)['blocked'] === 'false') ? $this->model->setUser('true', $user_id) : $this->model->setUser('false', $user_id);
         /* header('Location:index.php?controller=admin&task=showAllUsers');
         exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllUsers');
+        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllUsers');
         //\Renderer::render('adminUsers', 'admin', compact('users'));
         }
     }
@@ -160,31 +160,38 @@ class Admin extends Controller
             $_SESSION['error'] = 'Ce contact n\'existe pas';
             /* header('Location:index.php?controller=admin&task=showAllContacts');
             exit; */
-            \Redirection::redirect('index.php?controller=admin&task=showAllContacts');
+            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllContacts');
         } else {
         ($model->getOneContact($contact_id)['processed'] === 'on') ? $model->setContact('off', $contact_id) : $model->setContact('on', $contact_id);
         /* header('Location:index.php?controller=admin&task=showAllContacts');
         exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllContacts');
+        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllContacts');
         }
     }
 
     public function deleteProduct() {
         $model = new \Models\Product;
         $product_id = trim($_POST['product_id']);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_POST['token']) ||
-                !hash_equals($_SESSION['user']['token'], $_POST['token'])) {
-                http_response_code(400);
-                exit('Request Forbidden');
-            } else {
-                $model->deleteProductById($product_id);
+        if (!$model->getProductFromOrders($product_id))
+        {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (!isset($_POST['token']) ||
+                    !hash_equals($_SESSION['user']['token'], $_POST['token'])) {
+                    http_response_code(400);
+                    exit('Request Forbidden');
+                } else {
+                    $model->deleteProductById($product_id);
+                }
             }
-        }
-        /* header('Location:index.php?controller=admin&task=showAllProducts');
-        exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllProducts');
-        //\Renderer::render('adminProducts', 'admin', compact('products'));
+            /* header('Location:index.php?controller=admin&task=showAllProducts');
+            exit; */
+            $_SESSION['success'] = 'produit supprimé';
+            //\Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+            //\Renderer::render('adminProducts', 'admin', compact('products'));
+        } else {
+            $_SESSION['error'] = 'Ce produit ne peut plus être supprimé';
+            //\Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+        } \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
     }
 
     public function deleteContact() {
@@ -201,7 +208,7 @@ class Admin extends Controller
         }
         /* header('Location:index.php?controller=admin&task=showAllContacts');
         exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllContacts');
+        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllContacts');
     }
 
     public function deleteOpinion() {
@@ -218,7 +225,7 @@ class Admin extends Controller
         }
         /* header('Location:index.php?controller=admin&task=showAllOpinions');
         exit; */
-        \Redirection::redirect('index.php?controller=admin&task=showAllOpinions');
+        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllOpinions');
     }
     
 }
