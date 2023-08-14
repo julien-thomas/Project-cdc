@@ -6,60 +6,12 @@ require_once 'Database.php';
 abstract class Model //extends Database
 {
     protected $bdd;
-    // protected $table;
 
     public function __construct()
     {
         $this->bdd = \Models\Database::getPdo();
     }
-/*
-    /**
-     * Retourne un item grâce à son identifiant
-     * 
-     * @param integer $id
-     * @return void
-     */
-    /*    public function findOne(int $id)
-    {
-        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id");
 
-        // On exécute la requête en précisant le paramètre :article_id 
-        $query->execute(['id' => $id]);
-
-        // On fouille le résultat pour en extraire les données réelles de l'article
-        $item = $query->fetch();
-
-        return $item;
-    } */
-
-    /**
-     * Supprime un item de la base de données grâce à son identifiant
-     * 
-     * @param integer $id
-     * @return void
-     */
-    /*  public function delete(int $id): void {
-        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        $query->execute(['id' => $id]);
-    }
- */
-    /**
-     * Retourne la liste des items (avec possibilité de classement)
-     * 
-     * @return array
-     */
-    /* public function findAll(string $rows, ?string $options = ""): array
-    {
-        $sql = "SELECT {$rows} FROM {$this->table}";
-        if($options) {
-            $sql .= $options;
-        }
-        $resultats = $this->pdo->query($sql);
-        // On fouille le résultat pour en extraire les données réelles
-        $articles = $resultats->fetchAll();
-
-        return $articles;
-    } */
 
     /**
      * Returns the list of all items
@@ -80,7 +32,7 @@ abstract class Model //extends Database
      * 
      * @param string $req
      * @param array $params
-     * @return null|array
+     * @return bool|array
      */
     protected function findOne(string $req, array $params = []): bool|array
     {
@@ -96,9 +48,9 @@ abstract class Model //extends Database
      * @param string $columns
      * @param string $values
      * @param $data
-     * @return null|int
+     * @return false|int
      */
-    protected function addOne(string $table, string $columns, string $values, $data): ?int
+    protected function addOne(string $table, string $columns, string $values, $data): false|int
     {
         $query = $this->bdd->prepare('INSERT INTO ' . $table . '(' . $columns . ') values (' . $values . ')');
 

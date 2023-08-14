@@ -2,6 +2,8 @@
 
 // Init Session
 if (session_status() === PHP_SESSION_NONE) session_start();
+
+// Calling Autoloader
 require_once('src/autoload.php');
 // Autoloader
 /*
@@ -15,4 +17,6 @@ if (array_key_exists('page', $_GET)) {
     $router->handleRequest();
 }
 */
+
+// Calling Router
 \Apps\FrontController::handleRequest();

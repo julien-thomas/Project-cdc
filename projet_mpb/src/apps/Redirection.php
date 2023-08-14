@@ -5,7 +5,7 @@ namespace Apps;
 class Redirection {
 
     /**
-     * Redirige le visiteur vers $url
+     * Redirects the visitor to $url
      * 
      * @param string $url
      * @return void

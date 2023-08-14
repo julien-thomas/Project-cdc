@@ -1,0 +1,20 @@
+.notif {
+	display: flex;
+	justify-content: center;
+}
+
+.alert {
+	justify-content: center;
+	padding: 1em;
+	width: 50%;
+	border-radius: 0.5em;
+}
+
+.alert-danger {
+    background-color: #e60000;
+	color: #ffffff;
+}
+
+.alert-success {
+    background-color: #04ac04;
+}

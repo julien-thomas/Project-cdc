@@ -83,7 +83,7 @@ function searchbar() {
 
         // Exploite les données
         .then(res => {
-            document.getElementById("result").innerHTML = res; // On met articles.phtml dans la div -> id=target
+            document.getElementById("result").innerHTML = res; // On met searchProducts.phtml dans la div -> id=result
             // ou
             //location.reload(); // Pour une réactualisation de la page
         })

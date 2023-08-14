@@ -439,7 +439,7 @@ FORM JS
 span.form-error {
     display: block;
     background-color: #e60000;
-    color: ffffff;
+    color: #ffffff;
     padding: 1em;
     width: 100%;
 	border: 2px solid #e60000;
@@ -456,4 +456,17 @@ OPINIONS
 
 .stars {
 	display: flex;
+}
+
+/* *****************************************************************
+MENTIONS
+***************************************************************** */
+
+/* .mentions {
+	display: flex;
+	flex-direction: column;
+} */
+
+.mentions a {
+	color: #9e121b;
 }

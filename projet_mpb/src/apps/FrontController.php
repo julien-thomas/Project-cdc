@@ -1,17 +1,22 @@
 <?php
-
+// Router
 namespace Apps;
 
 class FrontController {
 
+    /**
+     * Calls the method from the controller
+     *
+     * @return void
+     */
     public static function handleRequest()
     {
+        // Default: controller=Home and method=showHomePage
         $controllerName = "Home";
         $task = "showHomePage";
 
         if(!empty($_GET['controller'])) {
-            // si GET => user
-            // alors User
+            // Upper and lower case management
             $controllerName = ucfirst($_GET['controller']);
         }
 

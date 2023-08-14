@@ -46,6 +46,10 @@ class Home extends Controller {
     }
     \Apps\Renderer::render('contact', 'layout');
     }
+
+    public function showMentions() {
+        \Apps\Renderer::render('mentions', 'layout');
+    }
 }
 
 // index.php -> controller --> model (liste les requetes) --> database (prepare et execute les requete)
