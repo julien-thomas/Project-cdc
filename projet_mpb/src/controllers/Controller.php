@@ -9,7 +9,7 @@ abstract class Controller {
 
     public function __construct()
     {
-        $this->model = new $this->modelName(); // new \Models\Product() par ex
+        $this->model = new $this->modelName(); // example: new \Models\Product()
     }
 
 }

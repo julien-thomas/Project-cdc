@@ -9,9 +9,9 @@ p {
 	font-family: 'Open Sans', sans-serif;
 }
 
-* {
-    border: 1 px solid red;
-}
+/* * {
+    border: 1px solid red;
+} */
 
 h1,
 h2,
@@ -22,7 +22,7 @@ h4 {
 }
 
 img {
-	max-width: 100%;
+	/* max-width: 100%; */
 	width: auto; /* pour ie */
 	height: auto;
 	-ms-interpolation-mode: bicubic; /* lissage pour IE */
@@ -146,12 +146,19 @@ a {
 	border-radius: 0.3em;
 }
 
-.products-index {
+/* .products-index {
 	display: flex;
 	align-items: flex-end;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-content: space-between;
+} */
+
+.products-index {
+	display: grid;
+    padding: 0;
+    justify-content: space-between;
+    grid-template-columns: auto auto auto;
 }
 
 .products {
@@ -174,6 +181,8 @@ footer {
 .logo-img,
 .product-img {
 	width: 100px;
+	display: flex;
+	justify-content: center;
 }
 
 /* *****************************************************************

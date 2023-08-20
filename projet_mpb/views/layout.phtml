@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,40 +9,38 @@
     <title>Mon Petit Bouchon</title>
     <link rel="icon" type="image/png" href="./public/img/favicon.png">
     <link rel="stylesheet" href="./public/css/normalize.css">
-    <link rel="stylesheet" href="./public/css/style.css">
+    <link rel="stylesheet" href="./public/css/output.css">
 </head>
+
 <body>
     <header>
-        <nav>
             <div class="logo">
-            <a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=home&task=showHomePage') echo 'active' ?>" href="index.php?controller=home&task=showHomePage"><img class='logo-img' src='public/img/logo2.png' alt='logo du site mon petit bouchon'/><span>Mon Petit Bouchon</span></a>
+                <a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=home&task=showHomePage') echo 'active' ?>" href="index.php?controller=home&task=showHomePage"><img class='logo-img' src='public/img/logo2.png' alt='logo du site mon petit bouchon'><span>Mon Petit Bouchon</span></a>
             </div>
-            <ul>
-                <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showAll') echo 'active' ?>" href="index.php?controller=product&task=showAll">Nos vins</a></li>
-                <?php if (isset($_SESSION['user'])) : ?>
-                    <li><a  class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=member') echo 'active' ?>" href="index.php?controller=user&task=member">Mon compte</a></li>
-                    <li><a class="button" href="index.php?controller=user&task=logout">Se déconnecter</a></li>
-                <?php else : ?>
-                    <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=login') echo 'active' ?>" href="index.php?controller=user&task=login">Se connecter</a></li>
-                    <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=register') echo 'active' ?>" href="index.php?controller=user&task=register">Inscription</a></li>
-                <?php endif; ?>
-                <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'active' ?>" href="index.php?controller=product&task=showCart">Panier<sup class="<?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'sup' ?>"><?php echo isset($_COOKIE['totalQuantity']) ? $_COOKIE['totalQuantity'] : '' ?></sup></a></li>
-                <?php if ((isset($_SESSION['user'])) && $_SESSION['user']['role'] === 'admin') : ?>
-                    <li><a class="button" href="index.php?controller=admin&task=showAllProducts">Espace admin</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
+            <nav>
+                <ul>
+                    <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showAll') echo 'active' ?>" href="index.php?controller=product&task=showAll">Nos vins</a></li>
+                    <?php if (isset($_SESSION['user'])) : ?>
+                        <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=member') echo 'active' ?>" href="index.php?controller=user&task=member">Mon compte</a></li>
+                        <li><a class="button" href="index.php?controller=user&task=logout">Se déconnecter</a></li>
+                    <?php else : ?>
+                        <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=login') echo 'active' ?>" href="index.php?controller=user&task=login">Se connecter</a></li>
+                        <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=user&task=register') echo 'active' ?>" href="index.php?controller=user&task=register">Inscription</a></li>
+                    <?php endif; ?>
+                    <li><a class="button <?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'active' ?>" href="index.php?controller=product&task=showCart">Panier<sup class="<?php if ($_SERVER['QUERY_STRING'] === 'controller=product&task=showCart') echo 'sup' ?>"><?php echo isset($_COOKIE['totalQuantity']) ? $_COOKIE['totalQuantity'] : '' ?></sup></a></li>
+                    <?php if ((isset($_SESSION['user'])) && $_SESSION['user']['role'] === 'admin') : ?>
+                        <li><a class="button" href="index.php?controller=admin&task=showAllProducts">Espace admin</a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
     </header>
-    
-    <!-- Affichage des notifications (success/error) -->
+
+    <!-- Notification display (success/error) -->
     <div class="notif container">
         <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])) : ?>
-            <!-- Si j'ai un message succes (vert) sinon (rouge) -->
             <p class="alert alert-<?= isset($_SESSION['success']) ? 'success' : 'danger' ?>">
-                <!-- J'affiche le message (vu que je peux pas avoir un succès en même temps qu'une erreur) -->
                 <?= $_SESSION['success'] ?? $_SESSION['error'] ?>
             </p>
-            <!-- Vider des les notif -->
             <?php unset($_SESSION['success'], $_SESSION['error']) ?>
         <?php endif; ?>
     </div>
@@ -55,14 +54,14 @@
             <?php endif; ?>
         </div>
     </main>
-    
+
     <footer>
-        <a class='button <?php if ($_SERVER['QUERY_STRING'] === 'controller=home&task=contact') echo 'active' ?>' href="index.php?controller=home&task=contact">Nous contacter</a></br>
+        <a class='button <?php if ($_SERVER['QUERY_STRING'] === 'controller=home&task=contact') echo 'active' ?>' href="index.php?controller=home&task=contact">Nous contacter</a><br>
         <small>L'abus d'alcool est dangereux pour la santé. Consommer avec modération.</small>
-        <div><img src='.\public\img\bandeau_informatif_alcool_mineurs.png'/></div>
+        <div><img src='./public/img/bandeau_informatif_alcool_mineurs.png' alt='bandeau informatif légal'></div>
         <a href="index.php?controller=home&task=showMentions">Mentions légales</a>
     </footer>
     <script type="module" src="public/js/index.js"></script>
-    <!-- <script src="public/js/app.js"></script> -->
 </body>
+
 </html>

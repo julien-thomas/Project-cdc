@@ -93,7 +93,7 @@ class Form {
 
             if (field.name === 'address') {
                 if (!field.value || field.value.length < 3) {
-                    this.error.record({ address: 'aAdresse invalide' });
+                    this.error.record({ address: 'adresse invalide' });
                 }
                 this._contact.address = field.value;
             }

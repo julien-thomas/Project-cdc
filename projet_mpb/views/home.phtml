@@ -19,20 +19,21 @@
     <video poster="./public/img/poster_logo.jpg" controls>
         Votre navigateur est obsolète. Pour pouvoir lire cette vidéo, veuillez le mettre à jour.
         <source src="./public/video/videoplayback.mp4" type="video/mp4">
-        <!-- <source src="medias/bunny.ogv" type="video/ogv"> -->
     </video>
 </article>
 <h2>À ne pas rater en ce moment :</h2>
-<div class="products">
+<div class="products-index">
     <?php foreach ($products as $product) : ?>
-        <div>
-            <img src='<?= htmlspecialchars($product['picture']) ?>' style='width:100px' />
-        </div>
-        <div>
-            <h2><?= htmlspecialchars($product['name']) ?></h2>
-            <h3><?= htmlspecialchars($product['title']) ?></h3>
-            <p><?= htmlspecialchars($product['price']) ?> €</p>
-            <a class="button" href="index.php?controller=product&task=showOne&id=<?= htmlspecialchars($product['id']) ?>">Plus d'informations</a>
+        <div class="products">
+            <div>
+                <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img' alt='image de la bouteille'/>
+            </div>
+            <div>
+                <h2><?= htmlspecialchars($product['name']) ?></h2>
+                <h3><?= htmlspecialchars($product['title']) ?></h3>
+                <p><?= htmlspecialchars($product['price']) ?> €</p>
+                <a class="button" href="index.php?controller=product&task=showOne&id=<?= htmlspecialchars($product['id']) ?>">Plus d'informations</a>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>

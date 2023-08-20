@@ -405,7 +405,7 @@ class Product extends Controller
 
             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
             $cart_data = json_decode($cookie_data, true);
-            var_dump($cart_data);
+            /* var_dump($cart_data); */
             $totalQuantity = 0;
             foreach ($cart_data as $keys => $values) {
                 /* if ($cart_data[$keys]["item_id"] === $product_id) {
@@ -416,10 +416,10 @@ class Product extends Controller
                 $cart_data[$keys]['item_picture'] = $product['picture'];
                 //$cart_data[] = $item_array;
                 $totalQuantity = $totalQuantity + $values["item_quantity"];
-                var_dump($totalQuantity);
+                /* var_dump($totalQuantity); */
                 setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30));
                 $total = $total + ($values["item_quantity"] * $product['price']);
-                var_dump($total);
+                /* var_dump($total); */
                 /* $item_array = [
                 'item_id'           =>
                 'item_name'         => $product['name'], 
@@ -438,8 +438,8 @@ class Product extends Controller
                     var_dump($newOrder);
                     if ($_GET['action'] === 'order') {
                         //if (isset($_SESSION['user'])) {
-                        var_dump($_SESSION);
-                        var_dump($cart_data);
+                        /* var_dump($_SESSION);
+                        var_dump($cart_data); */
 
                         $model = new \Models\User;
                         $user = $model->getUser($_SESSION['user']['email']);
@@ -475,7 +475,7 @@ class Product extends Controller
                                 ];
                             $model->addOrderDetail($orderDetail);
                             $stock = $product->getOneProduct($orderDetail['products_id'])['stock'];
-                            var_dump($stock);
+                            /* var_dump($stock); */
                             $newStock = $stock - $orderDetail['qty'];
                             $product->updateStock($newStock, $orderDetail['products_id']);
                         }
@@ -494,8 +494,8 @@ class Product extends Controller
                     \Apps\Redirection::redirect('index.php?controller=user&task=login');
                 }
             } else {
-                var_dump($cart_data);
-                var_dump($_COOKIE);
+                /* var_dump($cart_data);
+                var_dump($_COOKIE); */
                 //die;
                 \Apps\Renderer::render('cart', 'layout', compact('cart_data', 'total'));
                 //$total = $total + ($values["item_quantity"] * $values["item_price"]);

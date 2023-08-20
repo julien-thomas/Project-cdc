@@ -66,19 +66,20 @@ abstract class Model //extends Database
      * 
      * @param string $table
      * @param array $newData
-     * @param string $condition
-     * @param string $val
+     * @param string $condition (column tu use in the WHERE clause)
+     * @param string $val (value to compare with the WHERE clause)
      * @return void
      */
     protected function updateOne(string $table, array $newData, string $condition, string $val): void
     {
         $sets = '';
 
+        // Construct the SET clause
         foreach ($newData as $key => $value) {
             $sets .= $key . ' = :' . $key . ',';
         }
 
-        $sets = substr($sets, 0, -1);
+        $sets = substr($sets, 0, -1); // Remove the trailing comma from $sets
         $sql = "UPDATE " . $table . " SET " . $sets . " WHERE " . $condition . " = :" . $condition;
         $query = $this->bdd->prepare($sql);
 

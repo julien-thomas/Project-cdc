@@ -27,7 +27,7 @@ class Product extends Model {
      * Returns a selection of products
      * 
      * @param integer $id
-     * @return array
+     * @return null|array
      */
     public function getSelectedProducts(): null|array {
         $req = 
@@ -41,7 +41,7 @@ class Product extends Model {
      * Returns a product by its id
      * 
      * @param integer $id
-     * @return array
+     * @return bool|array
      */
     public function getOneProduct($id): bool|array {
         $req = 'SELECT categories.category AS category, categories_id, products.id, name, selected, `description`, stock, vintage, price, products.title, grape, picture, country

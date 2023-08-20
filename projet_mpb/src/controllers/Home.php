@@ -51,8 +51,3 @@ class Home extends Controller {
         \Apps\Renderer::render('mentions', 'layout');
     }
 }
-
-// index.php -> controller --> model (liste les requetes) --> database (prepare et execute les requete)
-// Database retourne le resultat au model --> le model retoune le résultat au controller
-// Le controller donne les données à la vue ( la vue se content QUE d'afficher les données )
-// Dès que l'utilisateur clique sur un lien --> index.php

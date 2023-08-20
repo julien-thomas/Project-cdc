@@ -9,7 +9,7 @@
     <title>Mon Petit Bouchon-Espace Admin</title>
     <link rel="icon" type="image/png" href="./public/img/favicon.png">
     <link rel="stylesheet" href="./public/css/normalize.css">
-    <link rel="stylesheet" href="./public/css/style.css">
+    <link rel="stylesheet" href="./public/css/output.css">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
                 <a class="button-admin" href="index.php?controller=home&task=showHomePage"><img class="logo-img" src='public/img/logo2.png' alt='logo du site mon petit bouchon'/><span>Mon Petit Bouchon</span></a>
             </div>
         </div>
-        <nav>
+        <nav class="nav-admin">
             <ul>
                 <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllProducts') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllProducts">Gestion des produits</a></li>
                 <li><a class="button-admin <?php if ($_SERVER['QUERY_STRING'] === 'controller=admin&task=showAllUsers') echo 'active-admin' ?>" href="index.php?controller=admin&task=showAllUsers">Gestion des utilisateurs</a></li>
@@ -31,15 +31,12 @@
         </nav>
     </header>
 
-    <!-- Affichage des notifications (success/error) -->
+    <!-- Notification display (success/error) -->
     <div class="notif container">
         <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])) : ?>
-            <!-- Si j'ai un message succes (vert) sinon (rouge) -->
             <p class="alert alert-<?= isset($_SESSION['success']) ? 'success' : 'danger' ?>">
-                <!-- J'affiche le message (vu que je peux pas avoir un succès en même temps qu'une erreur) -->
                 <?= $_SESSION['success'] ?? $_SESSION['error'] ?>
             </p>
-            <!-- Vider des les notif -->
             <?php unset($_SESSION['success'], $_SESSION['error']) ?>
         <?php endif; ?>
     </div>
@@ -50,7 +47,6 @@
         </div>
     </main>
     <script type="module" src="public/js/index-admin.js"></script>
-    <!-- <script src="public/js/app.js"></script> -->
 </body>
 
 </html>

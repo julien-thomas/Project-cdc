@@ -1,3 +1,194 @@
+/* * {
+    border: 1px solid red;
+} */
+
+/* *****************************************************************
+FONTS
+***************************************************************** */
+
+$Montserrat-font-path: "../fonts/Montserrat/static";
+$OpenSans-font-path: "../fonts/Open_Sans/static";
+
+@font-face {
+	src: url("#{$Montserrat-font-path}/Montserrat-Regular.ttf");
+	font-family: "Montserrat";
+	src: url("#{$OpenSans-font-path}/OpenSans-Regular.ttf");
+	font-family: "Open Sans";
+}
+
+/* *****************************************************************
+VARIABLES
+***************************************************************** */
+
+$max-width: 1140px;
+$font-text: 'Open Sans', sans-serif;
+$font-title: 'Montserrat', sans-serif;
+$color-title: #9e121b;
+$color-background: #444;
+$color-text: #000;
+$color-link: #ffffff;
+$color-box: #999;
+$color-danger: #e60000;
+$color-success: #04ac04;
+$color-admin: #0059b3;
+$size-text: 1.5rem;
+$size-title-1: 3.6rem;
+$size-title-2: 2.4rem;
+$size-title-3: 1.8rem;
+$size-title-4: 1.6rem;
+
+/* *****************************************************************
+TOOLS
+***************************************************************** */
+
+/* Box sizing */
+* {
+	box-sizing: border-box;
+	/* We specify that the width of each box includes the padding and the border (by default, it is only the width of the content) */
+}
+
+/* 1rem = 10px */
+html {
+	font-size: 62.5%;
+	/* 1rem = 10px (the formula is 10/16*100) the default size being 16px */
+}
+
+/* Body */
+body {
+	font-size: 1.6rem;
+	/* we reset the default text size for the body to 16px (using rem as unit) */
+}
+
+/* unstyled */
+ol.unstyled,
+ul.unstyled {
+	padding: 0;
+	list-style: none;
+}
+
+.container {
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+video {
+	max-width: 100%;
+}
+
+img {
+	max-width: 100%;
+	width: auto;
+	/* pour ie */
+	height: auto;
+	-ms-interpolation-mode: bicubic;
+	/* lissage pour IE */
+	image-rendering: -webkit-optimize-contrast;
+	/* lissage pour Chrome au redimensionnement*/
+}
+
+/* *****************************************************************
+MAIN LAYOUT
+***************************************************************** */
+
+body {
+	font-family: $font-text;
+	color: $color-text;
+}
+
+main {
+	padding: 1em;
+	background-color: $color-link;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: $color-title;
+	font-family: $font-title;
+}
+
+h1 {
+	font-size: $size-title-1;
+}
+
+h2 {
+	font-size: $size-title-2;
+}
+
+h3 {
+	font-size: $size-title-3;
+}
+
+h4 {
+	font-size: $size-title-4;
+}
+
+header {
+	padding: 1em;
+	text-align: center;
+	color: $color-link;
+	background-color: $color-background;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+ul {
+	list-style: none;
+	padding-inline-start: 0px;
+	margin: 1em;
+	padding: 1em;
+	li {
+		margin: 0.5em;
+	}
+}
+
+
+a {
+	text-decoration: none;
+	color: $color-link;
+}
+
+.products-index {
+	display: grid;
+	padding: 0;
+	justify-content: space-between;
+	grid-template-columns: auto;
+}
+
+.products {
+	display: flex;
+	align-items: flex-end;
+	margin: 2em;
+}
+
+.result {
+	margin-bottom: 5em;
+	border-bottom: 2px solid $color-title;
+}
+
+footer {
+	margin-top: 1em;
+	padding: 2em;
+	text-align: center;
+	color: $color-link;
+	background-color: $color-background;
+}
+
+.logo-img,
+.product-img {
+	width: 100px;
+	display: flex;
+	justify-content: center;
+}
+
+/* *****************************************************************
+NOTIFICATIONS
+***************************************************************** */
+
 .notif {
 	display: flex;
 	justify-content: center;
@@ -11,10 +202,302 @@
 }
 
 .alert-danger {
-    background-color: #e60000;
-	color: #ffffff;
+	background-color: $color-danger;
+	color: $color-link;
 }
 
 .alert-success {
-    background-color: #04ac04;
+	background-color: $color-success;
+}
+
+/* *****************************************************************
+FORM
+***************************************************************** */
+
+form {
+	display: flex;
+	flex-direction: column;
+
+	input[type="text"],
+	input[type="password"],
+	input[type="search"],
+	input[type="email"],
+	input[type="number"],
+	input[type*="date"],
+	select,
+	textarea {
+		padding: 0.5em 1em;
+		font-size: $size-title-4;
+		background-color: $color-link;
+		border: 1px solid $color-background;
+		border-radius: 0.3em;
+		width: 100%;
+		padding: 0.5em;
+		margin-bottom: 1em;
+	}
+
+	label {
+		width: 30%;
+		padding: 0.5em;
+		display: block;
+	}
+
+	fieldset {
+		margin: 2em 0;
+		padding: 1em;
+		font-size: $size-title-4;
+		border: 1px solid rgba($color-text, 0.2);
+		border-radius: 0.5em;
+
+		legend {
+			padding: 0 1em;
+			font-size: $size-title-3;
+		}
+
+		.field {
+			padding: 1em 0;
+		}
+	}
+
+	textarea {
+		min-height: 10em;
+	}
+}
+
+.front {
+	color: $color-title;
+}
+
+input:invalid {
+	border: 2px solid $color-danger;
+	border-radius: 0.3em;
+	box-shadow: 0 0 5px 1px $color-danger;
+}
+
+/* *****************************************************************
+TABLE
+***************************************************************** */
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+
+	caption,
+	th,
+	td {
+		padding: 1em;
+		border: 1px solid #ffffff;
+	}
+
+	thead {
+		border-bottom: 2px solid #999;
+	}
+
+	tfoot {
+		border-top: 2px solid #999;
+	}
+
+	tbody tr:nth-child(odd) {
+		background-color: rgba($color-text, 0.2);
+	}
+}
+
+.actions {
+	display: flex;
+	justify-content: space-around;
+	align-content: center;
+}
+
+/* *****************************************************************
+CART
+***************************************************************** */
+
+sup {
+	color: $color-link;
+}
+
+.sup {
+	color: $color-title;
+}
+
+.cart-img {
+	width: 20px;
+}
+
+/* *****************************************************************
+BUTTON
+***************************************************************** */
+
+/* Style de chaque bouton */
+.button,
+.button-admin {
+	display: inline-block;
+	padding: 0.5em 1em;
+	margin-bottom: 1em;
+	color: $color-link;
+	background-color: $color-title;
+	transition: background-color 500ms ease;
+	border: 2px solid $color-title;
+	border-radius: 0.3em;
+	cursor: pointer;
+	align-content: center;
+}
+
+.active,
+.button:hover,
+.active-admin,
+.button-admin:hover {
+	text-decoration: none;
+	color: $color-title;
+	background-color: $color-link;
+}
+
+/* *****************************************************************
+ESPACE ADMIN
+***************************************************************** */
+.header-admin {
+	background-color: $color-text;
+}
+
+.button-admin {
+	background-color: $color-admin;
+	border: 2px solid $color-admin;
+}
+
+.add-product {
+	margin: 1em 0 1em 0;
+}
+
+.active-admin,
+.button-admin:hover {
+	color: $color-admin;
+	background-color: $color-link;
+}
+
+.delete {
+	background-color: $color-danger;
+	border: 2px solid $color-danger;
+}
+
+.delete:hover {
+	color: $color-danger;
+}
+
+.contact-processed {
+	background-color: $color-success;
+	border: 2px solid $color-success;
+}
+
+.admin {
+	color: $color-admin;
+}
+
+/* *****************************************************************
+FORM JS
+***************************************************************** */
+
+span.form-error {
+	display: block;
+	background-color: $color-danger;
+	color: $color-link;
+	padding: 1em;
+	width: 100%;
+	border: 2px solid $color-danger;
+	border-radius: 0.3em;
+}
+
+/* *****************************************************************
+OPINIONS
+***************************************************************** */
+
+.opinion {
+	margin-bottom: 3em;
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid $color-box;
+	width: 50%;
+}
+
+.box {
+	padding: 0.5em 1em;
+	border: 1px solid $color-box;
+	background-color: $color-box;
+	border-radius: 0.3em;
+}
+
+/* *****************************************************************
+FOOTER
+***************************************************************** */
+
+.mentions {
+	a {
+		color: $color-title;
+	}
+
+	nav {
+		ol {
+			color: $color-title;
+
+		}
+	}
+}
+
+
+/* *****************************************************************
+TABLETTE
+***************************************************************** */
+
+@media screen and (min-width: 780px) {
+	.products-index {
+		grid-template-columns: auto auto;
+	}
+
+	header {
+		flex-direction: row;
+		justify-content: space-evenly;
+		.logo {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+	}
+}
+
+/* *****************************************************************
+DESKTOP
+***************************************************************** */
+
+@media screen and (min-width: 980px) {
+	
+	/* The container allows you to limit the width of a content */
+	.container {
+		width: auto;
+		max-width: $max-width;
+		margin-left: auto;
+		/* We center our content */
+		margin-right: auto;
+	}
+
+	header {
+		nav {
+			display: flex;
+			align-items: center;
+			
+			ul {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-around;
+			}
+			
+		}
+	}
+
+	.nav-admin {
+		align-items:end;
+	}
+	
+	.products-index {
+		grid-template-columns: auto auto auto;
+	}
 }

@@ -12,35 +12,35 @@
     <!-- </div>
     <div class="field"> -->
         <label for="title">Appellation</label>
-        <input type="text" name='title' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['title']) : (array_key_exists('title', $_POST) ? htmlspecialchars($_POST['title']) : '') ?>" id="title" aria-describedby="emailHelp">
+        <input class="admin" type="text" name='title' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['title']) : (array_key_exists('title', $_POST) ? htmlspecialchars($_POST['title']) : '') ?>" id="title" aria-describedby="emailHelp">
     <!-- </div>
     <div class="field"> -->
         <label for="description">Description</label>
-        <textarea name='description' id="description" aria-describedby="emailHelp"><?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['description']) : (array_key_exists('description', $_POST) ? htmlspecialchars($_POST['description']) : '') ?></textarea>
+        <textarea class="admin" name='description' id="description" aria-describedby="emailHelp"><?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['description']) : (array_key_exists('description', $_POST) ? htmlspecialchars($_POST['description']) : '') ?></textarea>
     <!-- </div>
     <div class="field"> -->
         <label for="stock">Stock</label>
-        <input type="number" name='stock' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['stock']) : (array_key_exists('stock', $_POST) ? htmlspecialchars($_POST['stock']) : '') ?>" id="stock" aria-describedby="emailHelp">
+        <input class="admin" type="number" name='stock' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['stock']) : (array_key_exists('stock', $_POST) ? htmlspecialchars($_POST['stock']) : '') ?>" id="stock" aria-describedby="emailHelp">
     <!-- </div>
     <div class="field"> -->
         <label for="price">Prix</label>
-        <input type="text" name='price' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['price']) : (array_key_exists('price', $_POST) ? htmlspecialchars($_POST['price']) : '') ?>" id="price" aria-describedby="emailHelp">
+        <input class="admin" type="text" name='price' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['price']) : (array_key_exists('price', $_POST) ? htmlspecialchars($_POST['price']) : '') ?>" id="price" aria-describedby="emailHelp">
     <!-- </div>
     <div class="field"> -->
         <label for="grape">Cépage</label>
-        <input type="text" name='grape' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['grape']) : (array_key_exists('grape', $_POST) ? htmlspecialchars($_POST['grape']) : '') ?>" id="grape" aria-describedby="emailHelp">
+        <input class="admin" type="text" name='grape' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['grape']) : (array_key_exists('grape', $_POST) ? htmlspecialchars($_POST['grape']) : '') ?>" id="grape" aria-describedby="emailHelp">
     <!-- </div>
     <div class="field"> -->
         <label for="country">Pays</label>
-        <input type="text" name='country' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['country']) : (array_key_exists('country', $_POST) ? htmlspecialchars($_POST['country']) : '') ?>" id="country" aria-describedby="emailHelp">
+        <input class="admin" type="text" name='country' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['country']) : (array_key_exists('country', $_POST) ? htmlspecialchars($_POST['country']) : '') ?>" id="country" aria-describedby="emailHelp">
     <!-- </div>
     <div class="field"> -->
         <label for="vintage">Millésime</label>
-        <input type="number" name='vintage' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['vintage']) : (array_key_exists('vintage', $_POST) ? htmlspecialchars($_POST['vintage']) : '') ?>" id="vintage" aria-describedby="emailHelp">
+        <input class="admin" type="number" name='vintage' value="<?php echo array_key_exists('id', $_GET) ? htmlspecialchars($product['vintage']) : (array_key_exists('vintage', $_POST) ? htmlspecialchars($_POST['vintage']) : '') ?>" id="vintage" aria-describedby="emailHelp">
     <!-- </div>
     <div class="field"> -->
         <label>Catégorie</label>
-        <select name="category">
+        <select class="admin" name="category">
             <option value="0">Catégorie</option>
             <?php for ($i = 0; $i < count($categories); $i++) : ?>
                 <option value="<?= $i + 1 ?>" <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1 && ($product['category']) === $categories[$i]['category']) : ?>selected<?php endif ?>>
@@ -59,9 +59,9 @@
         </div>
     </fieldset>
     <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
-        <button class="button" type='submit'>Je modifie le produit</button>
+        <button class="button-admin" type='submit'>Je modifie le produit</button>
     <?php else : ?>
-        <button class="button" type='submit'>J'ajoute ce produit</button>
+        <button class="button-admin" type='submit'>J'ajoute ce produit</button>
     <?php endif ?>
     <?php if (array_key_exists('id', $_GET) && $_GET['id'] >= 1) : ?>
         <div>
