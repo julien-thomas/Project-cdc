@@ -2,22 +2,18 @@
 
 namespace Models;
 require_once 'Model.php';
-//use Models\Model;
 
 class Product extends Model {
 
-    // protected $table = 'products';
     /**
      * Returns all products with a limit of 20 products
      * 
      * @return array
      */
-    public function getAllProducts() :array {
+    public function getAllProducts(): array {
         $req = 
         'SELECT products.id, name, price, title, picture, country, selected
         FROM products
-        /*INNER JOIN categories ON categories.id = products.categories_id*/
-        /* WHERE stock > 0 */
         ORDER BY price DESC
         LIMIT 20';
         return $this->findAll($req);
@@ -26,7 +22,6 @@ class Product extends Model {
     /**
      * Returns a selection of products
      * 
-     * @param integer $id
      * @return null|array
      */
     public function getSelectedProducts(): null|array {
@@ -43,21 +38,33 @@ class Product extends Model {
      * @param integer $id
      * @return bool|array
      */
-    public function getOneProduct($id): bool|array {
+    public function getOneProduct(int $id): bool|array {
         $req = 'SELECT categories.category AS category, categories_id, products.id, name, selected, `description`, stock, vintage, price, products.title, grape, picture, country
         FROM products
         INNER JOIN categories ON products.categories_id = categories.id
         WHERE products.id = :id';
-        //var_dump( $this->findOne($req, ["id" => $id, "status" => "on"]));
         return $this->findOne($req, ["id" => $id]);
     }
 
-    public function getProductFromOrders($id) : bool|array {
+    /**
+     * Returns a product from orders by its id
+     * 
+     * @param integer $id
+     * @return bool|array
+     */
+    public function getProductFromOrders(int $id) : bool|array {
         $req = 'SELECT products_id FROM orders_details WHERE products_id = :id';
         return $this->findOne($req, ['id' => $id]);
     }
 
-    public function setProduct($select, $id): void {
+    /**
+     * sets the product's selected row to 0 or 1
+     * 
+     * @param integer $select
+     * @param integer $id
+     * @return void
+     */
+    public function setProduct(int $select, int $id): void {
         $newData = [
             'selected' => $select
         ];
@@ -65,10 +72,22 @@ class Product extends Model {
         $this->updateOne('products', $newData, 'id', $val);
     }
 
-    public function deleteProductById($product_id) {
+    /**
+     * delete the product by its id
+     * 
+     * @param integer $product_id
+     * @return void
+     */
+    public function deleteProductById(int $product_id): void {
         $this->deleteOne('products', 'id', $product_id);
     }
 
+    /**
+     * Adds a product to the table products
+     *
+     * @param array $newProduct
+     * @return false|int
+     */
     public function addOneProduct(array $newProduct): false|int 
     {
 
@@ -93,6 +112,13 @@ class Product extends Model {
         
     }
 
+    /**
+     * modifies a product
+     * 
+     * @param array $newProductd
+     * @param int $product_id
+     * @return void
+     */
     public function updateOneProduct(array $newProduct, int $product_id): void {
 
         $newData = [
@@ -113,12 +139,25 @@ class Product extends Model {
         $this->updateOne('products', $newData, 'id', $val);
     }
 
-    public function getProductFromSearchbar($search) {
+    /**
+     * Returns a product by research
+     * 
+     * @param string $search
+     * @return bool|array
+     */
+    public function getProductFromSearchbar(string $search): bool|array {
 
         $req = 'SELECT * FROM products WHERE `name` LIKE :find OR title LIKE :find OR vintage LIKE :find ORDER BY id DESC';
         return $this->findAll($req, [':find' => $search]);
     }
 
+    /**
+     * modifies the stock of a product
+     * 
+     * @param int $newStock
+     * @param int $product_id
+     * @return void
+     */
     public function updateStock(int $newStock, int $product_id) {
         $newData = [
             'stock' => $newStock
@@ -127,25 +166,4 @@ class Product extends Model {
         $this->updateOne('products', $newData, 'id', $val);
     }
 
-    /* public function getAllProductsFromCart() {
-
-        var_dump($_COOKIE);
-
-        if(isset($_COOKIE["shopping_cart"]))
-        {
-            $total = 0;
-            $cookie_data = stripslashes($_COOKIE['shopping_cart']);
-            $cart_data = json_decode($cookie_data, true);
-            //$total = $total + ($values["item_quantity"] * $values["item_price"]);
-        }
-        var_dump($cart_data);
-        var_dump($_COOKIE);
-        /* $ids = implode(',',array_keys($_COOKIE['shopping_cart'], true));
-        var_dump($ids);
-        $req = 
-        "SELECT products.id, name, price, picture
-        FROM products
-        WHERE id IN :ids";
-        $this->findAll($req, ['ids' => $ids]); */
-    //} */
 }

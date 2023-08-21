@@ -43,6 +43,7 @@
     <h3>Votre avis nous intéresse</h3>
     <?php if (isset($_SESSION['user'])) : ?>
         <form action='index.php?controller=user&task=opinion&id=<?= htmlspecialchars($product['id']) ?>' method='post'>
+            <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
             <label>Note</label>
             <select class="front" name="score">
                 <option value=5>Excellent 5/5</option>

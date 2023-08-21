@@ -4,8 +4,6 @@ namespace Models;
 
 class User extends Model {
 
-    // protected $table = 'users';
-
     /**
      * Find user by email
      *
@@ -18,12 +16,23 @@ class User extends Model {
         return $this-> findOne($req, [':mail' => $email]);
     }
 
+    /**
+     * Returns a user by id
+     *
+     * @param int $id
+     * @return boolean|array
+     */
     public function getUserbyId(int $id): bool|array
     {
         $req = 'SELECT id, blocked FROM users WHERE id = :id';
         return $this-> findOne($req, [':id' => $id]);
     }
 
+    /**
+     * Returns all users
+     *
+     * @return boolean|array
+     */
     public function getallUsers(): bool|array
     {
         $req = 'SELECT id, firstname, lastname, address, zipCode, city, country, birthday, email, password, roles_id, blocked FROM users';
@@ -31,9 +40,9 @@ class User extends Model {
     }
 
     /**
-     * Add a user
+     * Adds a user
      *
-     * @param array $form
+     * @param array $newUser
      * @return false|int
      */
     public function addUser(array $newUser): false|int
@@ -55,18 +64,29 @@ class User extends Model {
         $data);
     }
 
+    /**
+     * Modifies a password
+     *
+     * @param string $password
+     * @return void
+     */
     public function newPassword(string $password): void
     {
-        //var_dump($_SESSION);
         $newData = [
             'password' => password_hash($password, PASSWORD_DEFAULT)
         ];
         $val = $_SESSION['user']['id'];
         $this->updateOne('users', $newData, 'id', $val);
-        //var_dump($val);
     }
 
-    public function setUser($status, $user_id) {
+    /**
+     * Modifies the status of a user
+     *
+     * @param string $status
+     * @param int $user_id
+     * @return void
+     */
+    public function setUser(string $status, int $user_id) {
         $newData = [
             'blocked' => $status
         ];

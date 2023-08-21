@@ -36,6 +36,7 @@
     <div class="field"> -->
         <label for="password" class="form-label">Votre mot de passe</label>
         <input class="front" type="password" name='password' value="<?php if(!empty($_POST['password'])) echo $_POST['password']; ?>" id="password" required>
+        <small>8 caractères minimum</small>
     <!-- </div> -->
     <button type="submit" class="button">Je créé mon compte</button>
 </form>

@@ -5,14 +5,13 @@ namespace Models;
 class Opinion extends Model {
 
     /**
-     * Add an opinion
+     * Adds an opinion to the table opinions
      *
-     * @param array $form
+     * @param array $opinion
      * @return false|int
      */
     public function addOpinion(array $opinion): false|int
     {
-        var_dump($_SESSION);
         $data = [
         ':score' => $opinion['score'],
         ':pseudo' => $opinion['pseudo'],
@@ -24,6 +23,12 @@ class Opinion extends Model {
         return $this->addOne('opinions', 'score, pseudo, title, opinion, products_id, users_id', ':score, :pseudo, :title, :opinion, :products_id, :users_id', $data);
     }
 
+    /**
+     * Get all opinions by product's id
+     *
+     * @param int $id
+     * @return bool|array
+     */
     public function getAllOpinionsByProduct(int $id): bool|array
     {
         $req = "SELECT products.id, pseudo, opinions.title, score, opinion, opinions.created_at, status FROM opinions
@@ -32,6 +37,11 @@ class Opinion extends Model {
         return $this-> findAll($req, [':id' => $id]);
     }
 
+    /**
+     * Get all opinions
+     *
+     * @return bool|array
+     */
     public function getAllOpinions(): bool|array
     {
         $req = 'SELECT opinions.id, pseudo, opinions.title, score, opinion, products.name, products.description, products.price, users.firstname, users.lastname, opinions.created_at, status FROM opinions
@@ -41,6 +51,12 @@ class Opinion extends Model {
         return $this-> findAll($req);
     }
 
+    /**
+     * Get one opinion by its id
+     *
+     * @param int $id
+     * @return bool|array
+     */
     public function getOneOpinion(int $id): bool|array
     {
         $req = 'SELECT opinions.id, score, opinion, products.name, products.id, users.id, users.firstname, users.lastname, status FROM opinions
@@ -50,7 +66,14 @@ class Opinion extends Model {
         return $this-> findOne($req, [':id' => $id]);
     }
 
-    public function setOpinion($status, $id) {
+    /**
+     * sets the opinion visible or not
+     * 
+     * @param string $status
+     * @param int $id
+     * @return void
+     */
+    public function setOpinion(string $status, int $id): void {
         $newData = [
             'status' => $status
         ];
@@ -58,7 +81,13 @@ class Opinion extends Model {
         $this->updateOne('opinions', $newData, 'id', $val);
     }
 
-    public function deleteOpinionById($opinion_id) {
+    /**
+     * delete the opinion by its id
+     * 
+     * @param int $id
+     * @return void
+     */
+    public function deleteOpinionById(int $opinion_id): void {
         $this->deleteOne('opinions', 'id', $opinion_id);
     }
 }

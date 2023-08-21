@@ -15,6 +15,7 @@ class Renderer
 
     public static function render(string $path, string $path2, $arguments = []) 
     {
+        // recovery of variables from the array created with the function compact()
         extract($arguments);
         // View
         ob_start(); //buffer opening
