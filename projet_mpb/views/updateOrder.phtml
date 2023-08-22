@@ -2,7 +2,6 @@
 
 <form action='index.php?controller=product&task=updateOrder&id=<?= htmlspecialchars($order['id']) ?>' method='post'>
     <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
-    <!-- <input type="hidden" name='id' value="<?= $order['id'] ?>"> -->
     <label>Statut</label>
     <select name="status">
         <option value="Commande confirmée">Commande confirmée</option>

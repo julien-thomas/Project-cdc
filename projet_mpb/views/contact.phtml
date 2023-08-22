@@ -3,6 +3,7 @@
 <form action='index.php?controller=home&task=contact' method='post'>
     <fieldset>
         <legend>Contact</legend>
+        
         <div class="field">
             <select class="front" name="subject">
                 <option value="Pas de sujet">Choisir l'objet de ma demande...</option>
@@ -11,13 +12,12 @@
                 <option value="Signaler un problème de connexion">Signaler un problème de connexion</option>
             </select>
         </div>
-        <!-- <div class="field"> -->
-            <label for="mail">Adresse Email</label>
-            <input class="front" type="email" name='mail' id="mail">
-        <!-- </div>
-        <div class="field"> -->
-            <textarea class="front" name='content' id="content" placeholder='Votre message ici' required></textarea>
-        <!-- </div> -->
+
+        <label for="mail">Adresse Email</label>
+        <input class="front" type="email" name='mail' id="mail">
+
+        <textarea class="front" name='content' id="content" placeholder='Votre message ici' required></textarea>
+
     </fieldset>
     <div>
         <button type="submit" class="button">Envoyer</button>

@@ -78,7 +78,7 @@ video {
 }
 
 img {
-	max-width: 100%;
+	/* max-width: 100%; */
 	width: auto;
 	/* pour ie */
 	height: auto;
@@ -442,6 +442,9 @@ FOOTER
 	}
 }
 
+.logo-18 {
+	max-width: 100%;
+}
 
 /* *****************************************************************
 TABLETTE

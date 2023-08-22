@@ -2,17 +2,17 @@
 
 <!-- Searchbar -->
 <form class="field">
-    <input class="front" type="text" name="search" id="search" placeholder="Rechercher un vin, une appellation, un millésime..."/>
+    <input class="front" type="text" name="search" id="search" placeholder="Rechercher un vin, une appellation, un millésime...">
 </form>
 
-<!-- Div dans laquel nous allons afficher le résultat de notre recherche -->
+<!-- div in which we will display the result of our search -->
 <div class="result" id="result"></div>
 <h2>Tous nos produits ci dessous :</h2>
 <div class="products-index">
     <?php foreach ($products as $product) : ?>
         <div class="products">
             <div>
-                <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img' alt='image de la bouteille'/>
+                <img src='<?= htmlspecialchars($product['picture']) ?>' class='product-img' alt='image de la bouteille'>
             </div>
             <div>
                 <h2><?= htmlspecialchars($product['name']) ?></h2>

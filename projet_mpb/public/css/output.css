@@ -52,7 +52,7 @@ video {
 }
 
 img {
-  max-width: 100%;
+  /* max-width: 100%; */
   width: auto;
   /* pour ie */
   height: auto;
@@ -388,6 +388,10 @@ FOOTER
 }
 .mentions nav ol {
   color: #9e121b;
+}
+
+.logo-18 {
+  max-width: 100%;
 }
 
 /* *****************************************************************

@@ -21,14 +21,14 @@
                 <td><?= htmlspecialchars($opinion['created_at']) ?></td>
                 <td class="actions">
                     <?php if ($opinion['status'] === 'on') : ?>
-                        <a id="block-opinion" class="button-admin"  href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Bloquer</a>
+                        <a class="button-admin"  href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Bloquer</a>
                     <?php else : ?>
                         <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
                     <?php endif; ?>
                     <form action="index.php?controller=admin&task=deleteOpinion" method='POST'>
                         <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
                         <input type="hidden" name='opinion_id' value="<?= htmlspecialchars($opinion['id']) ?>">
-                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer cet avis ?!`)" id="delete-opinion">Supprimer</button>
+                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer cet avis ?!`)">Supprimer</button>
                     </form>
                 </td>
             </tr>

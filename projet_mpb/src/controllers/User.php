@@ -73,7 +73,7 @@ class User extends Controller
             if (in_array('', $_POST))
                 $errors[] = 'Veuillez remplir tous les champs';
 
-            if (!filter_var($newUser['mail'], FILTER_VALIDATE_EMAIL) || count($newUser) > 160)
+            if (!filter_var($newUser['mail'], FILTER_VALIDATE_EMAIL) || strlen($newUser['mail']) > 160)
                 $errors[] = 'Votre email est invalide';
 
             if (strlen($newUser['firstname']) < 3 || strlen($newUser['firstname']) > 100)
@@ -87,22 +87,22 @@ class User extends Controller
                 $errors[] = 'Votre nom ne doit pas comporter de chiffres ou de caractères spéciaux';
 
             $interval = date_diff(date_create(), date_create($newUser['birthday']));
-            if ($interval->y < 18)
-                $errors[] = 'Vous devez avoir plus de 18 ans';
+            if ($interval->y < 18 || $interval->y > 120)
+                $errors[] = 'Vous devez avoir plus de 18 ans et être encore en vie...';
             // $interval->format("You are  %Y Year, %M Months, %d Days, %H Hours, %i Minutes, %s Seconds Old");
 
-            if (strlen($newUser['address']) > 200)
+            if (strlen($newUser['address']) < 2 || strlen($newUser['address']) > 200)
                 $errors[] = 'Votre addresse ne doit pas comporter plus de 200 caractères';
 
-            if (strlen($newUser['zipCode']) > 15)
+            if (strlen($newUser['zipCode']) < 2 || strlen($newUser['zipCode']) > 15)
                 $errors[] = 'Votre code postal ne doit pas comporter plus de 15 caractères';
 
-            if (strlen($newUser['city']) > 50)
+            if (strlen($newUser['city']) < 2 || strlen($newUser['city']) > 50)
                 $errors[] = 'Votre ville ne doit pas comporter plus de 50 caractères';
             if (!preg_match('/^[A-Za-z\-\']+$/', $newUser['city']))
                 $errors[] = 'Votre ville ne doit pas comporter de chiffres ou de caractères spéciaux';
 
-            if (strlen($newUser['country']) > 50)
+            if (strlen($newUser['country']) < 2 || strlen($newUser['country']) > 50)
                 $errors[] = 'Votre pays ne doit pas comporter plus de 50 caractères';
             if (!preg_match('/^[A-Za-z\-\']+$/', $newUser['country']))
                 $errors[] = 'Votre pays ne doit pas comporter de chiffres ou de caractères spéciaux';
@@ -112,7 +112,6 @@ class User extends Controller
 
             if ($this->model->getUser($newUser['mail']))
                 $errors[] = 'Un utilisateur existe déjà avec cet email';
-            var_dump($errors);
 
             if (count($errors) === 0) {
                 $this->model->addUser($newUser);
@@ -134,39 +133,49 @@ class User extends Controller
         $model = new \Models\Opinion;
         if (isset($_SESSION['user'])) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $opinion = [
-                    'score'     => $_POST['score'],
-                    'pseudo'    => trim($_POST['pseudo']),
-                    'title'     => trim($_POST['title']),
-                    'opinion'   => trim($_POST['opinion'])
-                ];
 
-                $errors = [];
-
-                if (in_array('', $_POST))
-                    $errors[] = 'Veuillez remplir tous les champs';
-
-                if (strlen($opinion['pseudo']) < 2 || strlen($opinion['pseudo']) > 20)
-                    $errors[] = 'Votre pseudo doit comporter entre 2 et 20 caractères';
-
-                if (strlen($opinion['title']) < 2 || strlen($opinion['title']) > 20)
-                    $errors[] = 'Votre avis en 2 mots doit comporter entre 2 et 20 caractères';
-
-                if (strlen($opinion['opinion']) < 2 || strlen($opinion['opinion']) > 1000)
-                    $errors[] = 'Votre avis doit comporter entre 2 et 1000 caractères';
-
-                $product_id = null;
-                if (!empty($_POST['product_id']) && ctype_digit($_POST['product_id'])) {
-                    $product_id = $_POST['product_id'];
-                }
-
-                if (count($errors) === 0) {
-                    $model->addOpinion($opinion);
-                    $_SESSION['success'] = 'Votre avis a bien été enregistré';
-                    \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+                if (
+                    !isset($_POST['token']) ||
+                    !hash_equals($_SESSION['user']['token'], $_POST['token'])
+                ) {
+                    http_response_code(400);
+                    exit('Request Forbidden');
                 } else {
-                    $_SESSION['error'] = $errors[0];
-                    \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+
+                    $opinion = [
+                        'score'     => $_POST['score'],
+                        'pseudo'    => trim($_POST['pseudo']),
+                        'title'     => trim($_POST['title']),
+                        'opinion'   => trim($_POST['opinion'])
+                    ];
+
+                    $errors = [];
+
+                    if (in_array('', $_POST))
+                        $errors[] = 'Veuillez remplir tous les champs';
+
+                    if (strlen($opinion['pseudo']) < 2 || strlen($opinion['pseudo']) > 20)
+                        $errors[] = 'Votre pseudo doit comporter entre 2 et 20 caractères';
+
+                    if (strlen($opinion['title']) < 2 || strlen($opinion['title']) > 20)
+                        $errors[] = 'Votre avis en 2 mots doit comporter entre 2 et 20 caractères';
+
+                    if (strlen($opinion['opinion']) < 2 || strlen($opinion['opinion']) > 1000)
+                        $errors[] = 'Votre avis doit comporter entre 2 et 1000 caractères';
+
+                    $product_id = null;
+                    if (!empty($_POST['product_id']) && ctype_digit($_POST['product_id'])) {
+                        $product_id = $_POST['product_id'];
+                    }
+
+                    if (count($errors) === 0) {
+                        $model->addOpinion($opinion);
+                        $_SESSION['success'] = 'Votre avis a bien été enregistré';
+                        \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+                    } else {
+                        $_SESSION['error'] = $errors[0];
+                        \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
+                    }
                 }
             }
         } else {
@@ -210,8 +219,10 @@ class User extends Controller
                     if (!in_array('', $_POST)) {
                         $user = $this->model->getUser($_SESSION['user']['email']);
                         if (password_verify($_POST['currentPassword'], $user['password'])) {
-                            if (strlen($_POST['newPassword']) > 7 && strlen($_POST['newPasswordConfirm']) > 7 
-                                && strlen($_POST['newPassword']) < 101 && strlen($_POST['newPasswordConfirm']) < 101) {
+                            if (
+                                strlen($_POST['newPassword']) > 7 && strlen($_POST['newPasswordConfirm']) > 7
+                                && strlen($_POST['newPassword']) < 101 && strlen($_POST['newPasswordConfirm']) < 101
+                            ) {
                                 if ($_POST['newPassword'] === $_POST['newPasswordConfirm']) {
                                     try {
                                         $this->model->newPassword($_POST['newPassword']);

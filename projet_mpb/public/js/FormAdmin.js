@@ -4,8 +4,7 @@ class FormAdmin {
     constructor() {
         this.error = new Errors();
         this.isValid = false;
-        this.allowed = ['token', 'name', 'title', 'stock', 'price', 'grape' ,'country', 'vintage', 'MAX_FILE_SIZE', 'upload'];
-        this.token = '';
+        this.allowed = ['name', 'title', 'stock', 'price', 'grape' ,'country', 'vintage'];
         this.name = '';
         this.title = '';
         this.stock = '';
@@ -14,7 +13,6 @@ class FormAdmin {
         this.country = '';
         this.vintage = '';
         this._contact = {
-            //token: '',
             name: '',
             title: '',
             stock: '',
@@ -40,31 +38,23 @@ class FormAdmin {
                     `Le champ ${field.name} n'est pas valide`
                 );
             }
-
-            /* if (field.name === 'token') {
-                if (!field.value) {
-                    this.error.record({ token: 'token invalide' });
-                }
-                //this._contact.token = field.value;
-            } */
-
                     
             if (field.name === 'name') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
                     this.error.record({ name: 'Nom invalide' });
                 }
                 this._contact.name = field.value;
             }
 
             if (field.name === 'title') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
                     this.error.record({ title: 'Appellation invalide' });
                 }
                 this._contact.title = field.value;
             }
 
             if (field.name === 'stock') {
-                if (!field.value || !field.value.match(/^\d+$/)) {
+                if (!field.value || !field.value.match(/^\d+$/) || field.value > 99999) {
                     this.error.record({ stock: 'Stock invalide' });
                 }
                 this._contact.stock = field.value;
@@ -78,14 +68,14 @@ class FormAdmin {
             }
 
             if (field.name === 'grape') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
                     this.error.record({ grape: 'Cépage invalide' });
                 }
                 this._contact.grape = field.value;
             }
 
             if (field.name === 'country') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
                     this.error.record({ country: 'Pays invalide' });
                 }
                 this._contact.country = field.value;
@@ -116,7 +106,6 @@ class FormAdmin {
             this.nextElementSibling.remove();
         }
     }
-
     
 }
 

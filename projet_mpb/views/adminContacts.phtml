@@ -28,7 +28,7 @@
                     <form action="index.php?controller=admin&task=deleteContact" method='POST'>
                         <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
                         <input type="hidden" name='contact_id' value="<?= htmlspecialchars($contact['id']) ?>">
-                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce contact ?!`)" id="delete-contact">Supprimer</button>
+                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce contact ?!`)">Supprimer</button>
                     </form>
                 </td>
             </tr>

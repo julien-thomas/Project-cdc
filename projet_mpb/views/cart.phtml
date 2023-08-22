@@ -2,43 +2,38 @@
 <?php if (isset($_COOKIE["shopping_cart"])) : ?>
     <table class="table">
         <thead>
-            <th>Produit</th>
-            <th>Nom</th>
-            <th>Prix</th>
-            <th>Quantité</th>
-            <th>Total</th>
-            <th>Action</th>
+            <tr>
+                <th>Produit</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
         </thead>
-        <tbody >
-            <?php $total = 0; /* $totalQuantity = 0; */
-            foreach ($cart_data as $keys => $values) : ?>
+        <tbody>
+            <?php foreach ($cart_data as $keys => $values) : ?>
                 <tr>
-                    <td class="cart"><img class='cart-img' src='<?= htmlspecialchars($values['item_picture']) ?>' /></td>
-                    <!-- <td class="cart"><img class='cart-img' src='<?= htmlspecialchars($product['picture']) ?>' /></td> -->
+                    <td class="cart"><img class='cart-img' src='<?= htmlspecialchars($values['item_picture']) ?>' alt="image de la bouteille"></td>
                     <td class="cart"><?= htmlspecialchars($values['item_name']) ?></td>
-                    <!-- <td class="cart"><?= htmlspecialchars($product['name']) ?></td> -->
                     <td class="cart"><?= htmlspecialchars($values['item_price']) ?> €</td>
-                    <!-- <td class="cart"><?= htmlspecialchars($product['price']) ?> €</td> -->
                     <td class="cart"><?= htmlspecialchars($values['item_quantity']) ?></td>
                     <td class="cart"><?= number_format($values["item_quantity"] * $values['item_price'], 2); ?> €</td>
-                    <td class="cart"><a  class='button delete' href='index.php?controller=product&task=addToCart&action=delete&id=<?= $values['item_id']; ?>'>Supprimer</td>
+                    <td class="cart"><a class='button delete' href='index.php?controller=product&task=addToCart&action=delete&id=<?= $values['item_id']; ?>'>Supprimer</a></td>
                 </tr>
-            <!-- <?php $total = $total + ($values["item_quantity"] * $values['item_price']); ?> -->
-            <!-- /* $totalQuantity = $totalQuantity + $values["item_quantity"];
-            setcookie('totalQuantity', $totalQuantity, time() + (86400 * 30)); */
-            /* var_dump($totalQuantity);
-            var_dump($_COOKIE); */ -->
             <?php endforeach ?>
         </tbody>
         <tfoot>
-            <th colspan="4"></th>
-            <th>Total <?= number_format($total, 2); ?>€</th>
-            <th><a href='index.php?controller=product&task=addToCart&action=clear' class="button delete">Vider mon panier</a></th>
+            <tr>
+                <th colspan="4"></th>
+                <th>Total <?= number_format($total, 2); ?>€</th>
+                <th><a href='index.php?controller=product&task=addToCart&action=clear' class="button delete">Vider mon panier</a></th>
+            </tr>
         </tfoot>
-        
+
     </table>
     <a class="button" href='index.php?controller=product&task=showCart&action=order'>Commander</a>
 
-        <?php else : ?>
+<?php else : ?>
     <p>Votre panier est vide</p>
 <?php endif ?>

@@ -1,23 +1,25 @@
 <h1>Ma commande</h1>
 
 <table class="table">
-        <thead>
+    <thead>
+        <tr>
             <th>Date</th>
             <th>Nom</th>
             <th>Prix</th>
             <th>Quantité</th>
             <th>Statut</th>
-        </thead>
-        <tbody >
-            <?php 
-            foreach ($orderDetails as $orderDetail) : ?>
-                <tr>
-                    <td><?= htmlspecialchars($orderDetail['orderDate']) ?></td>
-                    <td><?= htmlspecialchars($orderDetail['name']) ?></td>
-                    <td><?= htmlspecialchars($orderDetail['price']) ?> €</td>
-                    <td><?= htmlspecialchars($orderDetail['qty']) ?></td>
-                    <td><?= htmlspecialchars($orderDetail['status']) ?></td>
-                </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($orderDetails as $orderDetail) : ?>
+            <tr>
+                <td><?= htmlspecialchars($orderDetail['orderDate']) ?></td>
+                <td><?= htmlspecialchars($orderDetail['name']) ?></td>
+                <td><?= htmlspecialchars($orderDetail['price']) ?> €</td>
+                <td><?= htmlspecialchars($orderDetail['qty']) ?></td>
+                <td><?= htmlspecialchars($orderDetail['status']) ?></td>
+            </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>

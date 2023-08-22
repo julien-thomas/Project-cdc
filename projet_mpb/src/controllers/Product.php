@@ -5,7 +5,7 @@ namespace Controllers;
 class Product extends Controller
 {
 
-    protected $modelName = \Models\Product::class; 
+    protected $modelName = \Models\Product::class;
 
     /**
      * @var FILE_EXT_IMG  extensions accepted for images
@@ -120,116 +120,121 @@ class Product extends Controller
 
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                
-                $errors = [];
 
-                $newProduct = [
-                    'name'          => trim($_POST['name']),
-                    'title'         => trim($_POST['title']),
-                    'description'   => trim($_POST['description']),
-                    'stock'         => trim($_POST['stock']),
-                    'price'         => trim($_POST['price']),
-                    'grape'         => trim($_POST['grape']),
-                    'country'       => trim($_POST['country']),
-                    'vintage'       => trim($_POST['vintage']),
-                    'category'      => $_POST['category'], //'',
-                    'picture'       => ''  // self::UPLOADS_DIR . $filename
-                ];
-
-                if (in_array('', $_POST))
-                    $errors[] = 'Veuillez remplir tous les champs';
-
-                if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
-                    $errors[] = 'Le nom du produit doit comporter entre 2 et 50 caractères';
-                if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['name']))
-                    $errors[] = 'Le nom du produit ne doit pas comporter de chiffres ou de caractères spéciaux';
-
-                if (strlen($newProduct['title']) < 3 || strlen($newProduct['title']) > 50)
-                    $errors[] = 'L\'appellation doit comporter entre 2 et 50 caractères';
-                if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['title']))
-                    $errors[] = 'L\'appellation ne doit pas comporter de chiffres ou de caractères spéciaux';
-
-                if (strlen($newProduct['description']) < 3 || strlen($newProduct['description']) > 1000)
-                    $errors[] = 'La description doit comporter entre 2 et 1000 caractères';
-
-                if (!ctype_digit($newProduct['stock']) || $newProduct['stock'] > 99999)
-                    $errors[] = 'Le stock doit être composé de chiffres uniquement et être inférieur à 99999';
-
-                if (!preg_match('/^\d+(\.\d{1,2})?$/', $newProduct['price']))
-                    $errors[] = 'Le prix doit être composé de chiffres avec 2 décimales maximum';
-
-                if (strlen($newProduct['grape']) < 3 || strlen($newProduct['grape']) > 50)
-                    $errors[] = 'Le cépage doit comporter entre 2 et 50 caractères';
-                if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['grape']))
-                    $errors[] = 'Le cépage ne doit pas comporter de chiffres ou de caractères spéciaux';
-
-                if (strlen($newProduct['country']) < 3 || strlen($newProduct['country']) > 50)
-                    $errors[] = 'Le pays doit comporter entre 2 et 50 caractères';
-                if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['country']))
-                    $errors[] = 'Le pays ne doit pas comporter de chiffres ou de caractères spéciaux';
-
-                if (!ctype_digit($newProduct['vintage']))
-                    $errors[] = 'Le millésime doit être composé de chiffres uniquement';
-
-                if (!isset($_POST['token']) || !hash_equals($_SESSION['user']['token'], $_POST['token']))
-                    $errors[] = 'Requête interdite';
-
-                if (count($errors) === 0) {
-                    if (array_key_exists('id', $_GET)) {
-                        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-                            $product_id = $_GET['id'];
-                        }
-                        if (!$product_id || !$this->model->getOneProduct($product_id)) {
-                            $_SESSION['error'] = 'Ce produit n\'existe pas';
-                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
-                        } else {
-                            $product = $this->model->getOneProduct($_GET['id']);
-                            if ($_FILES['upload']['name'] === '') {
-                                $newProduct['picture'] = $product['picture'];
-                            } else {
-                                $filename = $this->uploadFile($_FILES['upload'], $errors);
-                                if (count($errors) === 0) {
-                                    $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                                    unlink($product['picture']);
-                                } else {
-                                    $_SESSION['error'] = $errors[0];
-                                    \Apps\Redirection::redirect('index.php');
-                                }
-                            }
-                            $this->model->updateOneProduct($newProduct, $_GET['id']);
-                            $_SESSION['success'] = "L'article a bien été modifié";
-                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
-                        }
-                    } else {
-                        $filename = $this->uploadFile($_FILES['upload'], $errors);
-                        $newProduct['picture'] = self::UPLOADS_DIR . $filename;
-                        if (count($errors) === 0) {
-                            $this->model->addOneProduct($newProduct);
-                            $_SESSION['success'] = "L'article a bien été ajouté";
-                            \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
-                        } else $_SESSION['error'] = $errors[0];
-                    }
-                } else $_SESSION['error'] = $errors[0];
-
-            }
-
-            if (array_key_exists('id', $_GET)) {
-                var_dump($errors);
-                if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-                    $product_id = $_GET['id'];
-                }
-                if (!$product_id || !$this->model->getOneProduct($product_id)) {
-                    $_SESSION['error'] = 'Ce produit n\'existe pas';
-                    \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                if (
+                    !isset($_POST['token']) ||
+                    !hash_equals($_SESSION['user']['token'], $_POST['token'])
+                ) {
+                    http_response_code(400);
+                    exit('Request Forbidden');
                 } else {
-                    var_dump($errors);
-                    $product = $this->model->getOneProduct($_GET['id']);
-                    \Apps\Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+
+                    $errors = [];
+
+                    $newProduct = [
+                        'name'          => trim($_POST['name']),
+                        'title'         => trim($_POST['title']),
+                        'description'   => trim($_POST['description']),
+                        'stock'         => trim($_POST['stock']),
+                        'price'         => trim($_POST['price']),
+                        'grape'         => trim($_POST['grape']),
+                        'country'       => trim($_POST['country']),
+                        'vintage'       => trim($_POST['vintage']),
+                        'category'      => $_POST['category'], //'',
+                        'picture'       => ''  // self::UPLOADS_DIR . $filename
+                    ];
+
+                    if (in_array('', $_POST))
+                        $errors[] = 'Veuillez remplir tous les champs';
+
+                    if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
+                        $errors[] = 'Le nom du produit doit comporter entre 2 et 50 caractères';
+                    if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['name']))
+                        $errors[] = 'Le nom du produit ne doit pas comporter de chiffres ou de caractères spéciaux';
+
+                    if (strlen($newProduct['title']) < 3 || strlen($newProduct['title']) > 50)
+                        $errors[] = 'L\'appellation doit comporter entre 2 et 50 caractères';
+                    if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['title']))
+                        $errors[] = 'L\'appellation ne doit pas comporter de chiffres ou de caractères spéciaux';
+
+                    if (strlen($newProduct['description']) < 3 || strlen($newProduct['description']) > 1000)
+                        $errors[] = 'La description doit comporter entre 2 et 1000 caractères';
+
+                    if (!ctype_digit($newProduct['stock']) || $newProduct['stock'] > 99999)
+                        $errors[] = 'Le stock doit être composé de chiffres uniquement et être inférieur à 99999';
+
+                    if (!preg_match('/^\d+(\.\d{1,2})?$/', $newProduct['price']))
+                        $errors[] = 'Le prix doit être composé de chiffres avec 2 décimales maximum';
+
+                    if (strlen($newProduct['grape']) < 3 || strlen($newProduct['grape']) > 50)
+                        $errors[] = 'Le cépage doit comporter entre 2 et 50 caractères';
+                    if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['grape']))
+                        $errors[] = 'Le cépage ne doit pas comporter de chiffres ou de caractères spéciaux';
+
+                    if (strlen($newProduct['country']) < 3 || strlen($newProduct['country']) > 50)
+                        $errors[] = 'Le pays doit comporter entre 2 et 50 caractères';
+                    if (!preg_match('/^[A-Za-z\-\']+$/', $newProduct['country']))
+                        $errors[] = 'Le pays ne doit pas comporter de chiffres ou de caractères spéciaux';
+
+                    if (!ctype_digit($newProduct['vintage']))
+                        $errors[] = 'Le millésime doit être composé de chiffres uniquement';
+
+                    if (strlen($newProduct['vintage']) != 4)
+                        $errors[] = 'Le millésime doit être composé de  4 chiffres uniquement';
+
+                    if (count($errors) === 0) {
+                        if (array_key_exists('id', $_GET)) {
+                            if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                                $product_id = $_GET['id'];
+                            }
+                            if (!$product_id || !$this->model->getOneProduct($product_id)) {
+                                $_SESSION['error'] = 'Ce produit n\'existe pas';
+                                \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            } else {
+                                $product = $this->model->getOneProduct($_GET['id']);
+                                if ($_FILES['upload']['name'] === '') {
+                                    $newProduct['picture'] = $product['picture'];
+                                } else {
+                                    $filename = $this->uploadFile($_FILES['upload'], $errors);
+                                    if (count($errors) === 0) {
+                                        $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                                        unlink($product['picture']);
+                                    } else {
+                                        $_SESSION['error'] = $errors[0];
+                                        \Apps\Redirection::redirect('index.php');
+                                    }
+                                }
+                                $this->model->updateOneProduct($newProduct, $_GET['id']);
+                                $_SESSION['success'] = "L'article a bien été modifié";
+                                \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            }
+                        } else {
+                            $filename = $this->uploadFile($_FILES['upload'], $errors);
+                            $newProduct['picture'] = self::UPLOADS_DIR . $filename;
+                            if (count($errors) === 0) {
+                                $this->model->addOneProduct($newProduct);
+                                $_SESSION['success'] = "L'article a bien été ajouté";
+                                \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                            } else $_SESSION['error'] = $errors[0];
+                        }
+                    } else $_SESSION['error'] = $errors[0];
                 }
-            } else {
-                \Apps\Renderer::render('addProduct', 'admin', compact('categories'));
             }
-        
+                if (array_key_exists('id', $_GET)) {
+                    if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                        $product_id = $_GET['id'];
+                    }
+                    if (!$product_id || !$this->model->getOneProduct($product_id)) {
+                        $_SESSION['error'] = 'Ce produit n\'existe pas';
+                        \Apps\Redirection::redirect('index.php?controller=admin&task=showAllProducts');
+                    } else {
+                        $product = $this->model->getOneProduct($_GET['id']);
+                        \Apps\Renderer::render('addProduct', 'admin', compact('categories', 'product'));
+                    }
+                } else {
+                    \Apps\Renderer::render('addProduct', 'admin', compact('categories'));
+                }
+            
         } else {
             $_SESSION['error'] = 'Veuillez vous connecter en tant qu\'admin';
             \Apps\Redirection::redirect('index.php?controller=user&task=login');
@@ -245,18 +250,15 @@ class Product extends Controller
     {
 
         if (isset($_POST["add_to_cart"])) {
-            var_dump($_COOKIE);
 
             if (isset($_COOKIE["shopping_cart"])) {
                 $cookie_data = stripslashes($_COOKIE['shopping_cart']);
-
                 $cart_data = json_decode($cookie_data, true);
             } else {
                 $cart_data = [];
             }
 
             $item_id_list = array_column($cart_data, 'item_id');
-            var_dump($item_id_list);
             if (isset($_GET["id"])) {
                 $product_id = $_GET["id"];
                 $model = new \Models\Product;
@@ -264,7 +266,7 @@ class Product extends Controller
                     $_SESSION['error'] = 'Quantité non valide';
                     \Apps\Redirection::redirect('index.php?controller=product&task=showOne&id=' . $product_id);
                 }
-                
+
                 if (in_array($product_id, $item_id_list)) {
                     foreach ($cart_data as $keys => $values) {
                         if ($cart_data[$keys]["item_id"] === $product_id) {
@@ -311,7 +313,6 @@ class Product extends Controller
             setcookie("totalQuantity", "", time() - 3600);
             \Apps\Redirection::redirect('index.php?controller=product&task=showCart');
         }
-
     }
 
     /**
@@ -384,7 +385,6 @@ class Product extends Controller
         } else {
             \Apps\Renderer::render('cart', 'layout');
         }
-        
     }
 
     /**
@@ -425,8 +425,7 @@ class Product extends Controller
                 }
             }
             \Apps\Renderer::render('orderDetails', 'layout', compact('orderDetails'));
-        }
-        else {
+        } else {
             $_SESSION['errors'] = 'Veuillez vous connecter pour voir vos commandes';
             \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
@@ -473,5 +472,4 @@ class Product extends Controller
             \Apps\Redirection::redirect('index.php?controller=user&task=login');
         }
     }
-    
 }

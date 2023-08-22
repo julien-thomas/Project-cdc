@@ -3,13 +3,16 @@
 <?php if (!empty($orders)) : ?>
     <table class="table">
         <thead>
-            <th>Date</th>
-            <th>Prix</th>
-            <th>Quantité</th>
-            <th>Statut</th>
+            <tr>
+                <th>Date</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
         </thead>
-        <tbody >
-            <?php 
+        <tbody>
+            <?php
             foreach ($orders as $order) : ?>
                 <tr>
                     <td><?= htmlspecialchars($order['orderDate']) ?></td>
@@ -21,8 +24,8 @@
             <?php endforeach ?>
         </tbody>
     </table>
-    
 
-        <?php else : ?>
+
+<?php else : ?>
     <p>Vous n'avez pas encore passé de commande</p>
 <?php endif ?>
