@@ -78,12 +78,12 @@ class User extends Controller
 
             if (strlen($newUser['firstname']) < 3 || strlen($newUser['firstname']) > 100)
                 $errors[] = 'Votre prénom doit comporter entre 2 et 100 caractères';
-            if (!preg_match('/^[A-Za-z\-\']+$/', $newUser['firstname']))
+            if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newUser['firstname']))
                 $errors[] = 'Votre prénom ne doit pas comporter de chiffres ou de caractères spéciaux';
 
             if (strlen($newUser['lastname']) < 3 || strlen($newUser['lastname']) > 100)
                 $errors[] = 'Votre nom doit comporter entre 2 et 100 caractères';
-            if (!preg_match('/^[A-Za-z\-\']+$/', $newUser['lastname']))
+            if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newUser['lastname']))
                 $errors[] = 'Votre nom ne doit pas comporter de chiffres ou de caractères spéciaux';
 
             $interval = date_diff(date_create(), date_create($newUser['birthday']));
@@ -99,12 +99,12 @@ class User extends Controller
 
             if (strlen($newUser['city']) < 2 || strlen($newUser['city']) > 50)
                 $errors[] = 'Votre ville ne doit pas comporter plus de 50 caractères';
-            if (!preg_match('/^[A-Za-z\-\']+$/', $newUser['city']))
+            if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newUser['city']))
                 $errors[] = 'Votre ville ne doit pas comporter de chiffres ou de caractères spéciaux';
 
             if (strlen($newUser['country']) < 2 || strlen($newUser['country']) > 50)
                 $errors[] = 'Votre pays ne doit pas comporter plus de 50 caractères';
-            if (!preg_match('/^[A-Za-z\-\']+$/', $newUser['country']))
+            if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newUser['country']))
                 $errors[] = 'Votre pays ne doit pas comporter de chiffres ou de caractères spéciaux';
 
             if (strlen($newUser['password']) < 8 || strlen($newUser['password']) > 100)

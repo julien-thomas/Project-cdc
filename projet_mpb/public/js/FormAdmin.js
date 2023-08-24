@@ -4,7 +4,7 @@ class FormAdmin {
     constructor() {
         this.error = new Errors();
         this.isValid = false;
-        this.allowed = ['name', 'title', 'stock', 'price', 'grape' ,'country', 'vintage'];
+        this.allowed = ['token', 'name', 'title', 'stock', 'price', 'grape' ,'country', 'vintage', 'MAX_FILE_SIZE', 'upload'];
         this.name = '';
         this.title = '';
         this.stock = '';
@@ -40,14 +40,14 @@ class FormAdmin {
             }
                     
             if (field.name === 'name') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ0-9,.\s]+$/)) {
                     this.error.record({ name: 'Nom invalide' });
                 }
                 this._contact.name = field.value;
             }
 
             if (field.name === 'title') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ title: 'Appellation invalide' });
                 }
                 this._contact.title = field.value;
@@ -68,14 +68,14 @@ class FormAdmin {
             }
 
             if (field.name === 'grape') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ grape: 'Cépage invalide' });
                 }
                 this._contact.grape = field.value;
             }
 
             if (field.name === 'country') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ country: 'Pays invalide' });
                 }
                 this._contact.country = field.value;

@@ -6,7 +6,7 @@ class Form {
         this.isValid = false;
         this.allowed = 
         ['token', 'mail', 'firstname', 'lastname', 'birthday', 'address' ,'zipCode', 'city', 'country', 'password',
-        'currentPassword', 'newPassword', 'newPasswordConfirm', 'quantity', 'name', 'title', 'opinion', 'content'];
+        'currentPassword', 'newPassword', 'newPasswordConfirm', 'quantity', 'name', 'pseudo', 'title', 'content', 'product_id'];
         this.token = '';
         this.mail = '';
         this.firstname = '';
@@ -22,8 +22,8 @@ class Form {
         this.newPasswordConfirm = '';
         this.quantity = '';
         this.name = '';
+        this.pseudo = '';
         this.title = '';
-        this.opinion = '';
         this.content = '';
         this._contact = {
             mail: '',
@@ -40,8 +40,8 @@ class Form {
             newPasswordConfirm: '',
             quantity: '',
             name: '',
+            pseudo: '',
             title: '',
-            opinion: '',
             content: ''
         };
     }
@@ -78,14 +78,14 @@ class Form {
             }
             
             if (field.name === 'firstname') {
-                if (!field.value || field.value.length < 3 || field.value.length > 100 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 100 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ firstname: 'Prénom invalide' });
                 }
                 this._contact.firstname = field.value;
             }
 
             if (field.name === 'lastname') {
-                if (!field.value || field.value.length < 3 || field.value.length > 100 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 100 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ lastname: 'Nom invalide' });
                 }
                 this._contact.lastname = field.value;
@@ -115,14 +115,14 @@ class Form {
             }
 
             if (field.name === 'city') {
-                if (!field.value || field.value.length < 2 || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 2 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ city: 'Ville invalide' });
                 }
                 this._contact.city = field.value;
             }
 
             if (field.name === 'country') {
-                if (!field.value || field.value.length < 2  || field.value.length > 50 || !field.value.match(/^[A-Za-z\-\']+$/)) {
+                if (!field.value || field.value.length < 2  || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
                     this.error.record({ country: 'Pays invalide' });
                 }
                 this._contact.country = field.value;
@@ -177,12 +177,12 @@ class Form {
                 this._contact.title = field.value;
             }
 
-            if (field.name === 'opinion') {
-                if (!field.value || field.value.length < 2 || field.value.length > 20) {
+            /* if (field.name === 'opinion') {
+                if (!field.value || field.value.length < 2 || field.value.length > 300) {
                     this.error.record({ opinion: 'Avis invalide' });
                 }
                 this._contact.opinion = field.value;
-            }
+            } */
 
             if (field.name === 'content') {
                 if (!field.value || field.value.length > 300) {
