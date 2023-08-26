@@ -38,7 +38,7 @@
     <h3>Votre avis nous intéresse</h3>
     <?php if (isset($_SESSION['user'])) : ?>
         <form action='index.php?controller=user&task=opinion&id=<?= htmlspecialchars($product['id']) ?>' method='post'>
-            <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+            <input type="hidden" name="token" value="<?= $_SESSION['user']['token'] ?>">
             <label>Note</label>
             <select class="front" name="score">
                 <option value=5>Excellent 5/5</option>
@@ -49,13 +49,13 @@
             </select>
 
             <label for="pseudo">Votre pseudo</label>
-            <input class="front" type="text" name='pseudo' value="<?php if (!empty($_POST['pseudo'])) echo $_POST['pseudo']; ?>" id="pseudo">
+            <input class="front" type="text" name="pseudo" value="<?php if (!empty($_POST['pseudo'])) echo $_POST['pseudo']; ?>" id="pseudo">
 
             <label for="title">Votre avis en 2 mots</label>
-            <input class="front" type="text" name='title' value="<?php if (!empty($_POST['title'])) echo $_POST['title']; ?>" id="title">
+            <input class="front" type="text" name="title" value="<?php if (!empty($_POST['title'])) echo $_POST['title']; ?>" id="title">
 
             <label for="opinion">Votre avis</label>
-            <textarea class="front" name='opinion' id="opinion" required><?php if (!empty($_POST['opinion'])) echo $_POST['opinion']; ?></textarea>
+            <textarea class="front" name="opinion" id="opinion" required><?php if (!empty($_POST['opinion'])) echo $_POST['opinion']; ?></textarea>
 
             <input type="hidden" name="product_id" id="product_id" value="<?= $product['id'] ?>">
             

@@ -147,7 +147,9 @@ class Product extends Model {
      */
     public function getProductFromSearchbar(string $search): bool|array {
 
-        $req = 'SELECT * FROM products WHERE `name` LIKE :find OR title LIKE :find OR vintage LIKE :find ORDER BY id DESC';
+        $req = 'SELECT * FROM products 
+        INNER JOIN categories ON products.categories_id = categories.id
+        WHERE `name` LIKE :find OR title LIKE :find OR vintage LIKE :find OR category LIKE :find ORDER BY products.id DESC';
         return $this->findAll($req, [':find' => $search]);
     }
 

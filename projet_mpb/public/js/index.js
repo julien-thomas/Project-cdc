@@ -55,7 +55,7 @@ function searchbar() {
 
         // data exploitation
         .then(res => {
-            document.getElementById("result").innerHTML = res; // we put searchProducts.phtml in the div -> id=result
+            document.getElementById("result").innerHTML = res; // put searchProducts.phtml in the div -> id=result
         })
 }
 

@@ -15,17 +15,19 @@ class Errors {
         for (let error of this.errors.messages) {
             for (let field in error) {
                 if (error.hasOwnProperty(field)) {
+                    // creation, display and stylisation of message errors
                     const span = document.createElement('span');
                     span.innerText = error[field];
                     span.classList.add('form-error');
                     const input = document.querySelector(`input[name="${field}"]`);
+                    // insertion of span if doesn't exist yet
                     if (!input.nextElementSibling.classList.contains('form-error')) {
                         input.parentNode.insertBefore(span, input.nextSibling);
                     }
                 }
             }
         }
-        // clear messages
+        // clear error messages
         this.errors.messages.length = 0;
     }
     

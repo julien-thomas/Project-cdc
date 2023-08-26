@@ -148,17 +148,17 @@ class Product extends Controller
                         $errors[] = 'Veuillez remplir tous les champs';
 
                     if (strlen($newProduct['name']) < 3 || strlen($newProduct['name']) > 50)
-                        $errors[] = 'Le nom du produit doit comporter entre 2 et 50 caractères';
-                    if (!preg_match('/^[A-Za-zÀ-ÿ0-9,.\s]+$/', $newProduct['name']))
+                        $errors[] = 'Le nom du produit doit comporter entre 3 et 50 caractères';
+                    if (!preg_match('/^[A-Za-zÀ-ÿ0-9,.\'\s]+$/', $newProduct['name']))
                         $errors[] = 'Le nom du produit ne doit pas comporter caractères spéciaux';
 
                     if (strlen($newProduct['title']) < 3 || strlen($newProduct['title']) > 50)
-                        $errors[] = 'L\'appellation doit comporter entre 2 et 50 caractères';
-                    if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newProduct['title']))
+                        $errors[] = 'L\'appellation doit comporter entre 3 et 50 caractères';
+                    if (!preg_match('/^[A-Za-zÀ-ÿ,.\'\s]+$/', $newProduct['title']))
                         $errors[] = 'L\'appellation ne doit pas comporter de chiffres ou de caractères spéciaux';
 
                     if (strlen($newProduct['description']) < 3 || strlen($newProduct['description']) > 1000)
-                        $errors[] = 'La description doit comporter entre 2 et 1000 caractères';
+                        $errors[] = 'La description doit comporter entre 3 et 1000 caractères';
 
                     if (!ctype_digit($newProduct['stock']) || $newProduct['stock'] > 99999)
                         $errors[] = 'Le stock doit être composé de chiffres uniquement et être inférieur à 99999';
@@ -167,12 +167,12 @@ class Product extends Controller
                         $errors[] = 'Le prix doit être composé de chiffres avec 2 décimales maximum';
 
                     if (strlen($newProduct['grape']) < 3 || strlen($newProduct['grape']) > 50)
-                        $errors[] = 'Le cépage doit comporter entre 2 et 50 caractères';
+                        $errors[] = 'Le cépage doit comporter entre 3 et 50 caractères';
                     if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newProduct['grape']))
                         $errors[] = 'Le cépage ne doit pas comporter de chiffres ou de caractères spéciaux';
 
                     if (strlen($newProduct['country']) < 3 || strlen($newProduct['country']) > 50)
-                        $errors[] = 'Le pays doit comporter entre 2 et 50 caractères';
+                        $errors[] = 'Le pays doit comporter entre 3 et 50 caractères';
                     if (!preg_match('/^[A-Za-zÀ-ÿ,.\s]+$/', $newProduct['country']))
                         $errors[] = 'Le pays ne doit pas comporter de chiffres ou de caractères spéciaux';
 

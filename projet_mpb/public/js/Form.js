@@ -78,14 +78,14 @@ class Form {
             }
             
             if (field.name === 'firstname') {
-                if (!field.value || field.value.length < 3 || field.value.length > 100 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
+                if (!field.value || field.value.length < 2 || field.value.length > 100 || !field.value.match(/^[A-Za-zÀ-ÿ,.'\s]+$/)) {
                     this.error.record({ firstname: 'Prénom invalide' });
                 }
                 this._contact.firstname = field.value;
             }
 
             if (field.name === 'lastname') {
-                if (!field.value || field.value.length < 3 || field.value.length > 100 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
+                if (!field.value || field.value.length < 2 || field.value.length > 100 || !field.value.match(/^[A-Za-zÀ-ÿ,.'\s]+$/)) {
                     this.error.record({ lastname: 'Nom invalide' });
                 }
                 this._contact.lastname = field.value;
@@ -115,14 +115,14 @@ class Form {
             }
 
             if (field.name === 'city') {
-                if (!field.value || field.value.length < 2 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
+                if (!field.value || field.value.length < 2 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.'\s]+$/)) {
                     this.error.record({ city: 'Ville invalide' });
                 }
                 this._contact.city = field.value;
             }
 
             if (field.name === 'country') {
-                if (!field.value || field.value.length < 2  || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
+                if (!field.value || field.value.length < 2  || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.'\s]+$/)) {
                     this.error.record({ country: 'Pays invalide' });
                 }
                 this._contact.country = field.value;

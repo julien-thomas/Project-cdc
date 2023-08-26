@@ -40,14 +40,14 @@ class FormAdmin {
             }
                     
             if (field.name === 'name') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ0-9,.\s]+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ0-9,.'\s]+$/)) {
                     this.error.record({ name: 'Nom invalide' });
                 }
                 this._contact.name = field.value;
             }
 
             if (field.name === 'title') {
-                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.\s]+$/)) {
+                if (!field.value || field.value.length < 3 || field.value.length > 50 || !field.value.match(/^[A-Za-zÀ-ÿ,.'\s]+$/)) {
                     this.error.record({ title: 'Appellation invalide' });
                 }
                 this._contact.title = field.value;
