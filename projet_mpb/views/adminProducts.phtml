@@ -2,33 +2,35 @@
 
 <a class="button-admin add-product" href="index.php?controller=product&task=addOrUpdateProduct">Ajouter un produit</a>
 
-<table id="products" class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Produit</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($products as $product) : ?>
+<div class="responsive-table">
+    <table id="products" class="table">
+        <thead>
             <tr>
-                <td><?= htmlspecialchars($product['id']) ?></td>
-                <td><?= htmlspecialchars($product['name']) ?></td>
-                <td class="actions">
-                    <a class="button-admin" href="index.php?controller=product&task=addOrUpdateProduct&id=<?= htmlspecialchars($product['id']) ?>">Modifier</a>
-                    <?php if ($product['selected'] === 0) : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=selectProduct&id=<?= htmlspecialchars($product['id']) ?>">Sélectionner</a>
-                    <?php else : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=selectProduct&id=<?= htmlspecialchars($product['id']) ?>">Désélectionner</a>
-                        <?php endif; ?>
-                    <form action="index.php?controller=admin&task=deleteProduct" method='POST'>
-                        <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
-                        <input type="hidden" name='product_id' value="<?= htmlspecialchars($product['id']) ?>">
-                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce produit ?!`)">Supprimer</button>
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>Produit</th>
+                <th>Actions</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($products as $product) : ?>
+                <tr>
+                    <td><?= htmlspecialchars($product['id']) ?></td>
+                    <td><?= htmlspecialchars($product['name']) ?></td>
+                    <td class="actions">
+                        <a class="button-admin" href="index.php?controller=product&task=addOrUpdateProduct&id=<?= htmlspecialchars($product['id']) ?>">Modifier</a>
+                        <?php if ($product['selected'] === 0) : ?>
+                            <a class="button-admin" href="index.php?controller=admin&task=selectProduct&id=<?= htmlspecialchars($product['id']) ?>">Sélectionner</a>
+                        <?php else : ?>
+                            <a class="button-admin" href="index.php?controller=admin&task=selectProduct&id=<?= htmlspecialchars($product['id']) ?>">Désélectionner</a>
+                        <?php endif; ?>
+                        <form action="index.php?controller=admin&task=deleteProduct" method='POST'>
+                            <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+                            <input type="hidden" name='product_id' value="<?= htmlspecialchars($product['id']) ?>">
+                            <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce produit ?!`)">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

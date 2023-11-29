@@ -1,25 +1,28 @@
 <h1>Gestion des commandes</h1>
-<table id="orders" class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date de commande</th>
-            <th>Utilisateur</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($orders as $order) : ?>
+
+<div class="responsive-table">
+    <table id="orders" class="table table-striped">
+        <thead>
             <tr>
-                <td><?= $order['id'] ?></td>
-                <td><?= $order['orderDate'] ?></td>
-                <td><?= $order['firstname'], ' ', $order['lastname'] ?></td>
-                <td><?= $order['status'] ?></td>
-                <td class="actions">
-                    <a class="button-admin" href="index.php?controller=product&task=updateOrder&id=<?= htmlspecialchars($order['id']) ?>">Modifier</a>
-                </td>
+                <th>ID</th>
+                <th>Date de commande</th>
+                <th>Utilisateur</th>
+                <th>Statut</th>
+                <th>Actions</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($orders as $order) : ?>
+                <tr>
+                    <td><?= $order['id'] ?></td>
+                    <td><?= $order['orderDate'] ?></td>
+                    <td><?= $order['firstname'], ' ', $order['lastname'] ?></td>
+                    <td><?= $order['status'] ?></td>
+                    <td class="actions">
+                        <a class="button-admin" href="index.php?controller=product&task=updateOrder&id=<?= htmlspecialchars($order['id']) ?>">Modifier</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

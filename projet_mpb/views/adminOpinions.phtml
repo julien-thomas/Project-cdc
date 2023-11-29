@@ -1,37 +1,39 @@
 <h1>Gestion des avis</h1>
 
-<table id="opinions" class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom du produit</th>
-            <th>Utilisateur</th>
-            <th>Avis</th>
-            <th>Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($opinions as $opinion) : ?>
+<div class="responsive-table">
+    <table id="opinions" class="table">
+        <thead>
             <tr>
-                <td><?= htmlspecialchars($opinion['id']) ?></td>
-                <td><?= htmlspecialchars($opinion['name']) ?></td>
-                <td><?= htmlspecialchars($opinion['firstname']), ' ', htmlspecialchars($opinion['lastname']) ?></td>
-                <td><?= htmlspecialchars($opinion['opinion']) ?></td>
-                <td><?= htmlspecialchars($opinion['created_at']) ?></td>
-                <td class="actions">
-                    <?php if ($opinion['status'] === 'on') : ?>
-                        <a class="button-admin"  href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Bloquer</a>
-                    <?php else : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
-                    <?php endif; ?>
-                    <form action="index.php?controller=admin&task=deleteOpinion" method='POST'>
-                        <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
-                        <input type="hidden" name='opinion_id' value="<?= htmlspecialchars($opinion['id']) ?>">
-                        <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer cet avis ?!`)">Supprimer</button>
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>Nom du produit</th>
+                <th>Utilisateur</th>
+                <th>Avis</th>
+                <th>Date</th>
+                <th>Actions</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($opinions as $opinion) : ?>
+                <tr>
+                    <td><?= htmlspecialchars($opinion['id']) ?></td>
+                    <td><?= htmlspecialchars($opinion['name']) ?></td>
+                    <td><?= htmlspecialchars($opinion['firstname']), ' ', htmlspecialchars($opinion['lastname']) ?></td>
+                    <td><?= htmlspecialchars($opinion['opinion']) ?></td>
+                    <td><?= htmlspecialchars($opinion['created_at']) ?></td>
+                    <td class="actions">
+                        <?php if ($opinion['status'] === 'on') : ?>
+                            <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Bloquer</a>
+                        <?php else : ?>
+                            <a class="button-admin" href="index.php?controller=admin&task=blockOpinion&id=<?= htmlspecialchars($opinion['id']) ?>">Débloquer</a>
+                        <?php endif; ?>
+                        <form action="index.php?controller=admin&task=deleteOpinion" method='POST'>
+                            <input type="hidden" name='token' value="<?= $_SESSION['user']['token'] ?>">
+                            <input type="hidden" name='opinion_id' value="<?= htmlspecialchars($opinion['id']) ?>">
+                            <button type="submit" class="button-admin delete" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer cet avis ?!`)">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

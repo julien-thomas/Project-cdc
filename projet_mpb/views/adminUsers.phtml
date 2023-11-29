@@ -1,27 +1,30 @@
 <h1>Gestion des utilisateurs</h1>
-<table id="users" class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Utilisateur</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($users as $user) : ?>
+
+<div class="responsive-table">
+    <table id="users" class="table">
+        <thead>
             <tr>
-                <td><?= htmlspecialchars($user['id']) ?></td>
-                <td><?= htmlspecialchars($user['firstname']), ' ', htmlspecialchars($user['lastname']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td class="actions">
-                    <?php if ($user['blocked'] === 'false') : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Bloquer</a>
-                    <?php else : ?>
-                        <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Débloquer</a>
-                    <?php endif; ?>
-                </td>
+                <th>ID</th>
+                <th>Utilisateur</th>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($users as $user) : ?>
+                <tr>
+                    <td><?= htmlspecialchars($user['id']) ?></td>
+                    <td><?= htmlspecialchars($user['firstname']), ' ', htmlspecialchars($user['lastname']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td class="actions">
+                        <?php if ($user['blocked'] === 'false') : ?>
+                            <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Bloquer</a>
+                        <?php else : ?>
+                            <a class="button-admin" href="index.php?controller=admin&task=blockUser&id=<?= htmlspecialchars($user['id']) ?>">Débloquer</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
